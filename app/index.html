@@ -230,22 +230,54 @@
 
 <script>
 (() => {
-  // ----- Policy defaults (demo) -----
-  const POLICY = {
-    minScore: 620,
-    maxTicket: 12000,
-    termCaps: [
-      { max: 1500, term: 24 },
-      { max: 2500, term: 36 },
-      { max: Infinity, term: 48 }
-    ],
-    // Demo lease math (illustrative only)
-    // Residual: 20% of price (floor $200)
-    residualPct: 0.20,
-    residualFloor: 200,
-    // Money factor (roughly APR/2400). 0.0030 ≈ 7.2% APR. Illustrative.
-    moneyFactor: 0.0030
-  };
+// ----- Policy defaults (demo) -----
+const DEFAULT_POLICY = {
+  minScore: 620,
+  maxTicket: 12000,
+  termCaps: [
+    { max: 1500, term: 24 },
+    { max: 2500, term: 36 },
+    { max: Infinity, term: 48 }
+  ],
+  // Demo lease math (illustrative only)
+  residualPct: 0.20,
+  residualFloor: 200,
+  // Money factor (roughly APR/2400). 0.0030 ≈ 7.2% APR. Illustrative.
+  moneyFactor: 0.0030
+};
+
+// If admin console has saved a policy, use it (same-origin localStorage)
+const ADMIN_POLICY_KEY = "flintlock_demo_policy_v1";
+
+function loadPolicy() {
+  try {
+    const raw = localStorage.getItem(ADMIN_POLICY_KEY);
+    if (!raw) return structuredClone(DEFAULT_POLICY);
+    const p = JSON.parse(raw);
+
+    // Normalize / guard (admin uses 999999 for cap3 max)
+    const termCaps = Array.isArray(p.termCaps) && p.termCaps.length >= 3
+      ? [
+          { max: Number(p.termCaps[0].max ?? 1500), term: Number(p.termCaps[0].term ?? 24) },
+          { max: Number(p.termCaps[1].max ?? 2500), term: Number(p.termCaps[1].term ?? 36) },
+          { max: Infinity, term: Number(p.termCaps[2].term ?? 48) },
+        ]
+      : structuredClone(DEFAULT_POLICY.termCaps);
+
+    return {
+      minScore: Number(p.minScore ?? DEFAULT_POLICY.minScore),
+      maxTicket: Number(p.maxTicket ?? DEFAULT_POLICY.maxTicket),
+      termCaps,
+      residualPct: Number(p.residualPct ?? DEFAULT_POLICY.residualPct),
+      residualFloor: Number(p.residualFloor ?? DEFAULT_POLICY.residualFloor),
+      moneyFactor: Number(p.moneyFactor ?? DEFAULT_POLICY.moneyFactor),
+    };
+  } catch (e) {
+    return structuredClone(DEFAULT_POLICY);
+  }
+}
+
+let POLICY = loadPolicy();
 
   const PERSONAS = [
     { id:"prime", name:"Prime Applicant", score:720, flags:{fraud:false, idMismatch:false}, note:"Clean identity & credit profile." },
