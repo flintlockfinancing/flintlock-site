@@ -373,6 +373,31 @@
     if(outcome === "MANUAL_REVIEW") return { cls:"warn", text:"Manual review" };
     return { cls:"bad", text:"Declined" };
   }
+function renderBuyoutScheduleTable(d){
+  let rows = "";
+  for(let m = 0; m <= d.term; m++){
+    const buyout = round2(buyoutAtMonth(d.costBasis, d.residual, d.term, m));
+    rows += `
+      <tr>
+        <td class="mono">${m}</td>
+        <td class="right mono">${escapeHtml(fmtUSD(buyout))}</td>
+      </tr>
+    `;
+  }
+  return `
+    <div style="overflow:auto; border:1px solid rgba(255,255,255,0.10); border-radius:14px;">
+      <table>
+        <thead>
+          <tr>
+            <th>Month elapsed</th>
+            <th class="right">Straight-line buyout</th>
+          </tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+  `;
+}
 
   // -----------------------------
   // Decision logic (demo)
@@ -564,12 +589,36 @@
         This is storyboard math only.
       </div>
 
-      <div class="hr"></div>
+          <div class="hr"></div>
 
       <h2>Early buyout (illustrative)</h2>
       <p class="sub">
         Methodology: <span class="mono">Straight-line buyout</span> from full cost basis down to residual over the term.
       </p>
+
+      <div class="grid2">
+        <div class="field">
+          <label>Month elapsed</label>
+          <input id="buyoutMonth" type="number" min="0" max="${d.term}" step="1" value="${buyoutMonth}" />
+        </div>
+        <div class="field">
+          <label>Buyout amount at month ${buyoutMonth}</label>
+          <input value="${fmtUSD(buyout)}" disabled />
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>Cost basis components (capitalized):</strong><br/>
+        Ticket: ${mono(fmtUSD(d.ticket))} • Acquisition fee: ${mono(fmtUSD(d.acquisitionFee))} • Tax: ${mono(fmtUSD(d.tax))} • Processing: ${mono(fmtUSD(d.processingFee))}
+      </div>
+
+      <div class="hr"></div>
+
+      <h2>Buyout schedule (straight-line)</h2>
+      <p class="sub">
+        Straight-line from cost basis to residual over ${d.term} months.
+      </p>
+      ${renderBuyoutScheduleTable(d)}
 
       <div class="grid2">
         <div class="field">
