@@ -1,0 +1,824 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Flintlock | Consumer Demo Portal</title>
+  <meta name="description" content="Flintlock Financing demo environment (consumer portal). No real credit decisions." />
+
+  <style>
+    :root{
+      --bg: #071726;
+      --panel: rgba(255,255,255,0.06);
+      --panel2: rgba(255,255,255,0.04);
+      --text: rgba(255,255,255,0.90);
+      --muted: rgba(255,255,255,0.70);
+      --muted2: rgba(255,255,255,0.55);
+      --line: rgba(255,255,255,0.12);
+      --accent: #C57B2A;
+      --accent2: #E2A45D;
+      --white: #ffffff;
+      --shadow: 0 18px 40px rgba(0,0,0,0.40);
+      --radius: 18px;
+      --max: 1120px;
+      --serif: ui-serif, Georgia, "Times New Roman", Times, serif;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      --danger: #ff6b6b;
+      --warn: #ffd166;
+      --ok: #86efac;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: var(--sans);
+      background: radial-gradient(900px 400px at 20% 0%, rgba(197,123,42,0.18), transparent 55%),
+                  radial-gradient(700px 350px at 90% 10%, rgba(226,164,93,0.12), transparent 55%),
+                  linear-gradient(180deg, #061424 0%, #071726 55%, #05101C 100%);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    a{color:inherit; text-decoration:none}
+    .container{max-width: var(--max); margin:0 auto; padding: 0 20px}
+    .topbar{
+      position: sticky; top:0; z-index:20;
+      backdrop-filter: blur(10px);
+      background: rgba(5,16,28,0.62);
+      border-bottom: 1px solid var(--line);
+    }
+    .topbar-inner{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:16px; padding: 14px 0;
+    }
+    .brand{display:flex; align-items:center; gap:10px}
+    .mark{
+      width: 32px; height: 32px; border-radius: 10px;
+      background:
+        radial-gradient(10px 10px at 70% 30%, rgba(255,255,255,0.9), transparent 55%),
+        radial-gradient(18px 18px at 65% 35%, rgba(226,164,93,0.65), transparent 60%),
+        linear-gradient(180deg, rgba(197,123,42,0.95), rgba(197,123,42,0.35));
+      box-shadow: 0 10px 22px rgba(197,123,42,0.25);
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+    .brand-text{display:flex; flex-direction:column; line-height:1.1}
+    .brand-text strong{
+      font-family: var(--serif);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-size: 12px;
+      color: rgba(255,255,255,0.92);
+    }
+    .brand-text span{font-size:12px; color: var(--muted2)}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center; gap:10px;
+      padding: 11px 14px; border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(255,255,255,0.06);
+      color: rgba(255,255,255,0.92);
+      font-size: 13px;
+      cursor:pointer;
+      transition: transform 0.06s ease, background 0.2s ease, border-color 0.2s ease;
+      user-select:none; white-space:nowrap;
+    }
+    .btn:hover{background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.20)}
+    .btn:active{transform: translateY(1px)}
+    .btn.primary{
+      border-color: rgba(197,123,42,0.55);
+      background: linear-gradient(180deg, rgba(197,123,42,0.95), rgba(197,123,42,0.55));
+      box-shadow: 0 16px 34px rgba(197,123,42,0.18);
+      color: #0b1016;
+      font-weight: 700;
+    }
+    .btn.ghost{
+      background: transparent;
+      border-color: rgba(255,255,255,0.16);
+    }
+    .grid{
+      display:grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 14px;
+      padding: 22px 0 34px;
+    }
+    .card{
+      background: linear-gradient(180deg, var(--panel) 0%, var(--panel2) 100%);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+    h1{
+      font-family: var(--serif);
+      font-size: clamp(26px, 3.6vw, 40px);
+      line-height: 1.08;
+      margin: 0 0 10px;
+    }
+    h2{
+      font-family: var(--serif);
+      font-size: 22px;
+      margin: 0 0 10px;
+    }
+    .kicker{
+      display:flex; gap:10px; align-items:center;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+    .pill{
+      display:inline-flex; gap:10px; align-items:center;
+      padding: 7px 10px; border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.04);
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .spark{
+      width: 8px; height: 8px; border-radius: 999px;
+      background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(226,164,93,0.95) 35%, rgba(197,123,42,0.5) 65%, transparent 70%);
+      box-shadow: 0 0 22px rgba(226,164,93,0.50);
+    }
+    .sub{color: var(--muted); font-size: 14px; margin: 0 0 12px}
+    .row{display:flex; gap:10px; flex-wrap:wrap}
+    .field{display:flex; flex-direction:column; gap:6px; margin-top: 10px}
+    label{font-size: 12px; color: var(--muted2)}
+    input, select{
+      padding: 11px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(0,0,0,0.18);
+      color: rgba(255,255,255,0.92);
+      outline: none;
+      font-size: 14px;
+    }
+    input::placeholder{color: rgba(255,255,255,0.35)}
+    .hr{height:1px; background: rgba(255,255,255,0.08); margin: 14px 0}
+    .note{
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted2);
+      font-size: 12px;
+    }
+    .badge{
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.03);
+      color: rgba(255,255,255,0.80);
+      font-size: 12px;
+    }
+    .badge.ok{border-color: rgba(134,239,172,0.25); background: rgba(134,239,172,0.08)}
+    .badge.warn{border-color: rgba(255,209,102,0.25); background: rgba(255,209,102,0.08)}
+    .badge.bad{border-color: rgba(255,107,107,0.25); background: rgba(255,107,107,0.08)}
+    .muted{color: var(--muted)}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;}
+    .kv{display:grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px}
+    .kv .item{
+      padding: 12px; border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.03);
+    }
+    .kv .item strong{display:block; font-size:12px; color: var(--muted2); margin-bottom: 6px}
+    .kv .item span{font-size: 14px; color: rgba(255,255,255,0.88)}
+    @media (max-width: 920px){
+      .grid{grid-template-columns: 1fr}
+      .kv{grid-template-columns: 1fr}
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container">
+      <div class="topbar-inner">
+        <a class="brand" href="/" aria-label="Back to Flintlock home">
+          <div class="mark" aria-hidden="true"></div>
+          <div class="brand-text">
+            <strong>Flintlock Financing</strong>
+            <span>Consumer Demo Portal</span>
+          </div>
+        </a>
+
+        <div class="row">
+          <button class="btn ghost" id="btnReset" type="button">Reset demo</button>
+          <a class="btn" href="/" title="Back to homepage">Home</a>
+          <a class="btn primary" href="#/start" title="Start demo">Start</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="kicker" style="padding-top:18px;">
+      <span class="pill"><span class="spark" aria-hidden="true"></span><span>DEMO / TEST ENVIRONMENT</span></span>
+      <span class="muted">No credit decisions, credit pulls, or transactions occur. All data is synthetic.</span>
+    </div>
+
+    <div class="grid">
+      <!-- LEFT: main view -->
+      <section class="card" id="view"></section>
+
+      <!-- RIGHT: status -->
+      <aside class="card" id="status"></aside>
+    </div>
+
+    <div class="note" style="margin-bottom: 36px;">
+      <strong>Regulatory note (demo):</strong> This portal is an illustrative sandbox to demonstrate a consumer lessor workflow and
+      Reg M-style disclosure presentation. Content is not legal advice and not production documentation.
+    </div>
+  </main>
+
+<script>
+(() => {
+  // ----- Policy defaults (demo) -----
+  const POLICY = {
+    minScore: 620,
+    maxTicket: 12000,
+    termCaps: [
+      { max: 1500, term: 24 },
+      { max: 2500, term: 36 },
+      { max: Infinity, term: 48 }
+    ],
+    // Demo lease math (illustrative only)
+    // Residual: 20% of price (floor $200)
+    residualPct: 0.20,
+    residualFloor: 200,
+    // Money factor (roughly APR/2400). 0.0030 ≈ 7.2% APR. Illustrative.
+    moneyFactor: 0.0030
+  };
+
+  const PERSONAS = [
+    { id:"prime", name:"Prime Applicant", score:720, flags:{fraud:false, idMismatch:false}, note:"Clean identity & credit profile." },
+    { id:"nearprime", name:"Near Prime Applicant", score:640, flags:{fraud:false, idMismatch:false}, note:"Meets minimum score; standard offer." },
+    { id:"fraud", name:"Fraud Flag", score:700, flags:{fraud:true, idMismatch:false}, note:"Fraud indicator routes to manual review." },
+    { id:"idmismatch", name:"Identity Mismatch", score:700, flags:{fraud:false, idMismatch:true}, note:"Identity mismatch results in decline." },
+    { id:"belowmin", name:"Below Minimum Score", score:590, flags:{fraud:false, idMismatch:false}, note:"Below policy minimum results in decline." }
+  ];
+
+  // ----- State -----
+  const storageKey = "flintlock_demo_consumer_v1";
+  const defaultState = {
+    personaId: "prime",
+    applicant: {
+      firstName: "Alex",
+      lastName: "Morgan",
+      email: "alex.morgan@example.com",
+      phone: "(555) 555-1212",
+      incomeMonthly: 6500,
+      ssn: "111-22-3333"
+    },
+    purchase: {
+      itemDescription: "Illustrative Merchant Item",
+      price: 4500
+    },
+    decision: null,   // computed
+    accepted: false
+  };
+
+  function loadState(){
+    try {
+      const raw = localStorage.getItem(storageKey);
+      if(!raw) return structuredClone(defaultState);
+      return Object.assign(structuredClone(defaultState), JSON.parse(raw));
+    } catch(e){
+      return structuredClone(defaultState);
+    }
+  }
+  function saveState(){
+    localStorage.setItem(storageKey, JSON.stringify(state));
+    renderStatus();
+  }
+  function resetState(){
+    localStorage.removeItem(storageKey);
+    state = structuredClone(defaultState);
+    location.hash = "#/start";
+    renderAll();
+  }
+
+  let state = loadState();
+
+  // ----- Helpers -----
+  const fmtUSD = (n) => new Intl.NumberFormat("en-US", { style:"currency", currency:"USD" }).format(Number(n||0));
+  const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
+  function getPersona(){
+    return PERSONAS.find(p => p.id === state.personaId) || PERSONAS[0];
+  }
+  function computeTerm(price){
+    for(const cap of POLICY.termCaps){
+      if(price <= cap.max) return cap.term;
+    }
+    return 48;
+  }
+  function computeResidual(price){
+    const r = price * POLICY.residualPct;
+    return Math.max(POLICY.residualFloor, Math.round(r));
+  }
+  function computePayment(price, residual, term){
+    // Lease payment (illustrative):
+    // depreciation = (price - residual) / term
+    // rent charge = (price + residual) * moneyFactor
+    const dep = (price - residual) / term;
+    const rent = (price + residual) * POLICY.moneyFactor;
+    return Math.round((dep + rent) * 100) / 100;
+  }
+  function computeTotalOfPayments(pmt, term){
+    return Math.round((pmt * term) * 100) / 100;
+  }
+  function evaluate(){
+    const persona = getPersona();
+    const price = Number(state.purchase.price || 0);
+
+    const reasons = [];
+    if(price <= 0) reasons.push("Invalid item price.");
+    if(price > POLICY.maxTicket) reasons.push(`Item price exceeds policy maximum (${fmtUSD(POLICY.maxTicket)}).`);
+
+    const term = computeTerm(price);
+    const residual = computeResidual(price);
+    const payment = computePayment(price, residual, term);
+    const totalOfPayments = computeTotalOfPayments(payment, term);
+
+    // Decision logic
+    let outcome = "APPROVE";
+    let badge = "ok";
+    let summary = "Approved per policy.";
+
+    if(persona.flags.fraud){
+      outcome = "MANUAL_REVIEW";
+      badge = "warn";
+      summary = "Routed to manual review due to fraud indicator.";
+    }
+    if(persona.flags.idMismatch){
+      outcome = "DECLINE";
+      badge = "bad";
+      summary = "Declined due to identity mismatch.";
+      reasons.push("Identity verification mismatch (demo).");
+    }
+    if(persona.score < POLICY.minScore){
+      outcome = "DECLINE";
+      badge = "bad";
+      summary = "Declined due to minimum score policy.";
+      reasons.push(`Credit score below minimum (${POLICY.minScore}).`);
+    }
+    if(reasons.length && outcome !== "DECLINE"){
+      // Any hard policy errors → decline
+      outcome = "DECLINE";
+      badge = "bad";
+      summary = "Declined due to policy constraints.";
+    }
+
+    state.decision = {
+      outcome, badge, summary,
+      persona: { id: persona.id, name: persona.name, score: persona.score, flags: persona.flags },
+      price, term, residual, payment, totalOfPayments,
+      reasons
+    };
+    return state.decision;
+  }
+
+  // ----- Views -----
+  const viewEl = document.getElementById("view");
+  const statusEl = document.getElementById("status");
+
+  function route(){
+    const h = location.hash || "#/start";
+    if(h.startsWith("#/apply")) return "apply";
+    if(h.startsWith("#/offer")) return "offer";
+    if(h.startsWith("#/dashboard")) return "dashboard";
+    return "start";
+  }
+
+  function renderStart(){
+    const persona = getPersona();
+    viewEl.innerHTML = `
+      <h1>Consumer demo portal</h1>
+      <p class="sub">
+        This sandbox demonstrates a consumer lessor flow: persona-based application, policy-driven decisioning,
+        term cap enforcement, and an illustrative Reg M-style offer presentation.
+      </p>
+
+      <div class="hr"></div>
+
+      <h2>Select demo persona</h2>
+      <p class="sub">Choose a scenario to simulate common outcomes (approval, decline, manual review).</p>
+
+      <div class="field">
+        <label for="persona">Persona</label>
+        <select id="persona">
+          ${PERSONAS.map(p => `<option value="${p.id}" ${p.id===state.personaId?"selected":""}>${p.name} (Score ${p.score})</option>`).join("")}
+        </select>
+      </div>
+
+      <div class="note" id="personaNote"></div>
+
+      <div class="row" style="margin-top:14px">
+        <button class="btn primary" id="btnStartApply" type="button">Begin application</button>
+        <a class="btn" href="/" title="Back to homepage">Return to homepage</a>
+      </div>
+    `;
+
+    viewEl.querySelector("#personaNote").textContent = persona.note;
+
+    viewEl.querySelector("#persona").addEventListener("change", (e) => {
+      state.personaId = e.target.value;
+      state.accepted = false;
+      state.decision = null;
+      saveState();
+      renderAll();
+    });
+
+    viewEl.querySelector("#btnStartApply").addEventListener("click", () => {
+      location.hash = "#/apply";
+    });
+  }
+
+  function renderApply(){
+    const persona = getPersona();
+    viewEl.innerHTML = `
+      <h1>Application</h1>
+      <p class="sub">
+        Provide synthetic applicant details and the item price. Policy defaults shown are illustrative:
+        minimum score <strong>${POLICY.minScore}</strong>, maximum ticket <strong>${fmtUSD(POLICY.maxTicket)}</strong>.
+      </p>
+
+      <div class="hr"></div>
+
+      <div class="row" style="justify-content:space-between; align-items:center;">
+        <div class="badge ${persona.flags.fraud ? "warn" : (persona.flags.idMismatch || persona.score < POLICY.minScore ? "bad" : "ok")}">
+          Persona: <span class="mono">${persona.name}</span> • Score <span class="mono">${persona.score}</span>
+        </div>
+        <a class="btn ghost" href="#/start">Change persona</a>
+      </div>
+
+      <div class="hr"></div>
+
+      <h2>Applicant (synthetic)</h2>
+      <div class="kv">
+        <div class="field">
+          <label>First name</label>
+          <input id="firstName" placeholder="First name" value="${escapeHtml(state.applicant.firstName)}" />
+        </div>
+        <div class="field">
+          <label>Last name</label>
+          <input id="lastName" placeholder="Last name" value="${escapeHtml(state.applicant.lastName)}" />
+        </div>
+        <div class="field">
+          <label>Email</label>
+          <input id="email" placeholder="email@example.com" value="${escapeHtml(state.applicant.email)}" />
+        </div>
+        <div class="field">
+          <label>Phone</label>
+          <input id="phone" placeholder="(555) 555-1212" value="${escapeHtml(state.applicant.phone)}" />
+        </div>
+        <div class="field">
+          <label>Monthly income (synthetic)</label>
+          <input id="incomeMonthly" type="number" min="0" step="1" value="${Number(state.applicant.incomeMonthly||0)}" />
+        </div>
+        <div class="field">
+          <label>SSN (synthetic)</label>
+          <input id="ssn" class="mono" placeholder="111-22-3333" value="${escapeHtml(state.applicant.ssn)}" />
+        </div>
+      </div>
+
+      <div class="hr"></div>
+
+      <h2>Item / transaction</h2>
+      <div class="kv">
+        <div class="field">
+          <label>Item description</label>
+          <input id="itemDescription" placeholder="Item description" value="${escapeHtml(state.purchase.itemDescription)}" />
+        </div>
+        <div class="field">
+          <label>Item price (max ${fmtUSD(POLICY.maxTicket)})</label>
+          <input id="price" type="number" min="1" max="${POLICY.maxTicket}" step="1" value="${Number(state.purchase.price||0)}" />
+        </div>
+      </div>
+
+      <div class="note">
+        Term caps enforced automatically (demo): &lt;$1,500 → 24 months; &lt;$2,500 → 36 months; &gt;$2,500 → 48 months.
+      </div>
+
+      <div class="row" style="margin-top:14px">
+        <button class="btn primary" id="btnSubmit" type="button">Submit application</button>
+        <a class="btn" href="#/start">Cancel</a>
+      </div>
+    `;
+
+    // Bind inputs
+    const bind = (id, keyPath, parser=(v)=>v) => {
+      const el = viewEl.querySelector("#"+id);
+      el.addEventListener("input", () => {
+        setPath(state, keyPath, parser(el.value));
+        state.accepted = false;
+        state.decision = null;
+        saveState();
+      });
+    };
+
+    bind("firstName", "applicant.firstName");
+    bind("lastName", "applicant.lastName");
+    bind("email", "applicant.email");
+    bind("phone", "applicant.phone");
+    bind("incomeMonthly", "applicant.incomeMonthly", (v)=>Number(v||0));
+    bind("ssn", "applicant.ssn");
+    bind("itemDescription", "purchase.itemDescription");
+    bind("price", "purchase.price", (v)=>Number(v||0));
+
+    viewEl.querySelector("#btnSubmit").addEventListener("click", () => {
+      evaluate();
+      saveState();
+      location.hash = "#/offer";
+    });
+  }
+
+  function renderOffer(){
+    const d = evaluate();
+    const persona = d.persona;
+
+    const badgeText = d.outcome === "APPROVE" ? "Approved" : (d.outcome === "MANUAL_REVIEW" ? "Manual review" : "Declined");
+    const badgeClass = d.badge;
+
+    viewEl.innerHTML = `
+      <h1>Decision & offer</h1>
+      <p class="sub">
+        Outcome generated from policy defaults and persona flags (synthetic). This is a demonstration only.
+      </p>
+
+      <div class="hr"></div>
+
+      <div class="row" style="justify-content:space-between; align-items:center;">
+        <div class="badge ${badgeClass}">
+          <strong style="font-weight:700">${badgeText}</strong>
+          <span class="muted">•</span>
+          <span class="mono">${persona.name}</span>
+          <span class="muted">• Score</span>
+          <span class="mono">${persona.score}</span>
+        </div>
+        <a class="btn ghost" href="#/apply">Edit application</a>
+      </div>
+
+      <div class="note" style="margin-top:12px;">
+        <strong>Summary:</strong> ${escapeHtml(d.summary)}
+        ${d.reasons && d.reasons.length ? `<div style="margin-top:8px;"><strong>Reasons:</strong><ul>${d.reasons.map(r=>`<li>${escapeHtml(r)}</li>`).join("")}</ul></div>` : ""}
+      </div>
+
+      <div class="hr"></div>
+
+      ${d.outcome === "APPROVE" ? renderOfferBlock(d) :
+        d.outcome === "MANUAL_REVIEW" ? renderReviewBlock(d) :
+        renderDeclineBlock(d)
+      }
+
+      <div class="row" style="margin-top:14px">
+        ${d.outcome === "APPROVE" ? `<button class="btn primary" id="btnAccept" type="button">Accept offer (demo)</button>` : ``}
+        <a class="btn" href="#/start">Back to start</a>
+      </div>
+    `;
+
+    const btn = viewEl.querySelector("#btnAccept");
+    if(btn){
+      btn.addEventListener("click", () => {
+        state.accepted = true;
+        saveState();
+        location.hash = "#/dashboard";
+      });
+    }
+  }
+
+  function renderOfferBlock(d){
+    const regM = `
+      <div class="note">
+        <strong>Illustrative disclosure block (Reg M-style):</strong><br/>
+        This is a demonstration of how key lease terms may be presented in a consumer lease offer.
+        Final disclosures, notices, and documentation are subject to compliance review and program documentation.
+      </div>
+    `;
+    return `
+      <h2>Offer terms (illustrative)</h2>
+      <div class="kv">
+        <div class="item"><strong>Item price</strong><span>${fmtUSD(d.price)}</span></div>
+        <div class="item"><strong>Term</strong><span>${d.term} months (auto cap)</span></div>
+        <div class="item"><strong>Estimated monthly payment</strong><span>${fmtUSD(d.payment)}</span></div>
+        <div class="item"><strong>Total of payments</strong><span>${fmtUSD(d.totalOfPayments)}</span></div>
+        <div class="item"><strong>Purchase option (residual)</strong><span>${fmtUSD(d.residual)}</span></div>
+        <div class="item"><strong>Decision basis (demo)</strong><span>Policy-driven • Score ≥ ${POLICY.minScore}</span></div>
+      </div>
+      ${regM}
+    `;
+  }
+
+  function renderReviewBlock(d){
+    return `
+      <h2>Manual review (illustrative)</h2>
+      <p class="sub">
+        This application has been routed to manual review due to a fraud indicator (demo persona).
+        In production, review steps could include identity validation, documentation checks, and partner policies.
+      </p>
+      <div class="note">
+        <strong>Demo status:</strong> Pending manual review. No adverse action has been taken in this environment.
+      </div>
+    `;
+  }
+
+  function renderDeclineBlock(d){
+    return `
+      <h2>Decline (illustrative)</h2>
+      <p class="sub">
+        This result reflects a policy constraint or persona condition. In production, notices and disclosures
+        would follow documented compliance requirements and partner policies.
+      </p>
+      <div class="note">
+        <strong>Demo note:</strong> This is a simulated decline. No real credit decision was made.
+      </div>
+    `;
+  }
+
+  function renderDashboard(){
+    const d = evaluate();
+    const accepted = !!state.accepted;
+
+    viewEl.innerHTML = `
+      <h1>Dashboard (demo)</h1>
+      <p class="sub">
+        A post-acceptance view showing an illustrative payment schedule and buyout concept.
+        (Synthetic data; not a statement.)
+      </p>
+
+      <div class="hr"></div>
+
+      ${accepted ? `
+        <div class="badge ok">Status: <span class="mono">Active (demo)</span> • Offer accepted</div>
+      ` : `
+        <div class="badge warn">Status: <span class="mono">Not active</span> • Offer not accepted</div>
+      `}
+
+      <div class="hr"></div>
+
+      <h2>Lease summary</h2>
+      <div class="kv">
+        <div class="item"><strong>Lessee</strong><span>${escapeHtml(state.applicant.firstName)} ${escapeHtml(state.applicant.lastName)}</span></div>
+        <div class="item"><strong>Item</strong><span>${escapeHtml(state.purchase.itemDescription)}</span></div>
+        <div class="item"><strong>Monthly payment</strong><span>${fmtUSD(d.payment)}</span></div>
+        <div class="item"><strong>Term</strong><span>${d.term} months</span></div>
+        <div class="item"><strong>Purchase option</strong><span>${fmtUSD(d.residual)}</span></div>
+        <div class="item"><strong>Demo ID</strong><span class="mono">${demoId()}</span></div>
+      </div>
+
+      <div class="hr"></div>
+
+      <h2>Payment schedule (illustrative)</h2>
+      <div class="note" style="margin-bottom:12px">
+        For demo purposes, this schedule shows level payments and does not include late fees, taxes, insurance,
+        or jurisdiction-specific disclosures.
+      </div>
+
+      <div style="overflow:auto; border:1px solid rgba(255,255,255,0.10); border-radius:14px;">
+        <table style="width:100%; border-collapse:collapse; font-size:13px;">
+          <thead>
+            <tr style="background: rgba(255,255,255,0.04);">
+              <th style="text-align:left; padding:10px; border-bottom:1px solid rgba(255,255,255,0.10);">Month</th>
+              <th style="text-align:right; padding:10px; border-bottom:1px solid rgba(255,255,255,0.10);">Payment</th>
+              <th style="text-align:right; padding:10px; border-bottom:1px solid rgba(255,255,255,0.10);">Cumulative</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${renderScheduleRows(d.payment, d.term)}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="hr"></div>
+
+      <h2>Early buyout (illustrative)</h2>
+      <p class="sub">
+        A simple demonstration: remaining payments plus discounted residual concept is program-dependent.
+        This block is for storyboard purposes only.
+      </p>
+      <div class="note">
+        <strong>Example (demo):</strong> Remaining payments (at month 12) + discounted residual (90%)<br/>
+        <span class="mono">${fmtUSD(remainingPayments(d.payment, d.term, 12) + (d.residual * 0.90))}</span>
+      </div>
+
+      <div class="row" style="margin-top:14px">
+        <a class="btn ghost" href="#/offer">Back to offer</a>
+        <button class="btn primary" id="btnReset2" type="button">Reset demo</button>
+      </div>
+    `;
+
+    const btnReset2 = viewEl.querySelector("#btnReset2");
+    if(btnReset2) btnReset2.addEventListener("click", resetState);
+  }
+
+  function renderStatus(){
+    const persona = getPersona();
+    const d = state.decision || evaluate();
+
+    const badgeText = d.outcome === "APPROVE" ? "Approved" : (d.outcome === "MANUAL_REVIEW" ? "Manual review" : "Declined");
+    const badgeClass = d.badge;
+
+    statusEl.innerHTML = `
+      <h2 style="margin-bottom:6px;">Demo status</h2>
+      <p class="sub" style="margin-top:0;">
+        Snapshot of the current scenario and policy defaults.
+      </p>
+
+      <div class="hr"></div>
+
+      <div class="badge ${badgeClass}" style="margin-bottom:10px;">
+        ${badgeText}
+      </div>
+
+      <div class="kv">
+        <div class="item"><strong>Persona</strong><span class="mono">${persona.name}</span></div>
+        <div class="item"><strong>Score</strong><span class="mono">${persona.score}</span></div>
+        <div class="item"><strong>Ticket</strong><span>${fmtUSD(Number(state.purchase.price||0))}</span></div>
+        <div class="item"><strong>Term cap</strong><span class="mono">${computeTerm(Number(state.purchase.price||0))} mo</span></div>
+        <div class="item"><strong>Min score</strong><span class="mono">${POLICY.minScore}</span></div>
+        <div class="item"><strong>Max ticket</strong><span class="mono">${fmtUSD(POLICY.maxTicket)}</span></div>
+      </div>
+
+      <div class="note">
+        <strong>Reminder:</strong> This is a synthetic demo. No real identity verification, credit pull, or financing occurs.
+      </div>
+
+      <div class="row" style="margin-top:12px;">
+        <a class="btn" href="#/apply">Application</a>
+        <a class="btn" href="#/offer">Offer</a>
+        <a class="btn" href="#/dashboard">Dashboard</a>
+      </div>
+    `;
+  }
+
+  function renderAll(){
+    switch(route()){
+      case "apply": renderApply(); break;
+      case "offer": renderOffer(); break;
+      case "dashboard": renderDashboard(); break;
+      default: renderStart();
+    }
+    renderStatus();
+  }
+
+  // ----- Utilities -----
+  function setPath(obj, path, value){
+    const parts = path.split(".");
+    let cur = obj;
+    for(let i=0;i<parts.length-1;i++){
+      cur = cur[parts[i]];
+    }
+    cur[parts[parts.length-1]] = value;
+  }
+
+  function escapeHtml(str){
+    return String(str ?? "")
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;")
+      .replaceAll("'","&#039;");
+  }
+
+  function renderScheduleRows(payment, term){
+    let cum = 0;
+    let rows = "";
+    for(let m=1; m<=term; m++){
+      cum = Math.round((cum + payment) * 100)/100;
+      rows += `
+        <tr>
+          <td style="padding:10px; border-bottom:1px solid rgba(255,255,255,0.06);">${m}</td>
+          <td style="padding:10px; text-align:right; border-bottom:1px solid rgba(255,255,255,0.06);">${fmtUSD(payment)}</td>
+          <td style="padding:10px; text-align:right; border-bottom:1px solid rgba(255,255,255,0.06);">${fmtUSD(cum)}</td>
+        </tr>
+      `;
+    }
+    return rows;
+  }
+
+  function remainingPayments(payment, term, paidMonths){
+    const remaining = Math.max(0, term - paidMonths);
+    return Math.round((remaining * payment) * 100)/100;
+  }
+
+  function demoId(){
+    // deterministic-ish demo id from persona + price
+    const p = getPersona().id;
+    const price = Number(state.purchase.price||0);
+    const base = `${p}-${price}-${POLICY.minScore}-${POLICY.maxTicket}`;
+    let h = 0;
+    for(let i=0;i<base.length;i++){
+      h = (h*31 + base.charCodeAt(i)) >>> 0;
+    }
+    return "DL-" + h.toString(16).toUpperCase().padStart(8,"0");
+  }
+
+  // ----- Events -----
+  document.getElementById("btnReset").addEventListener("click", resetState);
+  window.addEventListener("hashchange", renderAll);
+
+  // Initial render
+  if(!location.hash) location.hash = "#/start";
+  renderAll();
+  saveState();
+})();
+</script>
+</body>
+</html>
