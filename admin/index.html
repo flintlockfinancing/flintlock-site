@@ -224,6 +224,7 @@
 
     <div class="layout">
       <aside class="card nav" id="nav">
+        <a href="#/pitch" data-route="pitch">Pitch mode</a>
         <a href="#/queue" data-route="queue">Application queue</a>
         <a href="#/policy" data-route="policy">Policy configuration</a>
         <a href="#/audit" data-route="audit">Audit log</a>
@@ -396,6 +397,7 @@
 
   function route(){
     const h = location.hash || "#/queue";
+    if(h.startsWith("#/pitch")) return "pitch";
     if(h.startsWith("#/policy")) return "policy";
     if(h.startsWith("#/audit")) return "audit";
     if(h.startsWith("#/about")) return "about";
@@ -876,6 +878,114 @@
       </div>
     `;
   }
+function renderPitch(){
+  setActiveNav();
+
+  // Grab policy & quick stats for display
+  const p = policy;
+  const log = loadJSON(KEY_AUDIT, []);
+  const appCount = apps.length;
+
+  viewEl.innerHTML = `
+    <h2 style="margin:0 0 8px; font-family:var(--serif);">Pitch mode</h2>
+    <p class="sub" style="margin-top:0;">
+      A guided, repeatable demo script for banks and investors — consumer flow, admin controls, and auditability.
+    </p>
+
+    <div class="toolbar">
+      <div class="row">
+        <span class="badge">Apps ${mono(String(appCount))}</span>
+        <span class="badge">Audit events ${mono(String(log.length))}</span>
+        <span class="badge">Min score ${mono(String(p.minScore))}</span>
+        <span class="badge">Max ticket ${mono(fmtUSD(p.maxTicket))}</span>
+      </div>
+      <div class="row">
+        <a class="btn" href="/app" target="_blank" rel="noopener">Open consumer portal</a>
+        <a class="btn" href="/admin#/queue" target="_blank" rel="noopener">Open queue</a>
+        <a class="btn primary" href="/admin#/policy" target="_blank" rel="noopener">Open policy editor</a>
+      </div>
+    </div>
+
+    <div class="hr"></div>
+
+    <div class="note">
+      <strong>Demo objective:</strong> Show a disciplined, policy-driven consumer leasing workflow with governance:
+      configurable guardrails, human review routing, and an auditable trail — without any live integrations in this sandbox.
+    </div>
+
+    <div class="hr"></div>
+
+    <h3 style="margin:0 0 8px; letter-spacing:0.08em; text-transform:uppercase; font-size:13px; color:rgba(255,255,255,0.86);">
+      6–8 minute demo script
+    </h3>
+
+    <div class="note">
+      <strong>0:00–0:45 — Positioning (Homepage)</strong><br/>
+      • “Flintlock is a compliance-first consumer lease platform with bank-grade controls.”<br/>
+      • “This is a synthetic demo: no credit pulls, no payments, no bank integrations.”<br/>
+      • “We’ll show consumer experience first, then admin governance and auditability.”
+      <div class="row" style="margin-top:10px;">
+        <a class="btn" href="/" target="_blank" rel="noopener">Open homepage</a>
+      </div>
+    </div>
+
+    <div class="note">
+      <strong>0:45–3:00 — Consumer portal (Decisioning & disclosures)</strong><br/>
+      1) Select persona: <span class="mono">Near Prime (640)</span> → submit → show offer page.<br/>
+      2) Highlight: term cap enforcement (<span class="mono">24/36/48</span>), policy minimum score (<span class="mono">${p.minScore}</span>), max ticket (<span class="mono">${fmtUSD(p.maxTicket)}</span>).<br/>
+      3) Switch persona: <span class="mono">Fraud Flag</span> → shows “manual review” routing.<br/>
+      4) Switch persona: <span class="mono">Below Minimum Score</span> → decline logic.<br/>
+      <div class="row" style="margin-top:10px;">
+        <a class="btn primary" href="/app" target="_blank" rel="noopener">Open consumer portal</a>
+      </div>
+    </div>
+
+    <div class="note">
+      <strong>3:00–5:45 — Admin console (Controls, queue, overrides)</strong><br/>
+      1) Open <span class="mono">Application queue</span> → show computed policy outcome column.<br/>
+      2) Open an application → show policy evaluation, reasons, and illustrative offer math.<br/>
+      3) Demonstrate governance: set status + record decision + add reviewer note → save override.<br/>
+      <div class="row" style="margin-top:10px;">
+        <a class="btn" href="#/queue">Go to queue</a>
+        <a class="btn" href="#/audit">Go to audit log</a>
+      </div>
+    </div>
+
+    <div class="note">
+      <strong>5:45–6:45 — Policy tuning (What banks care about)</strong><br/>
+      • Change <span class="mono">min score</span> to a stricter threshold (e.g., 700) → Save policy.<br/>
+      • Return to consumer portal → Near Prime persona now declines, demonstrating policy control.<br/>
+      <div class="row" style="margin-top:10px;">
+        <a class="btn primary" href="#/policy">Go to policy editor</a>
+        <a class="btn" href="/app" target="_blank" rel="noopener">Re-open consumer portal</a>
+      </div>
+    </div>
+
+    <div class="note">
+      <strong>6:45–8:00 — Auditability (What diligence teams want)</strong><br/>
+      • Open audit log → show append-only events: policy updated + override action + timestamps + actor.<br/>
+      • “In Phase 2 this becomes DB-backed with roles/RLS and immutable-ish event logging.”<br/>
+      <div class="row" style="margin-top:10px;">
+        <a class="btn primary" href="#/audit">Open audit log</a>
+      </div>
+    </div>
+
+    <div class="hr"></div>
+
+    <h3 style="margin:0 0 8px; letter-spacing:0.08em; text-transform:uppercase; font-size:13px; color:rgba(255,255,255,0.86);">
+      One-click reset for clean demos
+    </h3>
+
+    <div class="note">
+      If you’re about to demo to a new audience, run these in order:
+      <ol style="margin:10px 0 0 18px;">
+        <li>Click <span class="mono">Reseed data</span> (top bar) to restore the queue.</li>
+        <li>Optionally reset policy to defaults in the policy editor.</li>
+        <li>Open consumer portal and start with <span class="mono">Near Prime</span>.</li>
+      </ol>
+    </div>
+  `;
+}
 
   // ---- Top bar actions ----
   document.getElementById("btnSeed").addEventListener("click", () => {
@@ -903,6 +1013,7 @@
   // ---- Render router ----
   function render(){
     const r = route();
+    if(r === "pitch")  return renderPitch();
     if(r === "policy") return renderPolicy();
     if(r === "audit")  return renderAudit();
     if(r === "about")  return renderAbout();
