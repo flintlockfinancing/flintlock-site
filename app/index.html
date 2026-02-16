@@ -775,13 +775,14 @@
           </div>
 
           <div class="field">
-            <label>Total cost basis</label>
-            <input value="${fmtUSD(
-              Number(state.purchase.price||0) +
-              Number(state.purchase.acquisitionFee||0) +
-              Number(state.purchase.tax||0) +
-              Number(state.purchase.processingFee||0)
-            )}" disabled />
+           <label>Total cost basis</label>
+<input id="costBasisDisplay" value="${fmtUSD(
+  Number(state.purchase.price||0) +
+  Number(state.purchase.acquisitionFee||0) +
+  Number(state.purchase.tax||0) +
+  Number(state.purchase.processingFee||0)
+)}" disabled />
+
           </div>
         </div>
 
@@ -807,15 +808,27 @@
       renderApplication();
     });
 
-    const bind = (id, path, parser) => {
-      document.getElementById(id).addEventListener("input", (e)=> {
-        const v = parser ? parser(e.target.value) : e.target.value;
-        setPath(path, v);
-        state.decision = null;
-        // keep total basis display live by rerendering quickly
-        renderApplication();
-      });
-    };
+ function updateCostBasisDisplay(){
+  const el = document.getElementById("costBasisDisplay");
+  if(!el) return;
+  const basis =
+    Number(state.purchase.price||0) +
+    Number(state.purchase.acquisitionFee||0) +
+    Number(state.purchase.tax||0) +
+    Number(state.purchase.processingFee||0);
+  el.value = fmtUSD(basis);
+}
+
+const bind = (id, path, parser) => {
+  const el = document.getElementById(id);
+  el.addEventListener("input", (e)=> {
+    const v = parser ? parser(e.target.value) : e.target.value;
+    setPath(path, v);
+    state.decision = null;
+    updateCostBasisDisplay(); // only update the one field, keep focus
+  });
+};
+
 
     bind("name", "applicant.name");
     bind("email", "applicant.email");
