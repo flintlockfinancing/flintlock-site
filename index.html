@@ -1,0 +1,681 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Flintlock Financing | Disciplined Lease Financing at Point of Sale</title>
+  <meta name="description" content="Technology-enabled consumer leasing built for merchants who value compliance, clarity, and control." />
+
+  <style>
+    :root{
+      --bg: #071726;
+      --panel: rgba(255,255,255,0.06);
+      --panel2: rgba(255,255,255,0.04);
+      --text: rgba(255,255,255,0.90);
+      --muted: rgba(255,255,255,0.70);
+      --muted2: rgba(255,255,255,0.55);
+      --line: rgba(255,255,255,0.12);
+      --accent: #C57B2A;
+      --accent2: #E2A45D;
+      --white: #ffffff;
+      --shadow: 0 18px 40px rgba(0,0,0,0.40);
+      --radius: 18px;
+      --max: 1120px;
+      --serif: ui-serif, Georgia, "Times New Roman", Times, serif;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: var(--sans);
+      background: radial-gradient(900px 400px at 20% 0%, rgba(197,123,42,0.18), transparent 55%),
+                  radial-gradient(700px 350px at 90% 10%, rgba(226,164,93,0.12), transparent 55%),
+                  linear-gradient(180deg, #061424 0%, #071726 55%, #05101C 100%);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    a{color:inherit; text-decoration:none}
+    .container{max-width: var(--max); margin:0 auto; padding: 0 20px}
+    .topbar{
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(10px);
+      background: rgba(5,16,28,0.62);
+      border-bottom: 1px solid var(--line);
+    }
+    .topbar-inner{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      padding: 14px 0;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width: 240px;
+    }
+    .mark{
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background:
+        radial-gradient(10px 10px at 70% 30%, rgba(255,255,255,0.9), transparent 55%),
+        radial-gradient(18px 18px at 65% 35%, rgba(226,164,93,0.65), transparent 60%),
+        linear-gradient(180deg, rgba(197,123,42,0.95), rgba(197,123,42,0.35));
+      box-shadow: 0 10px 22px rgba(197,123,42,0.25);
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+    .brand-text{
+      display:flex;
+      flex-direction:column;
+      gap:0px;
+      line-height:1.1;
+    }
+    .brand-text strong{
+      font-family: var(--serif);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-size: 13px;
+      color: rgba(255,255,255,0.92);
+    }
+    .brand-text span{
+      font-size: 12px;
+      color: var(--muted2);
+    }
+
+    nav{
+      display:flex;
+      align-items:center;
+      gap: 14px;
+      flex-wrap: wrap;
+      justify-content:flex-end;
+    }
+    nav a{
+      font-size: 13px;
+      color: var(--muted);
+      padding: 8px 10px;
+      border-radius: 10px;
+      border: 1px solid transparent;
+    }
+    nav a:hover{
+      color: var(--white);
+      border-color: rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.04);
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding: 11px 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(255,255,255,0.06);
+      color: rgba(255,255,255,0.92);
+      font-size: 13px;
+      cursor:pointer;
+      transition: transform 0.06s ease, background 0.2s ease, border-color 0.2s ease;
+      user-select:none;
+      white-space:nowrap;
+    }
+    .btn:hover{background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.20)}
+    .btn:active{transform: translateY(1px)}
+    .btn.primary{
+      border-color: rgba(197,123,42,0.55);
+      background: linear-gradient(180deg, rgba(197,123,42,0.95), rgba(197,123,42,0.55));
+      box-shadow: 0 16px 34px rgba(197,123,42,0.18);
+      color: #0b1016;
+      font-weight: 700;
+    }
+    .btn.primary:hover{border-color: rgba(226,164,93,0.80)}
+    .hero{
+      padding: 56px 0 28px;
+    }
+    .pill{
+      display:inline-flex;
+      gap:10px;
+      align-items:center;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.04);
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .spark{
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(226,164,93,0.95) 35%, rgba(197,123,42,0.5) 65%, transparent 70%);
+      box-shadow: 0 0 22px rgba(226,164,93,0.50);
+    }
+    h1{
+      font-family: var(--serif);
+      font-size: clamp(34px, 4.4vw, 54px);
+      line-height: 1.06;
+      margin: 14px 0 10px;
+      letter-spacing: 0.01em;
+    }
+    .subhead{
+      max-width: 820px;
+      color: var(--muted);
+      font-size: 16px;
+      margin: 0 0 18px;
+    }
+    .cta-row{
+      display:flex;
+      gap:12px;
+      flex-wrap: wrap;
+      margin: 18px 0 8px;
+    }
+    .hero-grid{
+      display:grid;
+      grid-template-columns: 1.25fr 0.75fr;
+      gap: 18px;
+      margin-top: 28px;
+    }
+    .card{
+      background: linear-gradient(180deg, var(--panel) 0%, var(--panel2) 100%);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+    .card h3{
+      margin: 0 0 10px;
+      font-size: 14px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.86);
+    }
+    .card p{margin:0; color: var(--muted); font-size: 14px}
+    .metrics{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 12px;
+    }
+    .metric{
+      padding: 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.03);
+    }
+    .metric strong{
+      display:block;
+      font-family: var(--serif);
+      font-size: 22px;
+      letter-spacing: 0.02em;
+      color: rgba(255,255,255,0.93);
+      margin-bottom: 4px;
+    }
+    .metric span{
+      color: var(--muted2);
+      font-size: 12px;
+    }
+
+    section{
+      padding: 34px 0;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .section-title{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+    .section-title h2{
+      margin:0;
+      font-family: var(--serif);
+      font-size: 26px;
+      letter-spacing: 0.01em;
+    }
+    .section-title p{
+      margin:0;
+      color: var(--muted);
+      max-width: 520px;
+      font-size: 14px;
+    }
+
+    .grid-3{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .grid-2{
+      display:grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+    .list{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      margin-top: 8px;
+    }
+    .li{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .dot{
+      flex: 0 0 auto;
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      margin-top: 7px;
+      background: rgba(197,123,42,0.95);
+      box-shadow: 0 0 18px rgba(197,123,42,0.25);
+    }
+    .step{
+      display:flex;
+      flex-direction:column;
+      gap: 8px;
+    }
+    .step strong{
+      font-size: 14px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.88);
+    }
+    .step p{margin:0; color: var(--muted); font-size: 14px}
+    .note{
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted2);
+      font-size: 12px;
+    }
+
+    .footer{
+      padding: 26px 0 36px;
+      border-top: 1px solid rgba(255,255,255,0.10);
+      color: var(--muted2);
+      font-size: 12px;
+    }
+    .footer-grid{
+      display:grid;
+      grid-template-columns: 1.3fr 0.7fr;
+      gap: 14px;
+      align-items:start;
+    }
+    .footer a{color: rgba(255,255,255,0.65)}
+    .footer a:hover{color: rgba(255,255,255,0.85)}
+
+    @media (max-width: 920px){
+      .hero-grid{grid-template-columns: 1fr}
+      .grid-3{grid-template-columns: 1fr}
+      .grid-2{grid-template-columns: 1fr}
+      .footer-grid{grid-template-columns: 1fr}
+      nav{gap: 8px}
+      .brand{min-width: auto}
+    }
+  </style>
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="container">
+      <div class="topbar-inner">
+        <a class="brand" href="#" aria-label="Flintlock Financing Home">
+          <div class="mark" aria-hidden="true"></div>
+          <div class="brand-text">
+            <strong>Flintlock Financing</strong>
+            <span>Disciplined consumer lease solutions</span>
+          </div>
+        </a>
+
+        <nav aria-label="Primary navigation">
+          <a href="#how-it-works">How it works</a>
+          <a href="#lease-framework">Lease framework</a>
+          <a href="#merchants">Merchants</a>
+          <a href="#controls">Risk & controls</a>
+          <a href="#demo">Demo</a>
+          <a class="btn" href="mailto:info@flintlockfinancing.com">Request info</a>
+          <a class="btn primary" href="#demo">Enter demo</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero" id="top">
+      <div class="container">
+        <div class="pill">
+          <span class="spark" aria-hidden="true"></span>
+          <span>Consumer lessor model • Reg M structured • Policy-driven underwriting</span>
+        </div>
+
+        <h1>Disciplined Lease Financing<br/>at Point of Sale</h1>
+        <p class="subhead">
+          Technology-enabled consumer leasing built for merchants who value compliance, clarity, and control.
+          Flintlock applies defined underwriting guardrails and produces structured lease disclosures designed for auditability.
+        </p>
+
+        <div class="cta-row">
+          <a class="btn primary" href="#merchants">Merchant program overview</a>
+          <a class="btn" href="#demo">Enter demo environment</a>
+        </div>
+
+        <div class="hero-grid">
+          <div class="card">
+            <h3>Why Flintlock</h3>
+            <p>
+              Flintlock was built on a simple principle: consumer lease programs should be clear, controlled,
+              and audit-ready. Every approval follows defined rules. Every exception is logged.
+            </p>
+
+            <div class="list" style="margin-top:14px">
+              <div class="li"><span class="dot"></span><span>Structured underwriting guardrails</span></div>
+              <div class="li"><span class="dot"></span><span>Automated term cap enforcement</span></div>
+              <div class="li"><span class="dot"></span><span>Transparent lease disclosures</span></div>
+              <div class="li"><span class="dot"></span><span>Configurable decision policies</span></div>
+              <div class="li"><span class="dot"></span><span>Event-level audit tracking</span></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Program guardrails</h3>
+            <p>Designed to be disciplined, configurable, and easy to explain to partners.</p>
+
+            <div class="metrics">
+              <div class="metric">
+                <strong>620+</strong>
+                <span>Minimum credit score (policy default)</span>
+              </div>
+              <div class="metric">
+                <strong>$12,000</strong>
+                <span>Maximum ticket size</span>
+              </div>
+              <div class="metric">
+                <strong>24–48</strong>
+                <span>Months (auto term caps by ticket size)</span>
+              </div>
+              <div class="metric">
+                <strong>Manual</strong>
+                <span>Review routing for fraud/ID flags</span>
+              </div>
+            </div>
+
+            <div class="note">
+              Demo environment only. No real credit decisions, credit pulls, or transactions occur on this site.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY / STRUCTURE -->
+    <section id="structure">
+      <div class="container">
+        <div class="section-title">
+          <h2>Precision in structure. Discipline in underwriting.</h2>
+          <p>
+            Flintlock’s platform is built to support compliant point-of-sale leasing with documented policies,
+            clear merchant responsibilities, and audit-ready tracking.
+          </p>
+        </div>
+
+        <div class="grid-3">
+          <div class="card">
+            <h3>Compliance-forward</h3>
+            <p>
+              Consumer lease model structured with Reg M disclosures in mind.
+              Clear presentation of payment schedule, total of payments, and purchase option terms.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Tech-enabled</h3>
+            <p>
+              Policy-driven decisioning, role-based access controls, and event-level logging
+              designed to support partner diligence and operational consistency.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Merchant-practical</h3>
+            <p>
+              Simple submission, transparent status updates, defined documentation requirements,
+              and a framework that respects the merchant relationship.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section id="how-it-works">
+      <div class="container">
+        <div class="section-title">
+          <h2>How it works</h2>
+          <p>A straightforward, controlled process from point of sale to structured lease offer.</p>
+        </div>
+
+        <div class="grid-3">
+          <div class="card step">
+            <strong>1. Merchant submits transaction</strong>
+            <p>
+              Approved merchants initiate a lease request at point of sale and confirm required eligibility
+              conditions prior to application.
+            </p>
+          </div>
+          <div class="card step">
+            <strong>2. Customer completes application</strong>
+            <p>
+              The applicant provides identity and financial information through a structured workflow governed
+              by predefined underwriting criteria.
+            </p>
+          </div>
+          <div class="card step">
+            <strong>3. Lease offer presented</strong>
+            <p>
+              If approved, a consumer lease offer is generated with structured disclosures,
+              including payment schedule, total of payments, and purchase option terms.
+            </p>
+          </div>
+        </div>
+
+        <div class="note">
+          No hidden fees. No ambiguous structures. No discretionary guesswork.
+        </div>
+      </div>
+    </section>
+
+    <!-- LEASE FRAMEWORK -->
+    <section id="lease-framework">
+      <div class="container">
+        <div class="section-title">
+          <h2>Lease framework</h2>
+          <p>Consumer lessor model designed for clarity, controls, and partner diligence.</p>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <h3>Consumer lease model (Reg M structured)</h3>
+            <p>
+              Flintlock operates as a consumer lessor. Lease disclosures are structured in alignment with
+              Truth in Leasing (Regulation M) concepts.
+            </p>
+            <div class="list" style="margin-top:14px">
+              <div class="li"><span class="dot"></span><span>Clear payment schedule and total of payments</span></div>
+              <div class="li"><span class="dot"></span><span>Purchase option terms presented transparently</span></div>
+              <div class="li"><span class="dot"></span><span>Defined documentation and notices (demo samples)</span></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Program guardrails</h3>
+            <p>Default policy settings shown below are configurable for approved programs.</p>
+            <div class="list" style="margin-top:14px">
+              <div class="li"><span class="dot"></span><span><strong>Minimum credit score:</strong>&nbsp;620</span></div>
+              <div class="li"><span class="dot"></span><span><strong>Maximum ticket size:</strong>&nbsp;$12,000</span></div>
+              <div class="li"><span class="dot"></span><span><strong>Auto term caps:</strong>&nbsp;&lt;$1,500 → 24 months; &lt;$2,500 → 36 months; &gt;$2,500 → 48 months</span></div>
+              <div class="li"><span class="dot"></span><span><strong>Fraud/ID flags:</strong>&nbsp;route to manual review</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MERCHANTS -->
+    <section id="merchants">
+      <div class="container">
+        <div class="section-title">
+          <h2>Built for merchants</h2>
+          <p>A lease program that respects the merchant relationship while maintaining disciplined controls.</p>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <h3>Merchant workflow</h3>
+            <p>
+              Flintlock’s merchant framework is designed for clarity and operational simplicity.
+            </p>
+            <div class="list" style="margin-top:14px">
+              <div class="li"><span class="dot"></span><span>Simple transaction submission</span></div>
+              <div class="li"><span class="dot"></span><span>Transparent approval status and next steps</span></div>
+              <div class="li"><span class="dot"></span><span>Clear documentation requirements</span></div>
+              <div class="li"><span class="dot"></span><span>Defined merchant representations & warranties</span></div>
+              <div class="li"><span class="dot"></span><span>Structured funding workflow (demo)</span></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Program overview</h3>
+            <p>
+              Ticket size up to <strong>$12,000</strong>. Term caps enforced automatically by policy.
+              Merchant responsibilities and eligibility gating are defined as part of onboarding.
+            </p>
+            <div class="cta-row" style="margin-top:14px">
+              <a class="btn primary" href="mailto:info@flintlockfinancing.com?subject=Merchant%20Program%20Inquiry">Request program information</a>
+              <a class="btn" href="#demo">View demo portal</a>
+            </div>
+            <div class="note">
+              Illustrative only. Final program terms and requirements are subject to approval and documentation.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTROLS -->
+    <section id="controls">
+      <div class="container">
+        <div class="section-title">
+          <h2>Risk & controls</h2>
+          <p>Underwriting is policy-driven. Overrides are recorded. Every event leaves a record.</p>
+        </div>
+
+        <div class="grid-3">
+          <div class="card">
+            <h3>Decisioning</h3>
+            <p>
+              Decision outcomes are based on credit threshold validation, identity verification status,
+              fraud indicator review, and configured program rules.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Auditability</h3>
+            <p>
+              Administrative actions, where permitted, are recorded with timestamped audit entries
+              to support internal controls and partner diligence.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Access controls</h3>
+            <p>
+              Role-based access controls are designed to segregate consumer, merchant, and administrative functions.
+              (Demo environment includes simulated roles.)
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DEMO -->
+    <section id="demo">
+      <div class="container">
+        <div class="section-title">
+          <h2>Demonstration environment</h2>
+          <p>Illustrative sandbox for banks, investors, and merchants. No real transactions occur.</p>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <h3>What the demo shows</h3>
+            <div class="list">
+              <div class="li"><span class="dot"></span><span>Application workflow and structured lease offer</span></div>
+              <div class="li"><span class="dot"></span><span>Administrative decision controls and policy configuration</span></div>
+              <div class="li"><span class="dot"></span><span>Audit log simulation</span></div>
+              <div class="li"><span class="dot"></span><span>Merchant submission and status tracking (demo)</span></div>
+            </div>
+
+            <div class="note">
+              Demo environment disclaimer: No real credit decisions are made. No credit pulls. No ACH or card transactions.
+              Any personal information displayed is synthetic.
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Enter demo</h3>
+            <p>
+              In Phase 1, the demo is a simulated environment with seeded personas.
+              In Phase 2, we add database-backed roles, applications, and audit events.
+            </p>
+            <div class="cta-row" style="margin-top:14px">
+              <!-- These are placeholders; later we’ll point them at app/admin subdomains -->
+              <a class="btn primary" href="https://app.flintlockfinancing.com" rel="noopener">Consumer demo portal</a>
+              <a class="btn" href="https://admin.flintlockfinancing.com" rel="noopener">Admin demo console</a>
+            </div>
+            <div class="note">
+              If subdomains are not yet configured, deploy first and then connect domains in Vercel.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div>
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
+              <div class="mark" style="width:28px; height:28px; border-radius:9px;" aria-hidden="true"></div>
+              <div>
+                <div style="font-family:var(--serif); letter-spacing:0.06em; text-transform:uppercase; color:rgba(255,255,255,0.86); font-size:12px;">
+                  Flintlock Financing
+                </div>
+                <div style="color:rgba(255,255,255,0.55); font-size:12px;">
+                  Disciplined consumer lease solutions
+                </div>
+              </div>
+            </div>
+
+            <div style="max-width:820px;">
+              Demo Environment Disclaimer: This site may contain simulated functionality for demonstration purposes only.
+              No credit decisions are made through this website. No credit pulls. No financial transactions occur.
+            </div>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:8px; align-items:flex-start;">
+            <a href="#lease-framework">Compliance overview</a>
+            <a href="mailto:info@flintlockfinancing.com">Contact</a>
+            <a href="#top">Back to top</a>
+            <div style="margin-top:8px;">© 2026 Flintlock Financing. All rights reserved.</div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </main>
+</body>
+</html>
