@@ -781,6 +781,8 @@ let POLICY = loadPolicy();
   }
 
   function renderAll(){
+    POLICY = loadPolicy();
+
     switch(route()){
       case "apply": renderApply(); break;
       case "offer": renderOffer(); break;
