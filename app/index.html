@@ -3,110 +3,81 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Flintlock Financing | Consumer Demo Portal</title>
-  <meta name="description" content="Flintlock Financing consumer demo portal (synthetic demo). No credit pulls." />
-
+  <title>Flintlock Financing | App Demo</title>
+  <meta name="description" content="Flintlock Financing app demo (synthetic). No credit pulls." />
   <style>
     :root{
-      --bg0:#050F1B;
-      --bg1:#061424;
-      --bg2:#071726;
-
+      --bg0:#050F1B; --bg1:#061424; --bg2:#071726;
       --panel: rgba(255,255,255,0.06);
       --panel2: rgba(255,255,255,0.04);
       --text: rgba(255,255,255,0.92);
       --muted: rgba(255,255,255,0.70);
       --muted2: rgba(255,255,255,0.55);
       --line: rgba(255,255,255,0.12);
-
-      --accent: #C57B2A;
-      --accent2: #E2A45D;
-
-      --ok: #86efac;
-      --warn:#ffd166;
-      --bad:#ff6b6b;
-
+      --accent:#C57B2A; --accent2:#E2A45D;
       --shadow: 0 18px 40px rgba(0,0,0,0.40);
-      --radius: 18px;
-      --max: 1080px;
+      --radius:18px; --max:1080px;
       --serif: ui-serif, Georgia, "Times New Roman", Times, serif;
-      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
       --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
       --focus: rgba(226,164,93,0.45);
+      --ok:#86efac; --warn:#ffd166; --bad:#ff6b6b;
     }
-
     *{box-sizing:border-box}
-    html, body { height:100%; }
+    html,body{height:100%}
     body{
-      margin:0;
-      font-family: var(--sans);
-      color: var(--text);
+      margin:0; font-family:var(--sans); color:var(--text);
       background:
         radial-gradient(900px 420px at 18% 0%, rgba(197,123,42,0.18), transparent 55%),
         radial-gradient(720px 380px at 92% 8%, rgba(226,164,93,0.12), transparent 55%),
         linear-gradient(180deg, var(--bg1) 0%, var(--bg2) 55%, var(--bg0) 100%);
-      line-height: 1.45;
+      line-height:1.45;
     }
-
     a{color:inherit; text-decoration:none}
-    .container{max-width: var(--max); margin:0 auto; padding: 0 18px}
+    .container{max-width:var(--max); margin:0 auto; padding:0 18px}
     .topbar{
-      position: sticky; top:0; z-index:20;
+      position:sticky; top:0; z-index:20;
       backdrop-filter: blur(10px);
       background: rgba(5,16,28,0.62);
-      border-bottom: 1px solid var(--line);
+      border-bottom:1px solid var(--line);
     }
-    .topbar-inner{
-      display:flex; align-items:center; justify-content:space-between;
-      gap:16px; padding: 14px 0;
-      flex-wrap: wrap;
-    }
+    .topbar-inner{display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap; padding:14px 0}
     .brand{display:flex; align-items:center; gap:10px}
     .mark{
-      width: 32px; height: 32px; border-radius: 10px;
+      width:32px; height:32px; border-radius:10px;
       background:
         radial-gradient(10px 10px at 70% 30%, rgba(255,255,255,0.9), transparent 55%),
         radial-gradient(18px 18px at 65% 35%, rgba(226,164,93,0.65), transparent 60%),
         linear-gradient(180deg, rgba(197,123,42,0.95), rgba(197,123,42,0.35));
-      box-shadow: 0 10px 22px rgba(197,123,42,0.25);
-      border: 1px solid rgba(255,255,255,0.15);
+      box-shadow:0 10px 22px rgba(197,123,42,0.25);
+      border:1px solid rgba(255,255,255,0.15);
     }
     .brand-text{display:flex; flex-direction:column; line-height:1.1}
     .brand-text strong{
-      font-family: var(--serif);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      font-size: 12px;
-      color: rgba(255,255,255,0.92);
+      font-family:var(--serif);
+      letter-spacing:0.08em;
+      text-transform:uppercase;
+      font-size:12px;
     }
-    .brand-text span{font-size:12px; color: var(--muted2)}
-
+    .brand-text span{font-size:12px; color:rgba(255,255,255,0.55)}
     .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
     .pill{
       display:inline-flex; gap:10px; align-items:center;
-      padding: 7px 10px; border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.14);
+      padding:7px 10px; border-radius:999px;
+      border:1px solid rgba(255,255,255,0.14);
       background: rgba(255,255,255,0.04);
-      color: var(--muted);
-      font-size: 12px;
-      user-select:none;
+      color: rgba(255,255,255,0.74);
+      font-size:12px; user-select:none;
     }
-    .spark{
-      width: 8px; height: 8px; border-radius: 999px;
-      background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(226,164,93,0.95) 35%, rgba(197,123,42,0.5) 65%, transparent 70%);
-      box-shadow: 0 0 22px rgba(226,164,93,0.50);
-    }
-
+    .spark{width:8px; height:8px; border-radius:999px; background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(226,164,93,0.95) 35%, rgba(197,123,42,0.5) 65%, transparent 70%); box-shadow:0 0 22px rgba(226,164,93,0.50)}
     .btn{
       display:inline-flex; align-items:center; justify-content:center; gap:10px;
-      padding: 10px 13px; border-radius: 12px;
-      border: 1px solid rgba(255,255,255,0.16);
+      padding:10px 13px; border-radius:12px;
+      border:1px solid rgba(255,255,255,0.16);
       background: rgba(255,255,255,0.06);
       color: rgba(255,255,255,0.92);
-      font-size: 13px;
-      cursor:pointer;
+      font-size:13px; cursor:pointer; user-select:none; white-space:nowrap;
       transition: transform 0.06s ease, background 0.2s ease, border-color 0.2s ease;
-      user-select:none; white-space:nowrap;
     }
     .btn:hover{background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.20)}
     .btn:active{transform: translateY(1px)}
@@ -114,317 +85,79 @@
       border-color: rgba(197,123,42,0.55);
       background: linear-gradient(180deg, rgba(197,123,42,0.95), rgba(197,123,42,0.55));
       box-shadow: 0 16px 34px rgba(197,123,42,0.18);
-      color: #0b1016;
-      font-weight: 900;
+      color:#0b1016; font-weight:900;
     }
-    .btn.danger{
-      border-color: rgba(255,107,107,0.40);
-      background: rgba(255,107,107,0.10);
-    }
-    .btn.small{ padding: 8px 10px; font-size: 12px; border-radius: 10px; }
-
-    .toggle{
-      display:inline-flex; align-items:center; gap:10px;
-      padding: 8px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.14);
-      background: rgba(255,255,255,0.04);
-      user-select:none;
-    }
-    .switch{
-      width: 42px; height: 24px; border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.20);
-      background: rgba(0,0,0,0.25);
-      position: relative;
-      cursor:pointer;
-    }
-    .switch::after{
-      content:"";
-      width: 18px; height: 18px; border-radius: 999px;
-      position:absolute; top: 2px; left: 2px;
-      background: rgba(255,255,255,0.85);
-      transition: left 0.18s ease, background 0.18s ease;
-    }
-    .switch.on{
-      background: rgba(197,123,42,0.22);
-      border-color: rgba(197,123,42,0.35);
-    }
-    .switch.on::after{ left: 20px; background: rgba(226,164,93,0.95); }
-    .toggle .lbl{ font-size:12px; color: rgba(255,255,255,0.80); }
-
     .card{
       background: linear-gradient(180deg, var(--panel) 0%, var(--panel2) 100%);
-      border: 1px solid var(--line);
+      border:1px solid var(--line);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      padding: 16px;
+      padding:16px;
+      margin: 18px 0;
     }
     .section{
-      border: 1px solid rgba(255,255,255,0.10);
+      border:1px solid rgba(255,255,255,0.10);
       background: rgba(255,255,255,0.03);
-      border-radius: 16px;
-      padding: 14px;
+      border-radius:16px;
+      padding:14px;
     }
-
-    h1{
-      font-family: var(--serif);
-      font-size: clamp(22px, 3.2vw, 34px);
-      margin: 18px 0 6px;
-      letter-spacing: 0.02em;
-    }
-    h2{
-      font-family: var(--serif);
-      margin: 0 0 8px;
-      font-size: 20px;
-      letter-spacing: 0.01em;
-    }
-    h3{
-      margin: 0 0 8px;
-      font-size: 13px;
-      letter-spacing: 0.10em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.86);
-      font-weight: 800;
-    }
-    .sub{color: var(--muted); font-size: 14px; margin: 0 0 14px}
+    h1{font-family:var(--serif); font-size: clamp(22px, 3.2vw, 34px); margin:18px 0 6px}
+    h2{font-family:var(--serif); margin:0 0 8px; font-size:20px}
+    h3{margin:0 0 8px; font-size:13px; letter-spacing:0.10em; text-transform:uppercase; color:rgba(255,255,255,0.86); font-weight:800}
+    .sub{color:var(--muted); font-size:14px; margin:0 0 14px}
     .hr{height:1px; background: rgba(255,255,255,0.08); margin: 12px 0}
-
-    .grid2{display:grid; grid-template-columns: 1fr 1fr; gap: 12px}
-    .grid3{display:grid; grid-template-columns: repeat(3, 1fr); gap: 12px}
-
+    .grid2{display:grid; grid-template-columns: 1fr 1fr; gap:12px}
+    .grid3{display:grid; grid-template-columns: repeat(3,1fr); gap:12px}
     .field{display:flex; flex-direction:column; gap:6px}
-    label{font-size: 12px; color: var(--muted2)}
-
-    input, select, textarea{
-      padding: 10px 12px;
-      border-radius: 12px;
-      border: 1px solid rgba(255,255,255,0.14);
+    label{font-size:12px; color:var(--muted2)}
+    input, select{
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,0.14);
       background: rgba(0,0,0,0.18);
       color: rgba(255,255,255,0.92);
       outline:none;
-      font-size: 14px;
+      font-size:14px;
     }
-    input:focus, select:focus, textarea:focus{
+    input:focus, select:focus{
       border-color: rgba(226,164,93,0.42);
       box-shadow: 0 0 0 3px var(--focus);
     }
-
-    .mono{font-family: var(--mono);}
+    .mono{font-family:var(--mono)}
     .badge{
       display:inline-flex; align-items:center; gap:8px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.12);
+      padding:6px 10px; border-radius:999px;
+      border:1px solid rgba(255,255,255,0.12);
       background: rgba(255,255,255,0.03);
       color: rgba(255,255,255,0.80);
-      font-size: 12px;
-      white-space:nowrap;
-      user-select:none;
+      font-size:12px; user-select:none;
     }
     .badge.ok{border-color: rgba(134,239,172,0.25); background: rgba(134,239,172,0.08)}
     .badge.warn{border-color: rgba(255,209,102,0.25); background: rgba(255,209,102,0.08)}
     .badge.bad{border-color: rgba(255,107,107,0.25); background: rgba(255,107,107,0.08)}
-
     .note{
-      margin-top: 12px;
-      padding: 12px 14px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,0.12);
-      background: rgba(255,255,255,0.03);
-      color: var(--muted2);
-      font-size: 12px;
-    }
-    .note strong{color: rgba(255,255,255,0.85)}
-    .note ul{margin: 8px 0 0 18px; padding:0}
-    .note li{margin: 4px 0}
-
-    .tabs{display:flex; gap:8px; flex-wrap:wrap; margin-top: 10px}
-    .tab{
-      padding: 9px 12px;
-      border-radius: 12px;
-      border: 1px solid rgba(255,255,255,0.12);
-      background: rgba(255,255,255,0.03);
-      font-size: 13px;
-      cursor:pointer;
-      user-select:none;
-    }
-    .tab.active{
-      border-color: rgba(197,123,42,0.40);
-      background: rgba(197,123,42,0.10);
-    }
-
-    table{width:100%; border-collapse: collapse; font-size: 13px}
-    th, td{padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.07)}
-    th{
-      text-align:left;
-      color: rgba(255,255,255,0.84);
-      font-weight: 800;
-      background: rgba(255,255,255,0.03);
-      position: sticky;
-      top: 0;
-      z-index: 2;
-      backdrop-filter: blur(6px);
-    }
-    .right{text-align:right}
-    .table-wrap{
-      overflow:auto;
-      border:1px solid rgba(255,255,255,0.10);
+      margin-top:12px;
+      padding:12px 14px;
       border-radius:14px;
-      max-height: 340px;
-    }
-
-    /* Contract preview print styles */
-    .contract-wrap{
+      border:1px solid rgba(255,255,255,0.12);
       background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.10);
-      border-radius: 16px;
-      padding: 14px;
+      color: rgba(255,255,255,0.62);
+      font-size:12px;
     }
-    .contract-paper{
-      background: rgba(255,255,255,0.96);
-      color: rgba(0,0,0,0.88);
-      border-radius: 14px;
-      padding: 18px;
-      border: 1px solid rgba(0,0,0,0.10);
-      box-shadow: 0 18px 40px rgba(0,0,0,0.30);
+    .tabs{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px}
+    .tab{
+      padding:9px 12px; border-radius:12px;
+      border:1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.03);
+      font-size:13px;
     }
-    .contract-paper h2,
-    .contract-paper h3{
-      color: rgba(0,0,0,0.88);
-      font-family: var(--serif);
-      letter-spacing: 0.02em;
-      text-transform:none;
-      margin: 0 0 8px;
-    }
-    .contract-paper h3{
-      font-size: 14px;
-      margin-top: 14px;
-    }
-    .contract-paper p{margin: 8px 0; font-size: 12.5px; line-height: 1.45}
-    .contract-paper .k{
-      font-family: var(--mono);
-      font-size: 12.5px;
-      background: rgba(0,0,0,0.06);
-      padding: 2px 6px;
-      border-radius: 8px;
-      border: 1px solid rgba(0,0,0,0.10);
-      white-space: nowrap;
-    }
-    .contract-grid{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 8px;
-    }
-    .contract-box{
-      border: 1px solid rgba(0,0,0,0.12);
-      border-radius: 10px;
-      padding: 10px;
-      background: rgba(255,255,255,0.75);
-    }
-    .contract-box .lbl{font-size: 11px; color: rgba(0,0,0,0.60)}
-    .contract-box .val{font-family: var(--mono); font-size: 12.5px; margin-top: 4px}
-    .sig-grid{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 10px;
-    }
-    .sig{
-      border: 1px solid rgba(0,0,0,0.16);
-      border-radius: 10px;
-      padding: 10px;
-      min-height: 80px;
-    }
-    .sig .line{
-      border-top: 1px solid rgba(0,0,0,0.45);
-      margin-top: 36px;
-    }
-    .sig small{display:block; color: rgba(0,0,0,0.60); margin-top: 6px}
-    .contract-foot{
-      margin-top: 12px;
-      padding-top: 10px;
-      border-top: 1px solid rgba(0,0,0,0.15);
-      font-size: 11px;
-      color: rgba(0,0,0,0.60);
-    }
-    .exhibit{
-      margin-top: 10px;
-      border-top: 1px dashed rgba(0,0,0,0.20);
-      padding-top: 10px;
-    }
-    .contract-paper table{
-      width:100%;
-      border-collapse: collapse;
-      font-size: 11.5px;
-    }
-    .contract-paper th, .contract-paper td{
-      padding: 8px;
-      border-bottom: 1px solid rgba(0,0,0,0.12);
-    }
-    .contract-paper th{
-      background: rgba(0,0,0,0.04);
-      color: rgba(0,0,0,0.78);
-      position: sticky;
-      top: 0;
-    }
-    .onepage{
-      border: 1px solid rgba(0,0,0,0.14);
-      border-radius: 12px;
-      padding: 12px;
-      background: rgba(255,255,255,0.88);
-    }
-    .onepage h4{
-      margin:0 0 8px;
-      font-family: var(--serif);
-      font-size: 13px;
-      color: rgba(0,0,0,0.86);
-      letter-spacing: 0.02em;
-    }
-    .onepage .meta{
-      font-size: 11.5px;
-      color: rgba(0,0,0,0.65);
-      margin-bottom: 10px;
-    }
-    .onepage .cols{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-    .onepage .blk{
-      border: 1px solid rgba(0,0,0,0.12);
-      border-radius: 10px;
-      padding: 10px;
-      background: rgba(255,255,255,0.78);
-    }
-    .onepage .blk .t{
-      font-size: 11px;
-      color: rgba(0,0,0,0.60);
-      margin-bottom: 6px;
-    }
-    .onepage .blk .v{
-      font-family: var(--mono);
-      font-size: 12px;
-      color: rgba(0,0,0,0.85);
-      line-height: 1.35;
-      white-space: pre-wrap;
-    }
-
-    @media (max-width: 980px){
-      .grid2, .grid3{grid-template-columns: 1fr}
-      .table-wrap{max-height: 300px}
-      .contract-grid, .sig-grid{grid-template-columns: 1fr}
-      .onepage .cols{grid-template-columns: 1fr}
-    }
-
-    @media print{
-      body{ background: #ffffff !important; color: #000000 !important; }
-      .topbar, .note, .tabs, .btn, .pill, .row, .section, .card:not(.print-card){ display:none !important; }
-      main.container{ padding: 0 !important; }
-      .print-card{ box-shadow:none !important; border:none !important; background: transparent !important; padding: 0 !important; }
-      .contract-wrap{ border:none !important; background: transparent !important; padding: 0 !important; }
-      .contract-paper{ box-shadow:none !important; border:none !important; border-radius:0 !important; padding: 0 !important; }
-    }
+    .tab.active{border-color: rgba(197,123,42,0.40); background: rgba(197,123,42,0.10)}
+    table{width:100%; border-collapse:collapse; font-size:13px}
+    th,td{padding:10px; border-bottom:1px solid rgba(255,255,255,0.07)}
+    th{color: rgba(255,255,255,0.84); font-weight:800; background: rgba(255,255,255,0.03); position:sticky; top:0; backdrop-filter: blur(6px)}
+    .right{text-align:right}
+    .table-wrap{overflow:auto; border:1px solid rgba(255,255,255,0.10); border-radius:14px; max-height:340px}
+    @media(max-width:980px){ .grid2,.grid3{grid-template-columns:1fr} }
   </style>
 </head>
 
@@ -432,28 +165,17 @@
 <header class="topbar">
   <div class="container">
     <div class="topbar-inner">
-      <a class="brand" href="/" aria-label="Flintlock Financing Home">
-        <div class="mark" aria-hidden="true"></div>
+      <a class="brand" href="/" aria-label="Home">
+        <div class="mark"></div>
         <div class="brand-text">
           <strong>Flintlock Financing</strong>
-          <span>Consumer demo portal</span>
+          <span>App demo</span>
         </div>
       </a>
 
       <div class="row">
-        <span class="pill"><span class="spark" aria-hidden="true"></span><span>SYNTHETIC DEMO / NO CREDIT PULLS</span></span>
-
-        <div class="toggle" title="Pitch Mode surfaces investor-facing artifacts (demo).">
-          <div class="switch" id="pitchSwitch" role="switch" aria-checked="false"></div>
-          <div class="lbl">Pitch Mode</div>
-        </div>
-
-        <div class="toggle" title="Show Reg M placeholders (demo checklist + placeholder language).">
-          <div class="switch" id="regmSwitch" role="switch" aria-checked="false"></div>
-          <div class="lbl">Reg M placeholders</div>
-        </div>
-
-        <a class="btn" href="/admin" target="_blank" rel="noopener">Admin console</a>
+        <span class="pill"><span class="spark"></span><span>SYNTHETIC DEMO / NO CREDIT PULLS</span></span>
+        <a class="btn" href="/admin/" target="_blank" rel="noopener">Admin console</a>
         <a class="btn primary" href="#/application">Start application</a>
       </div>
     </div>
@@ -461,16 +183,11 @@
 </header>
 
 <main class="container">
-  <h1>Disciplined, policy-driven consumer leasing</h1>
-  <p class="sub">
-    This is a synthetic demonstration environment for product walkthroughs and diligence discussions.
-    No identity verification, credit pulls, funding, or payment processing occurs in this demo.
-  </p>
-
+  <h1>Consumer leasing demo</h1>
+  <p class="sub">Illustrative terms only. Not a quote or contract.</p>
   <section class="card" id="view"></section>
-
-  <div class="note" style="margin-bottom: 24px;">
-    <strong>Demo environment disclaimer:</strong> All applicant information is synthetic. Any payments or terms shown are illustrative and not a quote or contract.
+  <div class="note" style="margin-bottom:24px;">
+    <strong>Disclaimer:</strong> Synthetic demo. No funding, no payments, no identity verification, no credit pulls.
   </div>
 </main>
 
@@ -491,17 +208,13 @@
 
   const ADMIN_POLICY_KEY = "flintlock_demo_policy_v1";
   const LAST_OFFER_KEY   = "flintlock_demo_last_offer_v1";
-  const PITCH_MODE_KEY   = "flintlock_demo_pitch_mode_v1";
-  const REGM_MODE_KEY    = "flintlock_demo_regm_mode_v1";
 
   function structuredCloneSafe(o){ return JSON.parse(JSON.stringify(o)); }
-
   function loadPolicy(){
     try{
       const raw = localStorage.getItem(ADMIN_POLICY_KEY);
       if(!raw) return structuredCloneSafe(DEFAULT_POLICY);
       const p = JSON.parse(raw);
-
       const termCaps = Array.isArray(p.termCaps) && p.termCaps.length >= 3
         ? [
             { max: 1500, term: Number(p.termCaps[0].term ?? 24) },
@@ -509,7 +222,6 @@
             { max: Infinity, term: Number(p.termCaps[2].term ?? 48) }
           ]
         : structuredCloneSafe(DEFAULT_POLICY.termCaps);
-
       return {
         minScore: Number(p.minScore ?? DEFAULT_POLICY.minScore),
         maxTicket: Number(p.maxTicket ?? DEFAULT_POLICY.maxTicket),
@@ -518,44 +230,15 @@
         residualFloor: Number(p.residualFloor ?? DEFAULT_POLICY.residualFloor),
         moneyFactor: Number(p.moneyFactor ?? DEFAULT_POLICY.moneyFactor)
       };
-    } catch(e){
-      return structuredCloneSafe(DEFAULT_POLICY);
-    }
+    }catch(e){ return structuredCloneSafe(DEFAULT_POLICY); }
   }
 
-  function saveLastOffer(offer){
-    try{ localStorage.setItem(LAST_OFFER_KEY, JSON.stringify(offer)); } catch(e){}
-  }
-  function loadLastOffer(){
-    try{
-      const raw = localStorage.getItem(LAST_OFFER_KEY);
-      return raw ? JSON.parse(raw) : null;
-    } catch(e){
-      return null;
-    }
-  }
-
-  function loadBool(key, def=false){
-    try{
-      const raw = localStorage.getItem(key);
-      if(raw === null || raw === undefined) return def;
-      return raw === "true";
-    }catch(e){ return def; }
-  }
-  function saveBool(key, val){
-    try{ localStorage.setItem(key, val ? "true" : "false"); }catch(e){}
-  }
-
-  let POLICY = loadPolicy();
-
-  const uiFlags = {
-    pitchMode: loadBool(PITCH_MODE_KEY, false),
-    regmPlaceholders: loadBool(REGM_MODE_KEY, false)
-  };
+  function saveLastOffer(offer){ try{ localStorage.setItem(LAST_OFFER_KEY, JSON.stringify(offer)); }catch(e){} }
+  function loadLastOffer(){ try{ const raw = localStorage.getItem(LAST_OFFER_KEY); return raw ? JSON.parse(raw) : null; }catch(e){ return null; } }
 
   const PERSONAS = [
-    { id:"prime", name:"Prime Applicant", score:720, flags:{ fraud:false, idMismatch:false }, blurb:"Typical approval path. Use to walk through offer + disclosures." },
-    { id:"near",  name:"Near Prime Applicant", score:640, flags:{ fraud:false, idMismatch:false }, blurb:"Closer to policy minimum; useful to demonstrate thresholding." },
+    { id:"prime", name:"Prime Applicant", score:720, flags:{ fraud:false, idMismatch:false }, blurb:"Typical approval path." },
+    { id:"near",  name:"Near Prime Applicant", score:640, flags:{ fraud:false, idMismatch:false }, blurb:"Closer to policy minimum." },
     { id:"fraud", name:"Fraud Flag", score:700, flags:{ fraud:true, idMismatch:false }, blurb:"Routes to manual review (demo)." },
     { id:"idm",   name:"Identity Mismatch", score:700, flags:{ fraud:false, idMismatch:true }, blurb:"Declines due to identity mismatch (demo)." },
     { id:"below", name:"Below Minimum Score", score:590, flags:{ fraud:false, idMismatch:false }, blurb:"Declines due to policy minimum score." }
@@ -563,44 +246,20 @@
 
   const state = {
     personaId: "prime",
-    applicant: {
-      name: "Alex Morgan",
-      email: "alex.morgan@example.com",
-      phone: "(555) 555-1212",
-      address1: "100 Market St",
-      city: "Houston",
-      state: "TX",
-      postal: "77002"
-    },
-    purchase: {
-      itemDescription: "Illustrative Merchant Item",
-      price: 4500,
-      acquisitionFee: 0,
-      tax: 0,
-      processingFee: 0
-    },
+    applicant: { name:"Alex Morgan", email:"alex.morgan@example.com", phone:"(555) 555-1212", address1:"100 Market St", city:"Houston", state:"TX", postal:"77002" },
+    purchase: { itemDescription:"Illustrative Merchant Item", price:4500, acquisitionFee:0, tax:0, processingFee:0 },
     decision: null,
     ui: { buyoutMonth: 12 }
   };
 
   const viewEl = document.getElementById("view");
-
-  function escapeHtml(str){
-    return String(str ?? "")
-      .replaceAll("&","&amp;")
-      .replaceAll("<","&lt;")
-      .replaceAll(">","&gt;")
-      .replaceAll('"',"&quot;")
-      .replaceAll("'","&#039;");
-  }
-
   const fmtUSD = (n) => new Intl.NumberFormat("en-US", { style:"currency", currency:"USD" }).format(Number(n||0));
+  const escapeHtml = (s) => String(s??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
   const mono = (s) => `<span class="mono">${escapeHtml(s)}</span>`;
-  const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
-  const round2 = (n) => Math.round(Number(n||0) * 100) / 100;
+  const clamp = (n,min,max)=>Math.max(min,Math.min(max,n));
+  const round2 = (n)=>Math.round(Number(n||0)*100)/100;
 
-  function approxAPRFromMF(mf){ return round2(Number(mf||0) * 2400); }
-
+  function approxAPRFromMF(mf){ return round2(Number(mf||0)*2400); }
   function route(){
     const h = location.hash || "#/dashboard";
     if(h.startsWith("#/application")) return "application";
@@ -608,279 +267,157 @@
     if(h.startsWith("#/contract")) return "contract";
     return "dashboard";
   }
-
-  function activePersona(){ return PERSONAS.find(p => p.id === state.personaId) || PERSONAS[0]; }
-
-  function computeTerm(ticket){
-    for(const cap of POLICY.termCaps){ if(ticket <= cap.max) return cap.term; }
-    return POLICY.termCaps[POLICY.termCaps.length-1].term;
+  function renderTabs(active){
+    return `
+      <div class="tabs">
+        <a class="tab ${active==="application"?"active":""}" href="#/application">Application</a>
+        <a class="tab ${active==="offer"?"active":""}" href="#/offer">Offer</a>
+        <a class="tab ${active==="dashboard"?"active":""}" href="#/dashboard">Dashboard</a>
+        <a class="tab ${active==="contract"?"active":""}" href="#/contract">Contract</a>
+      </div>
+    `;
   }
-
-  function computeResidual(costBasis){
-    const r = costBasis * POLICY.residualPct;
-    return Math.max(POLICY.residualFloor, Math.round(r));
+  function activePersona(){ return PERSONAS.find(p=>p.id===state.personaId)||PERSONAS[0]; }
+  function computeTerm(ticket, policy){
+    for(const cap of policy.termCaps){ if(ticket<=cap.max) return cap.term; }
+    return policy.termCaps[policy.termCaps.length-1].term;
   }
-
-  function computePayment(costBasis, residual, term){
-    const dep = (costBasis - residual) / term;
-    const rent = (costBasis + residual) * POLICY.moneyFactor;
+  function computeResidual(costBasis, policy){
+    const r = costBasis * policy.residualPct;
+    return Math.max(policy.residualFloor, Math.round(r));
+  }
+  function computePayment(costBasis, residual, term, policy){
+    const dep = (costBasis - residual)/term;
+    const rent = (costBasis + residual)*policy.moneyFactor;
     return round2(dep + rent);
   }
-
   function buyoutAtMonth(costBasis, residual, term, monthElapsed){
     const m = clamp(Number(monthElapsed||0), 0, term);
-    return residual + (costBasis - residual) * ((term - m) / term);
+    return residual + (costBasis - residual) * ((term - m)/term);
   }
-
-  function badgeForOutcome(outcome){
-    if(outcome === "APPROVE") return { cls:"ok", text:"Approved" };
-    if(outcome === "MANUAL_REVIEW") return { cls:"warn", text:"Manual review" };
-    return { cls:"bad", text:"Declined" };
-  }
-
   function costBasis(){
-    return (
-      Number(state.purchase.price||0) +
-      Number(state.purchase.acquisitionFee||0) +
-      Number(state.purchase.tax||0) +
-      Number(state.purchase.processingFee||0)
-    );
+    const p=state.purchase;
+    return Number(p.price||0)+Number(p.acquisitionFee||0)+Number(p.tax||0)+Number(p.processingFee||0);
   }
-
-  function toCSV(rows){
-    const esc = (v) => {
-      const s = String(v ?? "");
-      if(s.includes('"') || s.includes(",") || s.includes("\n")){
-        return `"${s.replaceAll('"','""')}"`;
-      }
-      return s;
-    };
-    return rows.map(r => r.map(esc).join(",")).join("\n");
-  }
-
-  function downloadTextFile(filename, text, mime){
-    const blob = new Blob([text], { type: mime || "text/plain" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    URL.revokeObjectURL(url);
-  }
-
-  function buildBuyoutScheduleRows(d){
-    const rows = [["month_elapsed","buyout_amount","percent_of_basis"]];
-    for(let m = 0; m <= d.term; m++){
-      const buyout = round2(buyoutAtMonth(d.costBasis, d.residual, d.term, m));
-      const pct = d.costBasis > 0 ? round2((buyout / d.costBasis) * 100) : 0;
-      rows.push([m, buyout, pct]);
-    }
-    return rows;
-  }
-
-  function buildPaymentScheduleRows(d){
-    const rows = [["payment_number","amount_due","due_frequency","notes"]];
-    for(let i = 1; i <= d.term; i++){
-      rows.push([i, round2(d.payment), "monthly", "Illustrative demo payment schedule"]);
-    }
-    return rows;
-  }
-
-  function renderBuyoutScheduleTable(d){
-    let rows = "";
-    for(let m = 0; m <= d.term; m++){
-      const buyout = round2(buyoutAtMonth(d.costBasis, d.residual, d.term, m));
-      const pct = d.costBasis > 0 ? round2((buyout / d.costBasis) * 100) : 0;
-      rows += `
-        <tr>
-          <td class="mono">${m}</td>
-          <td class="right mono">${escapeHtml(fmtUSD(buyout))}</td>
-          <td class="right mono">${escapeHtml(String(pct))}%</td>
-        </tr>
-      `;
-    }
-    return `
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Month elapsed</th>
-              <th class="right">Straight-line buyout</th>
-              <th class="right">% of basis</th>
-            </tr>
-          </thead>
-          <tbody>${rows}</tbody>
-        </table>
-      </div>
-    `;
-  }
-
-  function renderPaymentScheduleTable(d){
-    let rows = "";
-    for(let i = 1; i <= d.term; i++){
-      rows += `
-        <tr>
-          <td class="mono">${i}</td>
-          <td class="right mono">${escapeHtml(fmtUSD(d.payment))}</td>
-          <td class="mono">Monthly</td>
-        </tr>
-      `;
-    }
-    return `
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Pmt #</th>
-              <th class="right">Amount</th>
-              <th>Frequency</th>
-            </tr>
-          </thead>
-          <tbody>${rows}</tbody>
-        </table>
-      </div>
-    `;
-  }
-
-  function regMChecklistBlock(){
-    if(!uiFlags.regmPlaceholders) return "";
-    return `
-      <div class="note">
-        <strong>Reg M placeholders (demo checklist):</strong>
-        <ul>
-          <li><strong>Lease term</strong> shown (months) — ensure matches contract & disclosures.</li>
-          <li><strong>Total of payments</strong> shown (illustrative) — production disclosure logic may differ.</li>
-          <li><strong>Capitalized cost</strong> components itemized (ticket + acquisition fee + tax + processing).</li>
-          <li><strong>Purchase option / residual</strong> disclosed as end-of-term option price (if offered).</li>
-          <li><strong>Early purchase option</strong> method described (straight-line) + schedule exhibit (if offered).</li>
-          <li><strong>Fees</strong> labeled as acquisition fee (capitalized), not dealer fee (demo posture).</li>
-          <li><strong>Advertising / lead copy</strong> must avoid APR claims unless computed under approved methodology.</li>
-        </ul>
-        <div style="margin-top:8px;">
-          <strong>Note:</strong> Placeholders only. Final Reg M treatment and disclosure format should be validated by counsel.
-        </div>
-      </div>
-    `;
+  function badgeForOutcome(outcome){
+    if(outcome==="APPROVE") return {cls:"ok", text:"Approved"};
+    if(outcome==="MANUAL_REVIEW") return {cls:"warn", text:"Manual review"};
+    return {cls:"bad", text:"Declined"};
   }
 
   function evaluate(){
-    POLICY = loadPolicy();
+    const policy = loadPolicy();
     const persona = activePersona();
 
-    const ticket = Number(state.purchase.price || 0);
-    const acquisitionFee = Number(state.purchase.acquisitionFee || 0);
-    const tax = Number(state.purchase.tax || 0);
-    const processingFee = Number(state.purchase.processingFee || 0);
+    const ticket = Number(state.purchase.price||0);
+    const acquisitionFee = Number(state.purchase.acquisitionFee||0);
+    const tax = Number(state.purchase.tax||0);
+    const processingFee = Number(state.purchase.processingFee||0);
+    const basis = ticket+acquisitionFee+tax+processingFee;
 
-    const basis = ticket + acquisitionFee + tax + processingFee;
-    const reasons = [];
+    const reasons=[];
+    if(ticket<=0) reasons.push("Invalid item price.");
+    if(ticket>policy.maxTicket) reasons.push(`Item price exceeds policy maximum (${fmtUSD(policy.maxTicket)}).`);
+    if(persona.score<policy.minScore) reasons.push(`Score below policy minimum (${policy.minScore}).`);
 
-    if(ticket <= 0) reasons.push("Invalid item price.");
-    if(ticket > POLICY.maxTicket) reasons.push(`Item price exceeds policy maximum (${fmtUSD(POLICY.maxTicket)}).`);
-    if(persona.score < POLICY.minScore) reasons.push(`Score below policy minimum (${POLICY.minScore}).`);
+    let outcome="APPROVE";
+    let summary="Approved per current policy.";
 
     if(persona.flags.idMismatch){
-      return makeDecision({
-        outcome: "DECLINE",
-        summary: "Declined due to identity mismatch (demo).",
-        reasons: ["Identity verification mismatch (demo).", ...reasons],
-        persona, ticket, acquisitionFee, tax, processingFee, costBasis: basis
-      });
+      outcome="DECLINE";
+      summary="Declined due to identity mismatch (demo).";
+      reasons.unshift("Identity verification mismatch (demo).");
+    } else if(persona.flags.fraud){
+      outcome="MANUAL_REVIEW";
+      summary="Routed to manual review due to fraud indicator (demo).";
+    } else if(reasons.length){
+      outcome="DECLINE";
+      summary="Declined due to policy constraints.";
     }
 
-    if(persona.flags.fraud){
-      return makeDecision({
-        outcome: "MANUAL_REVIEW",
-        summary: "Routed to manual review due to fraud indicator (demo).",
-        reasons,
-        persona, ticket, acquisitionFee, tax, processingFee, costBasis: basis
-      });
-    }
-
-    if(reasons.length){
-      return makeDecision({
-        outcome: "DECLINE",
-        summary: "Declined due to policy constraints.",
-        reasons,
-        persona, ticket, acquisitionFee, tax, processingFee, costBasis: basis
-      });
-    }
-
-    return makeDecision({
-      outcome: "APPROVE",
-      summary: "Approved per current policy.",
-      reasons: [],
-      persona, ticket, acquisitionFee, tax, processingFee, costBasis: basis
-    });
-  }
-
-  function makeDecision({ outcome, summary, reasons, persona, ticket, acquisitionFee, tax, processingFee, costBasis }){
-    const term = computeTerm(ticket);
-    const residual = computeResidual(costBasis);
-    const payment = computePayment(costBasis, residual, term);
-    const totalOfPayments = round2(payment * term);
+    const term = computeTerm(ticket, policy);
+    const residual = computeResidual(basis, policy);
+    const payment = computePayment(basis, residual, term, policy);
+    const totalOfPayments = round2(payment*term);
 
     const d = {
-      outcome,
-      summary,
-      reasons,
-      personaId: persona.id,
-      personaName: persona.name,
-      score: persona.score,
-      flags: persona.flags,
+      outcome, summary, reasons,
+      personaId: persona.id, personaName: persona.name, score: persona.score, flags: persona.flags,
       itemDescription: state.purchase.itemDescription,
-      applicant: structuredCloneSafe(state.applicant),
-      ticket,
-      acquisitionFee,
-      tax,
-      processingFee,
-      costBasis,
-      term,
-      residual,
-      payment,
-      totalOfPayments,
-      moneyFactor: POLICY.moneyFactor,
-      approxAprPct: approxAPRFromMF(POLICY.moneyFactor),
+      applicant: JSON.parse(JSON.stringify(state.applicant)),
+      ticket, acquisitionFee, tax, processingFee,
+      costBasis: basis, term, residual, payment, totalOfPayments,
+      moneyFactor: policy.moneyFactor,
+      approxAprPct: approxAPRFromMF(policy.moneyFactor),
       evaluatedAt: new Date().toISOString()
     };
-
     state.decision = d;
     saveLastOffer(d);
     return d;
   }
 
-  function renderTabs(active){
-    return `
-      <div class="tabs" role="tablist" aria-label="Demo navigation">
-        <a class="tab ${active==="application"?"active":""}" href="#/application" role="tab">Application</a>
-        <a class="tab ${active==="offer"?"active":""}" href="#/offer" role="tab">Offer</a>
-        <a class="tab ${active==="dashboard"?"active":""}" href="#/dashboard" role="tab">Dashboard</a>
-        <a class="tab ${active==="contract"?"active":""}" href="#/contract" role="tab">Contract</a>
-      </div>
-    `;
+  function toCSV(rows){
+    const esc=(v)=>{
+      const s=String(v??"");
+      if(s.includes('"')||s.includes(",")||s.includes("\n")) return `"${s.replaceAll('"','""')}"`;
+      return s;
+    };
+    return rows.map(r=>r.map(esc).join(",")).join("\n");
+  }
+  function downloadTextFile(filename, text, mime){
+    const blob=new Blob([text],{type:mime||"text/plain"});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement("a");
+    a.href=url; a.download=filename;
+    document.body.appendChild(a); a.click(); a.remove();
+    URL.revokeObjectURL(url);
+  }
+  function buildBuyoutRows(d){
+    const rows=[["month_elapsed","buyout_amount","percent_of_basis"]];
+    for(let m=0;m<=d.term;m++){
+      const buy=round2(buyoutAtMonth(d.costBasis,d.residual,d.term,m));
+      const pct=d.costBasis>0?round2((buy/d.costBasis)*100):0;
+      rows.push([m,buy,pct]);
+    }
+    return rows;
+  }
+  function buildPaymentRows(d){
+    const rows=[["payment_number","amount_due","due_frequency","notes"]];
+    for(let i=1;i<=d.term;i++) rows.push([i,round2(d.payment),"monthly","Illustrative demo payment schedule"]);
+    return rows;
+  }
+  function renderBuyoutTable(d){
+    let body="";
+    for(let m=0;m<=d.term;m++){
+      const buy=round2(buyoutAtMonth(d.costBasis,d.residual,d.term,m));
+      const pct=d.costBasis>0?round2((buy/d.costBasis)*100):0;
+      body+=`<tr><td class="mono">${m}</td><td class="right mono">${escapeHtml(fmtUSD(buy))}</td><td class="right mono">${escapeHtml(String(pct))}%</td></tr>`;
+    }
+    return `<div class="table-wrap"><table><thead><tr><th>Month elapsed</th><th class="right">Straight-line buyout</th><th class="right">% of basis</th></tr></thead><tbody>${body}</tbody></table></div>`;
+  }
+  function renderPaymentTable(d){
+    let body="";
+    for(let i=1;i<=d.term;i++){
+      body+=`<tr><td class="mono">${i}</td><td class="right mono">${escapeHtml(fmtUSD(d.payment))}</td><td class="mono">Monthly</td></tr>`;
+    }
+    return `<div class="table-wrap"><table><thead><tr><th>Pmt #</th><th class="right">Amount</th><th>Frequency</th></tr></thead><tbody>${body}</tbody></table></div>`;
   }
 
   function renderDashboard(){
     const d = state.decision || evaluate();
-    const badge = badgeForOutcome(d.outcome);
-
-    const buyoutMonth = clamp(Number(state.ui.buyoutMonth || 12), 0, d.term);
-    const buyout = round2(buyoutAtMonth(d.costBasis, d.residual, d.term, buyoutMonth));
+    const b = badgeForOutcome(d.outcome);
+    const month = clamp(Number(state.ui.buyoutMonth||12),0,d.term);
+    const buyout = round2(buyoutAtMonth(d.costBasis,d.residual,d.term,month));
 
     viewEl.innerHTML = `
       <div class="section">
         <h2 style="margin:0 0 6px;">Demo status</h2>
-        <p class="sub" style="margin:0 0 10px;">Snapshot of the scenario, policy controls, and illustrative terms.</p>
-
+        <p class="sub" style="margin:0 0 10px;">Snapshot of scenario, policy values, and illustrative terms.</p>
         <div class="row">
-          <span class="badge ${badge.cls}">${badge.text}</span>
+          <span class="badge ${b.cls}">${b.text}</span>
           <span class="badge">Persona ${mono(d.personaName)}</span>
           <span class="badge">Score ${mono(String(d.score))}</span>
-          <span class="badge">MF ${mono(String(d.moneyFactor))} (~${mono(String(d.approxAprPct))}% APR)</span>
-          ${uiFlags.pitchMode ? `<span class="badge warn">Pitch Mode</span>` : ``}
-          ${uiFlags.regmPlaceholders ? `<span class="badge warn">Reg M placeholders</span>` : ``}
+          <span class="badge">MF ${mono(String(d.moneyFactor))} (~${mono(String(d.approxAprPct))}% APR eq)</span>
         </div>
       </div>
 
@@ -888,23 +425,21 @@
 
       <div class="grid2">
         <div class="card">
-          <h3>Policy controls</h3>
+          <h3>Policy</h3>
           <div class="grid2">
             <div class="field"><label>Minimum score</label><div class="mono">${escapeHtml(String(loadPolicy().minScore))}</div></div>
             <div class="field"><label>Max ticket</label><div class="mono">${escapeHtml(fmtUSD(loadPolicy().maxTicket))}</div></div>
-            <div class="field"><label>Term caps</label><div class="mono">${escapeHtml(loadPolicy().termCaps.map(c => (c.max===Infinity ? "else" : "<="+c.max) + ":" + c.term).join(", "))}</div></div>
-            <div class="field"><label>Residual</label><div class="mono">${escapeHtml(String(Math.round(loadPolicy().residualPct*100)))}% (floor ${escapeHtml(fmtUSD(loadPolicy().residualFloor))})</div></div>
+            <div class="field"><label>Term caps</label><div class="mono">${escapeHtml(loadPolicy().termCaps.map(c => (c.max===Infinity ? "else" : "<="+c.max)+":"+c.term).join(", "))}</div></div>
+            <div class="field"><label>Residual policy</label><div class="mono">${escapeHtml(String(Math.round(loadPolicy().residualPct*100)))}% (floor ${escapeHtml(fmtUSD(loadPolicy().residualFloor))})</div></div>
           </div>
-          <div class="note" style="margin-top:12px;">
-            <strong>Governance note:</strong> Policy values are controlled in the admin console and read here at runtime (demo).
-          </div>
+          <div class="note"><strong>Note:</strong> Policy is controlled in /admin (demo).</div>
         </div>
 
         <div class="card">
           <h3>Transaction</h3>
           <div class="grid2">
             <div class="field"><label>Ticket (item price)</label><div class="mono">${escapeHtml(fmtUSD(d.ticket))}</div></div>
-            <div class="field"><label>Term cap</label><div class="mono">${escapeHtml(String(d.term))} months</div></div>
+            <div class="field"><label>Term</label><div class="mono">${escapeHtml(String(d.term))} months</div></div>
             <div class="field"><label>Cost basis</label><div class="mono">${escapeHtml(fmtUSD(d.costBasis))}</div></div>
             <div class="field"><label>Residual (purchase option)</label><div class="mono">${escapeHtml(fmtUSD(d.residual))}</div></div>
           </div>
@@ -918,13 +453,10 @@
           </div>
 
           <div class="note">
-            <strong>Pricing note (demo):</strong> Payment is computed from straight-line depreciation on cost basis plus an illustrative rent charge using a money factor.
-            This is storyboard math only.
+            <strong>Pricing note:</strong> Payment is storyboard math: straight-line depreciation plus an illustrative rent charge (money factor).
           </div>
         </div>
       </div>
-
-      ${regMChecklistBlock()}
 
       ${renderTabs("dashboard")}
 
@@ -932,23 +464,21 @@
 
       <div class="card">
         <h2 style="margin:0 0 8px;">Early purchase option (illustrative)</h2>
-        <p class="sub" style="margin:0 0 10px;">
-          Methodology: <span class="mono">straight-line remaining capitalized cost</span> from full cost basis down to the residual over the term.
-        </p>
+        <p class="sub" style="margin:0 0 10px;">Straight-line from full cost basis down to residual over the term.</p>
 
         <div class="grid2">
           <div class="field">
             <label>Month elapsed</label>
-            <input id="buyoutMonth" type="number" min="0" max="${d.term}" step="1" value="${buyoutMonth}" />
+            <input id="buyoutMonth" type="number" min="0" max="${d.term}" step="1" value="${month}" />
           </div>
           <div class="field">
-            <label>Early purchase amount at month ${buyoutMonth}</label>
+            <label>Early purchase amount at month ${month}</label>
             <input value="${fmtUSD(buyout)}" disabled />
           </div>
         </div>
 
         <div class="note">
-          <strong>Capitalized cost components:</strong>
+          <strong>Cost basis components:</strong>
           Ticket ${mono(fmtUSD(d.ticket))} • Acquisition fee ${mono(fmtUSD(d.acquisitionFee))} • Tax ${mono(fmtUSD(d.tax))} • Processing ${mono(fmtUSD(d.processingFee))}
         </div>
 
@@ -956,101 +486,74 @@
           <button class="btn" id="btnCSVBuyout">Download buyout schedule (CSV)</button>
           <button class="btn" id="btnCSVPayments">Download payment schedule (CSV)</button>
           <button class="btn" id="btnJSON">Download offer snapshot (JSON)</button>
-          <a class="btn primary" href="#/contract">${uiFlags.pitchMode ? "Contract (Pitch)" : "Preview contract"}</a>
-          <button class="btn danger" id="btnReset">Reset demo</button>
+          <a class="btn primary" href="#/contract">Preview contract</a>
+          <button class="btn" id="btnReset">Reset</button>
         </div>
 
         <div class="hr"></div>
 
-        <h2 style="margin:0 0 8px;">Buyout schedule (straight-line)</h2>
-        <p class="sub" style="margin:0 0 10px;">
-          Straight-line from cost basis to residual over ${d.term} months.
-        </p>
-        ${renderBuyoutScheduleTable(d)}
+        <h2 style="margin:0 0 8px;">Buyout schedule</h2>
+        ${renderBuyoutTable(d)}
 
         <div class="hr"></div>
 
-        <h2 style="margin:0 0 8px;">Payment schedule (illustrative)</h2>
-        <p class="sub" style="margin:0 0 10px;">
-          Fixed monthly payment for the term (illustrative storyboard schedule).
-        </p>
-        ${renderPaymentScheduleTable(d)}
+        <h2 style="margin:0 0 8px;">Payment schedule</h2>
+        ${renderPaymentTable(d)}
       </div>
     `;
 
     document.getElementById("buyoutMonth").addEventListener("input", (e) => {
-      state.ui.buyoutMonth = Number(e.target.value || 0);
+      state.ui.buyoutMonth = Number(e.target.value||0);
       updateUI();
     });
 
     document.getElementById("btnReset").addEventListener("click", () => {
-      state.personaId = "prime";
-      state.purchase.price = 4500;
-      state.purchase.acquisitionFee = 0;
-      state.purchase.tax = 0;
-      state.purchase.processingFee = 0;
-      state.decision = null;
-      state.ui.buyoutMonth = 12;
-      location.hash = "#/dashboard";
-      updateUI();
+      state.personaId="prime";
+      state.purchase.price=4500; state.purchase.acquisitionFee=0; state.purchase.tax=0; state.purchase.processingFee=0;
+      state.decision=null; state.ui.buyoutMonth=12;
+      location.hash="#/dashboard"; updateUI();
     });
 
     document.getElementById("btnCSVBuyout").addEventListener("click", () => {
-      const rows = buildBuyoutScheduleRows(d);
+      const rows = buildBuyoutRows(d);
       downloadTextFile(`flintlock_buyout_schedule_${d.personaId}_${d.term}mo.csv`, toCSV(rows), "text/csv");
     });
 
     document.getElementById("btnCSVPayments").addEventListener("click", () => {
-      const rows = buildPaymentScheduleRows(d);
+      const rows = buildPaymentRows(d);
       downloadTextFile(`flintlock_payment_schedule_${d.personaId}_${d.term}mo.csv`, toCSV(rows), "text/csv");
     });
 
     document.getElementById("btnJSON").addEventListener("click", () => {
       const payload = {
-        demo: true,
-        generatedAt: new Date().toISOString(),
-        pitchMode: uiFlags.pitchMode,
-        regmPlaceholders: uiFlags.regmPlaceholders,
+        demo:true,
+        generatedAt:new Date().toISOString(),
         policy: loadPolicy(),
         decision: d,
-        buyoutSchedule: buildBuyoutScheduleRows(d).slice(1).map(r => ({
-          monthElapsed: r[0],
-          buyoutAmount: r[1],
-          percentOfBasis: r[2]
-        })),
-        paymentSchedule: buildPaymentScheduleRows(d).slice(1).map(r => ({
-          paymentNumber: r[0],
-          amountDue: r[1],
-          frequency: r[2],
-          notes: r[3]
-        }))
+        buyoutSchedule: buildBuyoutRows(d).slice(1).map(r => ({monthElapsed:r[0], buyoutAmount:r[1], percentOfBasis:r[2]})),
+        paymentSchedule: buildPaymentRows(d).slice(1).map(r => ({paymentNumber:r[0], amountDue:r[1], frequency:r[2], notes:r[3]}))
       };
-      downloadTextFile(`flintlock_offer_snapshot_${d.personaId}_${d.term}mo.json`, JSON.stringify(payload, null, 2), "application/json");
+      downloadTextFile(`flintlock_offer_snapshot_${d.personaId}_${d.term}mo.json`, JSON.stringify(payload,null,2), "application/json");
     });
   }
 
   function renderOffer(){
     const d = state.decision || evaluate();
-    const badge = badgeForOutcome(d.outcome);
-
+    const b = badgeForOutcome(d.outcome);
     viewEl.innerHTML = `
       <div class="section">
         <h2 style="margin:0 0 6px;">Offer & disclosures (illustrative)</h2>
-        <p class="sub" style="margin:0;">
-          Demonstration only. Not a quote or contract.
-        </p>
+        <p class="sub" style="margin:0;">Demonstration only. Not a quote or contract.</p>
       </div>
 
       <div class="hr"></div>
 
       <div class="row">
-        <span class="badge ${badge.cls}">${badge.text}</span>
+        <span class="badge ${b.cls}">${b.text}</span>
         <span class="badge">Term ${mono(String(d.term))} mo</span>
         <span class="badge">Payment ${mono(fmtUSD(d.payment))}</span>
         <span class="badge">Residual ${mono(fmtUSD(d.residual))}</span>
-        <span class="badge">MF ${mono(String(d.moneyFactor))} (~${mono(String(d.approxAprPct))}% APR)</span>
-        ${uiFlags.pitchMode ? `<span class="badge warn">Pitch Mode</span>` : ``}
-        ${uiFlags.regmPlaceholders ? `<span class="badge warn">Reg M placeholders</span>` : ``}
+        <span class="badge">MF ${mono(String(d.moneyFactor))} (~${mono(String(d.approxAprPct))}% APR eq)</span>
       </div>
 
       <div class="hr"></div>
@@ -1081,19 +584,13 @@
 
         <div class="note">
           <strong>Disclosure language (demo):</strong>
-          <ul>
-            <li><strong>Acquisition fee</strong> is shown as a capitalized cost component (included in cost basis), not a dealer fee.</li>
-            <li><strong>Early purchase option</strong> is illustrated as straight-line remaining capitalized cost down to residual (see Exhibit B).</li>
-            <li><strong>Money factor</strong> is policy-controlled; APR-equivalent shown is approximate and not a consumer APR disclosure.</li>
-          </ul>
+          Acquisition fee is capitalized into the cost basis. Early purchase option is illustrated as straight-line to residual over term.
         </div>
 
-        ${regMChecklistBlock()}
-
         <div class="row" style="margin-top:12px;">
-          <a class="btn" href="#/application">Back to application</a>
+          <a class="btn" href="#/application">Back</a>
           <a class="btn" href="#/dashboard">Dashboard</a>
-          <a class="btn primary" href="#/contract">${uiFlags.pitchMode ? "Contract (Pitch)" : "Preview contract"}</a>
+          <a class="btn primary" href="#/contract">Preview contract</a>
         </div>
       </div>
 
@@ -1104,260 +601,68 @@
   function renderContract(){
     const d = loadLastOffer() || state.decision || evaluate();
     const policy = loadPolicy();
-    const approved = d.outcome === "APPROVE";
-
     const contractId = `FF-DEMO-${(d.evaluatedAt || new Date().toISOString()).replaceAll(/[^0-9]/g,"").slice(0,14)}`;
     const today = new Date().toISOString().slice(0,10);
     const aprEq = approxAPRFromMF(Number(d.moneyFactor || policy.moneyFactor || 0));
 
-    const buyoutRows = buildBuyoutScheduleRows(d).slice(1);
-    const payRows = buildPaymentScheduleRows(d).slice(1);
-
-    const exhibitA = `
-      <div class="exhibit">
-        <h3>Exhibit A — Payment Schedule (Illustrative)</h3>
-        <p style="margin:6px 0 8px; font-size:12.5px;">
-          ${uiFlags.regmPlaceholders
-            ? "PLACEHOLDER: In production, due dates and payment computation must match final disclosure methodology."
-            : "Fixed monthly payment amount shown for each month of the term (illustrative)."}
-        </p>
-        <div class="table-wrap" style="max-height: 240px; border-color: rgba(0,0,0,0.15);">
-          <table>
-            <thead>
-              <tr>
-                <th>Payment #</th>
-                <th class="right">Amount</th>
-                <th>Frequency</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${payRows.map(r => `
-                <tr>
-                  <td class="mono">${escapeHtml(String(r[0]))}</td>
-                  <td class="right mono">${escapeHtml(fmtUSD(r[1]))}</td>
-                  <td class="mono">${escapeHtml(String(r[2]))}</td>
-                </tr>
-              `).join("")}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    `;
-
-    const exhibitB = `
-      <div class="exhibit">
-        <h3>Exhibit B — Early Purchase Schedule (Illustrative)</h3>
-        <p style="margin:6px 0 8px; font-size:12.5px;">
-          ${uiFlags.regmPlaceholders
-            ? "PLACEHOLDER: Early purchase option availability and method are program-dependent; validate with counsel."
-            : "Straight-line remaining capitalized cost from cost basis to residual over the term (illustrative)."}
-        </p>
-        <div class="table-wrap" style="max-height: 240px; border-color: rgba(0,0,0,0.15);">
-          <table>
-            <thead>
-              <tr>
-                <th>Month elapsed</th>
-                <th class="right">Early purchase amount</th>
-                <th class="right">% of basis</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${buyoutRows.map(r => `
-                <tr>
-                  <td class="mono">${escapeHtml(String(r[0]))}</td>
-                  <td class="right mono">${escapeHtml(fmtUSD(r[1]))}</td>
-                  <td class="right mono">${escapeHtml(String(r[2]))}%</td>
-                </tr>
-              `).join("")}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    `;
-
-    // Exhibit C — 1-page Credit Box Summary
-    const creditBoxText = [
-      `Min score: ${policy.minScore}`,
-      `Max ticket (item price): ${fmtUSD(policy.maxTicket)}`,
-      `Term caps (by ticket): ${policy.termCaps.map(c => (c.max===Infinity ? "else" : "<="+c.max) + " → " + c.term + "mo").join(" | ")}`,
-      `Fraud: route to manual review (demo)`,
-      `Identity mismatch: decline (demo)`,
-    ].join("\n");
-
-    const pricingText = [
-      `Money factor: ${policy.moneyFactor} (≈ ${approxAPRFromMF(policy.moneyFactor)}% APR eq; demo only)`,
-      `Residual policy: ${Math.round(policy.residualPct*100)}% of cost basis (floor ${fmtUSD(policy.residualFloor)})`,
-      `Cost basis components: ticket + acquisition fee + tax + processing`,
-      `Early purchase method: straight-line to residual over term (illustrative)`
-    ].join("\n");
-
-    const decisionTrace = [
-      `Persona: ${d.personaName} (${d.personaId})`,
-      `Score: ${d.score}`,
-      `Flags: fraud=${d.flags?.fraud ? "true" : "false"}, idMismatch=${d.flags?.idMismatch ? "true" : "false"}`,
-      `Outcome: ${d.outcome}`,
-      `Summary: ${d.summary}`,
-      ...(Array.isArray(d.reasons) && d.reasons.length ? [`Reasons: ${d.reasons.join(" | ")}`] : [])
-    ].join("\n");
-
-    const exhibitC = `
-      <div class="exhibit">
-        <h3>Exhibit C — Credit Box Summary (1-page)</h3>
-        <p style="margin:6px 0 10px; font-size:12.5px;">
-          ${uiFlags.pitchMode
-            ? "Investor-facing summary of policy controls, pricing levers, and decision trace for this offer snapshot (demo)."
-            : "Program summary of credit policy and pricing controls (demo)."}
-        </p>
-
-        <div class="onepage">
-          <div class="meta">
-            <span class="k">Policy snapshot</span> ${escapeHtml(policy ? "loaded from admin" : "default")} &nbsp;•&nbsp;
-            <span class="k">Offer snapshot</span> ${escapeHtml(d.evaluatedAt || "n/a")}
-          </div>
-
-          <div class="cols">
-            <div class="blk">
-              <div class="t">Credit Box</div>
-              <div class="v">${escapeHtml(creditBoxText)}</div>
-            </div>
-            <div class="blk">
-              <div class="t">Pricing Controls</div>
-              <div class="v">${escapeHtml(pricingText)}</div>
-            </div>
-
-            ${uiFlags.pitchMode ? `
-              <div class="blk" style="grid-column: 1 / -1;">
-                <div class="t">Decision Trace (this snapshot)</div>
-                <div class="v">${escapeHtml(decisionTrace)}</div>
-              </div>
-            ` : ``}
-
-            ${uiFlags.regmPlaceholders ? `
-              <div class="blk" style="grid-column: 1 / -1;">
-                <div class="t">Reg M placeholders (demo)</div>
-                <div class="v">${escapeHtml(
-                  "PLACEHOLDER ONLY:\n" +
-                  "- Final consumer disclosures and contract terms must be reviewed by counsel.\n" +
-                  "- Payment methodology, totals, and any APR-equivalent references must align to approved disclosure rules.\n" +
-                  "- Early purchase option availability and method are program-dependent."
-                )}</div>
-              </div>
-            ` : ``}
-          </div>
-        </div>
-      </div>
-    `;
-
-    const pitchIntro = uiFlags.pitchMode ? `
-      <p style="margin: 8px 0; font-size: 12.5px;">
-        <strong>Pitch Mode:</strong> Includes diligence-friendly exhibits (A/B/C) and additional governance narrative. Synthetic environment.
-      </p>
-    ` : ``;
-
-    const regMPara = uiFlags.regmPlaceholders ? `
-      <p style="margin: 8px 0; font-size: 12.5px;">
-        <strong>Reg M placeholders (demo):</strong> Certain disclosure concepts are referenced as placeholders only.
-        Final agreement language, calculations, and disclosures must be confirmed by counsel.
-      </p>
-    ` : ``;
-
     viewEl.innerHTML = `
-      <div class="card print-card">
+      <div class="card">
         <div class="row" style="justify-content:space-between;">
           <div>
-            <h2 style="margin:0 0 6px;">Contract preview ${uiFlags.pitchMode ? "(Pitch Mode)" : ""}</h2>
-            <p class="sub" style="margin:0;">Printable preview generated from the latest offer snapshot.</p>
+            <h2 style="margin:0 0 6px;">Contract preview (demo)</h2>
+            <p class="sub" style="margin:0;">Not legal advice. Not binding.</p>
           </div>
           <div class="row">
             <button class="btn" id="btnPrint">Print / Save as PDF</button>
-            <button class="btn" id="btnDownloadContractHTML">Download HTML</button>
-            <button class="btn" id="btnDownloadExhibitsCSV">Download exhibits (CSV)</button>
             <a class="btn" href="#/offer">Back to offer</a>
           </div>
         </div>
 
         <div class="note">
-          <strong>Important:</strong> Demo contract preview for pitch/testing only. Not legal advice or a binding agreement.
+          <strong>Important:</strong> Demo artifact for testing only.
         </div>
 
         <div class="hr"></div>
 
-        <div class="contract-wrap">
-          <div class="contract-paper" id="contractPaper">
-            <h2>Flintlock Financing — Consumer Lease Agreement (Demo Preview)</h2>
-            <p>
-              <span class="k">Contract ID</span> ${escapeHtml(contractId)} &nbsp;•&nbsp;
-              <span class="k">Date</span> ${escapeHtml(today)} &nbsp;•&nbsp;
-              <span class="k">Environment</span> SYNTHETIC DEMO
-            </p>
+        <div style="background: rgba(255,255,255,0.96); color: rgba(0,0,0,0.88); border-radius: 14px; padding: 18px; border: 1px solid rgba(0,0,0,0.10);">
+          <h2 style="margin:0 0 8px; font-family: ui-serif, Georgia, 'Times New Roman', Times, serif;">Flintlock Financing — Consumer Lease Agreement (Demo Preview)</h2>
+          <p style="margin: 8px 0; font-size: 12.5px;">
+            <span class="mono" style="background: rgba(0,0,0,0.06); padding: 2px 6px; border-radius: 8px; border: 1px solid rgba(0,0,0,0.10);">Contract ID</span>
+            ${escapeHtml(contractId)}
+            &nbsp;•&nbsp;
+            <span class="mono" style="background: rgba(0,0,0,0.06); padding: 2px 6px; border-radius: 8px; border: 1px solid rgba(0,0,0,0.10);">Date</span>
+            ${escapeHtml(today)}
+            &nbsp;•&nbsp;
+            <span class="mono" style="background: rgba(0,0,0,0.06); padding: 2px 6px; border-radius: 8px; border: 1px solid rgba(0,0,0,0.10);">Environment</span>
+            SYNTHETIC DEMO
+          </p>
 
-            ${pitchIntro}
-            ${regMPara}
+          <h3 style="margin: 14px 0 8px; font-family: ui-serif, Georgia, 'Times New Roman', Times, serif;">1. Parties</h3>
+          <p style="margin: 8px 0; font-size: 12.5px;">Lessor: Flintlock Financing. Lessee: ${escapeHtml(d.applicant?.name || "Applicant Name")}.</p>
 
-            ${approved ? "" : `
-              <p style="color:#a94442; font-weight:700;">
-                NOTE: Not approved under current policy. Preview shown for demo only.
-              </p>
-            `}
+          <h3 style="margin: 14px 0 8px; font-family: ui-serif, Georgia, 'Times New Roman', Times, serif;">2. Leased Property</h3>
+          <p style="margin: 8px 0; font-size: 12.5px;">Description: ${escapeHtml(d.itemDescription || "Item")}.</p>
 
-            <h3>1. Parties</h3>
-            <p>
-              This Lease Agreement (“Agreement”) is between <strong>Flintlock Financing</strong> (“Lessor”) and
-              <strong>${escapeHtml(d.applicant?.name || "Applicant Name")}</strong> (“Lessee”).
-            </p>
+          <h3 style="margin: 14px 0 8px; font-family: ui-serif, Georgia, 'Times New Roman', Times, serif;">3. Capitalized Cost (Cost Basis)</h3>
+          <p style="margin: 8px 0; font-size: 12.5px;">
+            Ticket ${escapeHtml(fmtUSD(d.ticket))} • Acquisition fee ${escapeHtml(fmtUSD(d.acquisitionFee))} • Tax ${escapeHtml(fmtUSD(d.tax))} • Processing ${escapeHtml(fmtUSD(d.processingFee))}
+            <br/><strong>Total cost basis:</strong> ${escapeHtml(fmtUSD(d.costBasis))}
+          </p>
 
-            <h3>2. Leased Property</h3>
-            <p>
-              Description: <strong>${escapeHtml(d.itemDescription || "Item")}</strong>.
-            </p>
+          <h3 style="margin: 14px 0 8px; font-family: ui-serif, Georgia, 'Times New Roman', Times, serif;">4. Term and Payments (Illustrative)</h3>
+          <p style="margin: 8px 0; font-size: 12.5px;">
+            Term: ${escapeHtml(String(d.term))} months • Monthly payment: ${escapeHtml(fmtUSD(d.payment))} • Total of payments: ${escapeHtml(fmtUSD(d.totalOfPayments))}
+            <br/>Money factor: ${escapeHtml(String(d.moneyFactor))} (≈ ${escapeHtml(String(aprEq))}% APR eq; demo only)
+          </p>
 
-            <h3>3. Capitalized Cost (Cost Basis)</h3>
-            <div class="contract-grid">
-              <div class="contract-box"><div class="lbl">Ticket (Item Price)</div><div class="val">${escapeHtml(fmtUSD(d.ticket))}</div></div>
-              <div class="contract-box"><div class="lbl">Acquisition Fee (Capitalized)</div><div class="val">${escapeHtml(fmtUSD(d.acquisitionFee))}</div></div>
-              <div class="contract-box"><div class="lbl">Sales Tax (Capitalized)</div><div class="val">${escapeHtml(fmtUSD(d.tax))}</div></div>
-              <div class="contract-box"><div class="lbl">Processing Fee (Capitalized)</div><div class="val">${escapeHtml(fmtUSD(d.processingFee))}</div></div>
-              <div class="contract-box" style="grid-column: 1 / -1;">
-                <div class="lbl"><strong>Total Cost Basis</strong></div>
-                <div class="val"><strong>${escapeHtml(fmtUSD(d.costBasis))}</strong></div>
-              </div>
-            </div>
+          <h3 style="margin: 14px 0 8px; font-family: ui-serif, Georgia, 'Times New Roman', Times, serif;">5. Purchase Option (Residual)</h3>
+          <p style="margin: 8px 0; font-size: 12.5px;">End-of-term purchase option (illustrative): ${escapeHtml(fmtUSD(d.residual))}.</p>
 
-            <h3>4. Term and Payments (Illustrative)</h3>
-            <div class="contract-grid">
-              <div class="contract-box"><div class="lbl">Lease Term</div><div class="val">${escapeHtml(String(d.term))} months</div></div>
-              <div class="contract-box"><div class="lbl">Monthly Payment (Illustrative)</div><div class="val">${escapeHtml(fmtUSD(d.payment))}</div></div>
-              <div class="contract-box"><div class="lbl">Total of Payments (Illustrative)</div><div class="val">${escapeHtml(fmtUSD(d.totalOfPayments))}</div></div>
-              <div class="contract-box"><div class="lbl">Money Factor</div><div class="val">${escapeHtml(String(d.moneyFactor))} (≈ ${escapeHtml(String(aprEq))}% APR eq)</div></div>
-            </div>
+          <h3 style="margin: 14px 0 8px; font-family: ui-serif, Georgia, 'Times New Roman', Times, serif;">6. Early Purchase Option (Illustrative)</h3>
+          <p style="margin: 8px 0; font-size: 12.5px;">Straight-line from cost basis down to residual over the term (illustrative).</p>
 
-            <h3>5. Purchase Option (Residual)</h3>
-            <p>End-of-term purchase option (illustrative): <span class="k">${escapeHtml(fmtUSD(d.residual))}</span>.</p>
-
-            <h3>6. Early Purchase Option (Illustrative)</h3>
-            <p>Illustrative method: straight-line remaining capitalized cost to residual over term. See Exhibit B.</p>
-
-            ${uiFlags.pitchMode ? `
-              <h3>7. Audit & Governance (Pitch Mode — Demo)</h3>
-              <p>
-                This demo illustrates policy-governed underwriting, policy-controlled pricing, and immutable offer snapshots used to generate contract artifacts.
-                In production, events would be written to an audit ledger with role-based access controls.
-              </p>
-            ` : ``}
-
-            <h3>${uiFlags.pitchMode ? "8" : "7"}. Signatures (Placeholder)</h3>
-            <div class="sig-grid">
-              <div class="sig"><div class="line"></div><small>Lessee: ${escapeHtml(d.applicant?.name || "Applicant Name")} • Date: __________</small></div>
-              <div class="sig"><div class="line"></div><small>Lessor: Flintlock Financing • Date: __________</small></div>
-            </div>
-
-            ${exhibitA}
-            ${exhibitB}
-            ${exhibitC}
-
-            <div class="contract-foot">
-              Demo artifact. Not legal advice. Contract ID ${escapeHtml(contractId)}.
-            </div>
+          <div style="margin-top: 12px; padding-top: 10px; border-top: 1px solid rgba(0,0,0,0.15); font-size: 11px; color: rgba(0,0,0,0.60);">
+            Demo artifact. Not legal advice. Contract ID ${escapeHtml(contractId)}.
           </div>
         </div>
 
@@ -1366,47 +671,16 @@
     `;
 
     document.getElementById("btnPrint").addEventListener("click", () => window.print());
-
-    document.getElementById("btnDownloadContractHTML").addEventListener("click", () => {
-      const paper = document.getElementById("contractPaper");
-      const html = `<!doctype html><html><head><meta charset="utf-8"><title>Contract Preview ${escapeHtml(contractId)}</title></head><body>${paper.outerHTML}</body></html>`;
-      downloadTextFile(`flintlock_contract_preview_${contractId}.html`, html, "text/html");
-    });
-
-    document.getElementById("btnDownloadExhibitsCSV").addEventListener("click", () => {
-      const buyoutCSV = toCSV(buildBuyoutScheduleRows(d));
-      const payCSV = toCSV(buildPaymentScheduleRows(d));
-      const policyCSV = toCSV([
-        ["field","value"],
-        ["min_score", policy.minScore],
-        ["max_ticket", policy.maxTicket],
-        ["term_caps", policy.termCaps.map(c => (c.max===Infinity ? "else" : "<="+c.max) + "->" + c.term + "mo").join(" | ")],
-        ["money_factor", policy.moneyFactor],
-        ["residual_pct", policy.residualPct],
-        ["residual_floor", policy.residualFloor]
-      ]);
-      const bundle = [
-        "### Exhibit C — Credit Box Summary (Policy Snapshot CSV)",
-        policyCSV,
-        "",
-        "### Exhibit A — Payment Schedule (CSV)",
-        payCSV,
-        "",
-        "### Exhibit B — Early Purchase Schedule (CSV)",
-        buyoutCSV
-      ].join("\n");
-      downloadTextFile(`flintlock_exhibits_${contractId}.csv`, bundle, "text/csv");
-    });
   }
 
   function renderApplication(){
-    POLICY = loadPolicy();
+    const policy = loadPolicy();
     const persona = activePersona();
 
     viewEl.innerHTML = `
       <div class="section">
         <h2 style="margin:0 0 6px;">Application (synthetic)</h2>
-        <p class="sub" style="margin:0;">Focus-safe inputs: page does not re-render on every keystroke.</p>
+        <p class="sub" style="margin:0;">Inputs are synthetic. No credit pull.</p>
       </div>
 
       <div class="hr"></div>
@@ -1417,9 +691,9 @@
           <div class="field">
             <label>Persona</label>
             <select id="persona">
-              ${PERSONAS.map(p => `
-                <option value="${escapeHtml(p.id)}" ${p.id===state.personaId ? "selected" : ""}>
-                  ${escapeHtml(p.name)} (score ${p.score}${p.flags.fraud ? ", fraud" : ""}${p.flags.idMismatch ? ", id mismatch" : ""})
+              ${PERSONAS.map(p=>`
+                <option value="${escapeHtml(p.id)}" ${p.id===state.personaId?"selected":""}>
+                  ${escapeHtml(p.name)} (score ${p.score}${p.flags.fraud?", fraud":""}${p.flags.idMismatch?", id mismatch":""})
                 </option>
               `).join("")}
             </select>
@@ -1430,166 +704,50 @@
           </div>
         </div>
 
-        <div class="note">
-          Flags: ${mono("fraud=" + (persona.flags.fraud ? "true" : "false"))}, ${mono("idMismatch=" + (persona.flags.idMismatch ? "true" : "false"))}
-        </div>
-
-        <div class="hr"></div>
-
-        <h3>Applicant (synthetic)</h3>
-        <div class="grid2">
-          <div class="field"><label>Name</label><input id="name" value="${escapeHtml(state.applicant.name)}"/></div>
-          <div class="field"><label>Email</label><input id="email" value="${escapeHtml(state.applicant.email)}"/></div>
-          <div class="field"><label>Phone</label><input id="phone" value="${escapeHtml(state.applicant.phone)}"/></div>
-          <div class="field"><label>Address</label><input id="address1" value="${escapeHtml(state.applicant.address1)}"/></div>
-          <div class="field"><label>City</label><input id="city" value="${escapeHtml(state.applicant.city)}"/></div>
-          <div class="field"><label>State</label><input id="st" value="${escapeHtml(state.applicant.state)}"/></div>
-          <div class="field"><label>Postal</label><input id="postal" value="${escapeHtml(state.applicant.postal)}"/></div>
-        </div>
-
         <div class="hr"></div>
 
         <h3>Item / transaction</h3>
         <div class="grid2">
-          <div class="field">
-            <label>Item description</label>
-            <input id="itemDescription" value="${escapeHtml(state.purchase.itemDescription)}" />
-          </div>
-          <div class="field">
-            <label>Item price (ticket) (max ${fmtUSD(POLICY.maxTicket)})</label>
-            <input id="price" type="number" min="1" max="${POLICY.maxTicket}" step="1" value="${Number(state.purchase.price||0)}" />
-          </div>
-
-          <div class="field">
-            <label>Acquisition fee (capitalized)</label>
-            <input id="acquisitionFee" type="number" min="0" step="1" value="${Number(state.purchase.acquisitionFee||0)}" />
-          </div>
-          <div class="field">
-            <label>Sales tax (capitalized)</label>
-            <input id="tax" type="number" min="0" step="1" value="${Number(state.purchase.tax||0)}" />
-          </div>
-
-          <div class="field">
-            <label>Processing fee (capitalized)</label>
-            <input id="processingFee" type="number" min="0" step="1" value="${Number(state.purchase.processingFee||0)}" />
-          </div>
-
-          <div class="field">
-            <label>Total cost basis</label>
-            <input id="costBasisDisplay" value="${fmtUSD(costBasis())}" disabled />
-          </div>
+          <div class="field"><label>Item description</label><input id="itemDescription" value="${escapeHtml(state.purchase.itemDescription)}"/></div>
+          <div class="field"><label>Item price (ticket) (max ${fmtUSD(policy.maxTicket)})</label><input id="price" type="number" min="1" max="${policy.maxTicket}" step="1" value="${Number(state.purchase.price||0)}"/></div>
+          <div class="field"><label>Acquisition fee (capitalized)</label><input id="acq" type="number" min="0" step="1" value="${Number(state.purchase.acquisitionFee||0)}"/></div>
+          <div class="field"><label>Sales tax (capitalized)</label><input id="tax" type="number" min="0" step="1" value="${Number(state.purchase.tax||0)}"/></div>
+          <div class="field"><label>Processing fee (capitalized)</label><input id="proc" type="number" min="0" step="1" value="${Number(state.purchase.processingFee||0)}"/></div>
+          <div class="field"><label>Total cost basis</label><input id="basis" value="${fmtUSD(costBasis())}" disabled/></div>
         </div>
 
-        ${regMChecklistBlock()}
-
-        <div class="row" style="margin-top: 12px;">
+        <div class="row" style="margin-top:12px;">
           <button class="btn primary" id="btnSubmit">Submit (demo)</button>
-          <a class="btn" href="#/dashboard">Skip to dashboard</a>
+          <a class="btn" href="#/dashboard">Dashboard</a>
         </div>
       </div>
 
       ${renderTabs("application")}
     `;
 
-    document.getElementById("persona").addEventListener("change", (e)=> {
-      state.personaId = e.target.value;
-      state.decision = null;
-      updateUI();
-    });
+    const updateBasis = () => { const el=document.getElementById("basis"); if(el) el.value = fmtUSD(costBasis()); };
 
-    function updateCostBasisDisplay(){
-      const el = document.getElementById("costBasisDisplay");
-      if(el) el.value = fmtUSD(costBasis());
-    }
+    document.getElementById("persona").addEventListener("change",(e)=>{ state.personaId=e.target.value; state.decision=null; updateUI(); });
+    document.getElementById("itemDescription").addEventListener("input",(e)=>{ state.purchase.itemDescription=e.target.value; state.decision=null; });
+    document.getElementById("price").addEventListener("input",(e)=>{ state.purchase.price=Number(e.target.value||0); state.decision=null; updateBasis(); });
+    document.getElementById("acq").addEventListener("input",(e)=>{ state.purchase.acquisitionFee=Number(e.target.value||0); state.decision=null; updateBasis(); });
+    document.getElementById("tax").addEventListener("input",(e)=>{ state.purchase.tax=Number(e.target.value||0); state.decision=null; updateBasis(); });
+    document.getElementById("proc").addEventListener("input",(e)=>{ state.purchase.processingFee=Number(e.target.value||0); state.decision=null; updateBasis(); });
 
-    const bind = (id, path, parser) => {
-      const el = document.getElementById(id);
-      el.addEventListener("input", (e)=> {
-        const v = parser ? parser(e.target.value) : e.target.value;
-        setPath(path, v);
-        state.decision = null;
-        if(path.startsWith("purchase.")) updateCostBasisDisplay();
-      });
-    };
-
-    bind("name", "applicant.name");
-    bind("email", "applicant.email");
-    bind("phone", "applicant.phone");
-    bind("address1", "applicant.address1");
-    bind("city", "applicant.city");
-    bind("st", "applicant.state");
-    bind("postal", "applicant.postal");
-    bind("itemDescription", "purchase.itemDescription");
-    bind("price", "purchase.price", (v)=>Number(v||0));
-    bind("acquisitionFee", "purchase.acquisitionFee", (v)=>Number(v||0));
-    bind("tax", "purchase.tax", (v)=>Number(v||0));
-    bind("processingFee", "purchase.processingFee", (v)=>Number(v||0));
-
-    document.getElementById("btnSubmit").addEventListener("click", () => {
-      const d = evaluate();
-      location.hash = (d.outcome === "APPROVE") ? "#/offer" : "#/dashboard";
-      updateUI();
-    });
-  }
-
-  function setPath(path, value){
-    const parts = path.split(".");
-    let obj = state;
-    for(let i=0;i<parts.length-1;i++) obj = obj[parts[i]];
-    obj[parts[parts.length-1]] = value;
-  }
-
-  function syncTopbarToggles(){
-    const pitch = document.getElementById("pitchSwitch");
-    const regm = document.getElementById("regmSwitch");
-
-    if(pitch){
-      pitch.classList.toggle("on", !!uiFlags.pitchMode);
-      pitch.setAttribute("aria-checked", uiFlags.pitchMode ? "true" : "false");
-      if(!pitch.dataset.bound){
-        pitch.dataset.bound = "1";
-        pitch.addEventListener("click", () => {
-          uiFlags.pitchMode = !uiFlags.pitchMode;
-          saveBool(PITCH_MODE_KEY, uiFlags.pitchMode);
-          updateUI(); // instant render + instant toggle visual update
-        });
-      }
-    }
-
-    if(regm){
-      regm.classList.toggle("on", !!uiFlags.regmPlaceholders);
-      regm.setAttribute("aria-checked", uiFlags.regmPlaceholders ? "true" : "false");
-      if(!regm.dataset.bound){
-        regm.dataset.bound = "1";
-        regm.addEventListener("click", () => {
-          uiFlags.regmPlaceholders = !uiFlags.regmPlaceholders;
-          saveBool(REGM_MODE_KEY, uiFlags.regmPlaceholders);
-          updateUI(); // instant
-        });
-      }
-    }
+    document.getElementById("btnSubmit").addEventListener("click",()=>{ const d=evaluate(); location.hash = (d.outcome==="APPROVE") ? "#/offer" : "#/dashboard"; updateUI(); });
   }
 
   function renderAll(){
-    POLICY = loadPolicy();
-    const r = route();
-    if(r === "application") return renderApplication();
-    if(r === "offer") return renderOffer();
-    if(r === "contract") return renderContract();
+    const r=route();
+    if(r==="application") return renderApplication();
+    if(r==="offer") return renderOffer();
+    if(r==="contract") return renderContract();
     return renderDashboard();
   }
 
-  function updateUI(){
-    // Always keep topbar toggles visually correct, then render the current route.
-    syncTopbarToggles();
-    renderAll();
-    // Render may have rebuilt view content, but topbar is static; still ensure toggles remain correct.
-    syncTopbarToggles();
-  }
-
+  function updateUI(){ renderAll(); }
   window.addEventListener("hashchange", updateUI);
-
-  if(!location.hash) location.hash = "#/dashboard";
+  if(!location.hash) location.hash="#/dashboard";
   updateUI();
 })();
 </script>
