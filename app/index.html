@@ -123,6 +123,35 @@
     }
     .btn.small{ padding: 8px 10px; font-size: 12px; border-radius: 10px; }
 
+    .toggle{
+      display:inline-flex; align-items:center; gap:10px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.04);
+      user-select:none;
+    }
+    .switch{
+      width: 42px; height: 24px; border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.20);
+      background: rgba(0,0,0,0.25);
+      position: relative;
+      cursor:pointer;
+    }
+    .switch::after{
+      content:"";
+      width: 18px; height: 18px; border-radius: 999px;
+      position:absolute; top: 2px; left: 2px;
+      background: rgba(255,255,255,0.85);
+      transition: left 0.18s ease, background 0.18s ease;
+    }
+    .switch.on{
+      background: rgba(197,123,42,0.22);
+      border-color: rgba(197,123,42,0.35);
+    }
+    .switch.on::after{ left: 20px; background: rgba(226,164,93,0.95); }
+    .toggle .lbl{ font-size:12px; color: rgba(255,255,255,0.80); }
+
     .card{
       background: linear-gradient(180deg, var(--panel) 0%, var(--panel2) 100%);
       border: 1px solid var(--line);
@@ -321,6 +350,26 @@
       font-size: 11px;
       color: rgba(0,0,0,0.60);
     }
+    .exhibit{
+      margin-top: 10px;
+      border-top: 1px dashed rgba(0,0,0,0.20);
+      padding-top: 10px;
+    }
+    .contract-paper table{
+      width:100%;
+      border-collapse: collapse;
+      font-size: 11.5px;
+    }
+    .contract-paper th, .contract-paper td{
+      padding: 8px;
+      border-bottom: 1px solid rgba(0,0,0,0.12);
+    }
+    .contract-paper th{
+      background: rgba(0,0,0,0.04);
+      color: rgba(0,0,0,0.78);
+      position: sticky;
+      top: 0;
+    }
 
     @media (max-width: 980px){
       .grid2, .grid3{grid-template-columns: 1fr}
@@ -356,6 +405,17 @@
 
       <div class="row">
         <span class="pill"><span class="spark" aria-hidden="true"></span><span>SYNTHETIC DEMO / NO CREDIT PULLS</span></span>
+
+        <div class="toggle" title="Pitch Mode surfaces investor-facing artifacts (demo).">
+          <div class="switch" id="pitchSwitch" role="switch" aria-checked="false"></div>
+          <div class="lbl">Pitch Mode</div>
+        </div>
+
+        <div class="toggle" title="Show Reg M placeholders (demo checklist + placeholder language).">
+          <div class="switch" id="regmSwitch" role="switch" aria-checked="false"></div>
+          <div class="lbl">Reg M placeholders</div>
+        </div>
+
         <a class="btn" href="/admin" target="_blank" rel="noopener">Admin console</a>
         <a class="btn primary" href="#/application">Start application</a>
       </div>
@@ -397,6 +457,8 @@
 
   const ADMIN_POLICY_KEY = "flintlock_demo_policy_v1";
   const LAST_OFFER_KEY   = "flintlock_demo_last_offer_v1";
+  const PITCH_MODE_KEY   = "flintlock_demo_pitch_mode_v1";
+  const REGM_MODE_KEY    = "flintlock_demo_regm_mode_v1";
 
   function structuredCloneSafe(o){ return JSON.parse(JSON.stringify(o)); }
 
@@ -439,7 +501,24 @@
     }
   }
 
+  function loadBool(key, def=false){
+    try{
+      const raw = localStorage.getItem(key);
+      if(raw === null || raw === undefined) return def;
+      return raw === "true";
+    }catch(e){ return def; }
+  }
+  function saveBool(key, val){
+    try{ localStorage.setItem(key, val ? "true" : "false"); }catch(e){}
+  }
+
   let POLICY = loadPolicy();
+
+  // Pitch / Reg M toggles
+  const uiFlags = {
+    pitchMode: loadBool(PITCH_MODE_KEY, false),
+    regmPlaceholders: loadBool(REGM_MODE_KEY, false)
+  };
 
   // -----------------------------
   // Personas (synthetic)
@@ -585,6 +664,14 @@
     return rows;
   }
 
+  function buildPaymentScheduleRows(d){
+    const rows = [["payment_number","amount_due","due_frequency","notes"]];
+    for(let i = 1; i <= d.term; i++){
+      rows.push([i, round2(d.payment), "monthly", "Illustrative demo payment schedule"]);
+    }
+    return rows;
+  }
+
   function renderBuyoutScheduleTable(d){
     let rows = "";
     for(let m = 0; m <= d.term; m++){
@@ -610,6 +697,54 @@
           </thead>
           <tbody>${rows}</tbody>
         </table>
+      </div>
+    `;
+  }
+
+  function renderPaymentScheduleTable(d){
+    let rows = "";
+    for(let i = 1; i <= d.term; i++){
+      rows += `
+        <tr>
+          <td class="mono">${i}</td>
+          <td class="right mono">${escapeHtml(fmtUSD(d.payment))}</td>
+          <td class="mono">Monthly</td>
+        </tr>
+      `;
+    }
+    return `
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Pmt #</th>
+              <th class="right">Amount</th>
+              <th>Frequency</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+    `;
+  }
+
+  function regMChecklistBlock(){
+    if(!uiFlags.regmPlaceholders) return "";
+    return `
+      <div class="note">
+        <strong>Reg M placeholders (demo checklist):</strong>
+        <ul>
+          <li><strong>Lease term</strong> shown (months) — ensure matches contract & disclosures.</li>
+          <li><strong>Total of payments</strong> shown (illustrative) — production disclosure logic may differ.</li>
+          <li><strong>Capitalized cost</strong> components itemized (ticket + acquisition fee + tax + processing).</li>
+          <li><strong>Purchase option / residual</strong> disclosed as end-of-term option price (if offered).</li>
+          <li><strong>Early purchase option</strong> method described (straight-line) + schedule exhibit (if offered).</li>
+          <li><strong>Fees</strong> labeled as acquisition fee (capitalized), not dealer fee (demo posture).</li>
+          <li><strong>Advertising / lead copy</strong> must avoid APR claims unless computed under approved methodology.</li>
+        </ul>
+        <div style="margin-top:8px;">
+          <strong>Note:</strong> These are placeholders only. Final Reg M treatment and disclosure format should be validated by counsel.
+        </div>
       </div>
     `;
   }
@@ -699,7 +834,7 @@
     };
 
     state.decision = d;
-    saveLastOffer(d); // keep stable snapshot for contract preview
+    saveLastOffer(d);
     return d;
   }
 
@@ -734,6 +869,8 @@
           <span class="badge">Persona ${mono(d.personaName)}</span>
           <span class="badge">Score ${mono(String(d.score))}</span>
           <span class="badge">MF ${mono(String(d.moneyFactor))} (~${mono(String(d.approxAprPct))}% APR)</span>
+          ${uiFlags.pitchMode ? `<span class="badge warn">Pitch Mode</span>` : ``}
+          ${uiFlags.regmPlaceholders ? `<span class="badge warn">Reg M placeholders</span>` : ``}
         </div>
       </div>
 
@@ -777,6 +914,8 @@
         </div>
       </div>
 
+      ${regMChecklistBlock()}
+
       ${renderTabs("dashboard")}
 
       <div class="hr"></div>
@@ -804,9 +943,10 @@
         </div>
 
         <div class="row" style="margin-top:12px;">
-          <button class="btn" id="btnCSV">Download buyout schedule (CSV)</button>
+          <button class="btn" id="btnCSVBuyout">Download buyout schedule (CSV)</button>
+          <button class="btn" id="btnCSVPayments">Download payment schedule (CSV)</button>
           <button class="btn" id="btnJSON">Download offer snapshot (JSON)</button>
-          <a class="btn primary" href="#/contract">Preview contract</a>
+          <a class="btn primary" href="#/contract">${uiFlags.pitchMode ? "Contract (Pitch)" : "Preview contract"}</a>
           <button class="btn danger" id="btnReset">Reset demo</button>
         </div>
 
@@ -818,6 +958,15 @@
         </p>
 
         ${renderBuyoutScheduleTable(d)}
+
+        <div class="hr"></div>
+
+        <h2 style="margin:0 0 8px;">Payment schedule (illustrative)</h2>
+        <p class="sub" style="margin:0 0 10px;">
+          Fixed monthly payment for the term (illustrative storyboard schedule).
+        </p>
+
+        ${renderPaymentScheduleTable(d)}
       </div>
 
       <div class="note">
@@ -843,11 +992,17 @@
       renderAll();
     });
 
-    document.getElementById("btnCSV").addEventListener("click", () => {
+    document.getElementById("btnCSVBuyout").addEventListener("click", () => {
       const rows = buildBuyoutScheduleRows(d);
       const csv = toCSV(rows);
-      const safePersona = d.personaId.replaceAll(/[^a-z0-9_-]/gi,"");
-      const filename = `flintlock_buyout_schedule_${safePersona}_${d.term}mo.csv`;
+      const filename = `flintlock_buyout_schedule_${d.personaId}_${d.term}mo.csv`;
+      downloadTextFile(filename, csv, "text/csv");
+    });
+
+    document.getElementById("btnCSVPayments").addEventListener("click", () => {
+      const rows = buildPaymentScheduleRows(d);
+      const csv = toCSV(rows);
+      const filename = `flintlock_payment_schedule_${d.personaId}_${d.term}mo.csv`;
       downloadTextFile(filename, csv, "text/csv");
     });
 
@@ -855,12 +1010,20 @@
       const payload = {
         demo: true,
         generatedAt: new Date().toISOString(),
+        pitchMode: uiFlags.pitchMode,
+        regmPlaceholders: uiFlags.regmPlaceholders,
         policy: loadPolicy(),
         decision: d,
         buyoutSchedule: buildBuyoutScheduleRows(d).slice(1).map(r => ({
           monthElapsed: r[0],
           buyoutAmount: r[1],
           percentOfBasis: r[2]
+        })),
+        paymentSchedule: buildPaymentScheduleRows(d).slice(1).map(r => ({
+          paymentNumber: r[0],
+          amountDue: r[1],
+          frequency: r[2],
+          notes: r[3]
         }))
       };
       const filename = `flintlock_offer_snapshot_${d.personaId}_${d.term}mo.json`;
@@ -888,6 +1051,8 @@
         <span class="badge">Payment ${mono(fmtUSD(d.payment))}</span>
         <span class="badge">Residual ${mono(fmtUSD(d.residual))}</span>
         <span class="badge">MF ${mono(String(d.moneyFactor))} (~${mono(String(d.approxAprPct))}% APR)</span>
+        ${uiFlags.pitchMode ? `<span class="badge warn">Pitch Mode</span>` : ``}
+        ${uiFlags.regmPlaceholders ? `<span class="badge warn">Reg M placeholders</span>` : ``}
       </div>
 
       <div class="hr"></div>
@@ -934,10 +1099,12 @@
           </ul>
         </div>
 
+        ${regMChecklistBlock()}
+
         <div class="row" style="margin-top:12px;">
           <a class="btn" href="#/application">Back to application</a>
           <a class="btn" href="#/dashboard">Dashboard</a>
-          <a class="btn primary" href="#/contract">Preview contract</a>
+          <a class="btn primary" href="#/contract">${uiFlags.pitchMode ? "Contract (Pitch)" : "Preview contract"}</a>
         </div>
       </div>
 
@@ -949,53 +1116,104 @@
     // Use last offer snapshot to keep contract stable
     const d = loadLastOffer() || state.decision || evaluate();
     const policy = loadPolicy();
-
-    // If not approved, still show a preview shell but flag it
     const approved = d.outcome === "APPROVE";
 
     const contractId = `FF-DEMO-${(d.evaluatedAt || new Date().toISOString()).replaceAll(/[^0-9]/g,"").slice(0,14)}`;
     const today = new Date().toISOString().slice(0,10);
 
-    // Derived
     const aprEq = approxAPRFromMF(Number(d.moneyFactor || policy.moneyFactor || 0));
-    const scheduleRows = buildBuyoutScheduleRows(d).slice(1); // skip header
+    const buyoutRows = buildBuyoutScheduleRows(d).slice(1);   // rows: [m, buyout, pct]
+    const payRows = buildPaymentScheduleRows(d).slice(1);     // rows: [i, amt, freq, notes]
 
-    const scheduleHTML = `
-      <div class="table-wrap" style="max-height: 260px; border-color: rgba(0,0,0,0.15);">
-        <table>
-          <thead>
-            <tr>
-              <th>Month elapsed</th>
-              <th class="right">Early purchase amount</th>
-              <th class="right">% of basis</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${scheduleRows.map(r => `
+    const exhibitA = `
+      <div class="exhibit">
+        <h3>Exhibit A — Payment Schedule (Illustrative)</h3>
+        <p style="margin:6px 0 8px; font-size:12.5px;">
+          ${uiFlags.regmPlaceholders
+            ? "PLACEHOLDER: In production, due dates and payment computation must match final disclosure methodology."
+            : "Fixed monthly payment amount shown for each month of the term (illustrative)."}
+        </p>
+        <div class="table-wrap" style="max-height: 240px; border-color: rgba(0,0,0,0.15);">
+          <table>
+            <thead>
               <tr>
-                <td class="mono">${escapeHtml(String(r[0]))}</td>
-                <td class="right mono">${escapeHtml(fmtUSD(r[1]))}</td>
-                <td class="right mono">${escapeHtml(String(r[2]))}%</td>
+                <th>Payment #</th>
+                <th class="right">Amount</th>
+                <th>Frequency</th>
               </tr>
-            `).join("")}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              ${payRows.map(r => `
+                <tr>
+                  <td class="mono">${escapeHtml(String(r[0]))}</td>
+                  <td class="right mono">${escapeHtml(fmtUSD(r[1]))}</td>
+                  <td class="mono">${escapeHtml(String(r[2]))}</td>
+                </tr>
+              `).join("")}
+            </tbody>
+          </table>
+        </div>
       </div>
     `;
 
-    // Printable contract card: mark it for print CSS
+    const exhibitB = `
+      <div class="exhibit">
+        <h3>Exhibit B — Early Purchase Schedule (Illustrative)</h3>
+        <p style="margin:6px 0 8px; font-size:12.5px;">
+          ${uiFlags.regmPlaceholders
+            ? "PLACEHOLDER: Early purchase option availability and method are program-dependent; validate with counsel."
+            : "Straight-line remaining capitalized cost from cost basis to residual over the term (illustrative)."}
+        </p>
+        <div class="table-wrap" style="max-height: 240px; border-color: rgba(0,0,0,0.15);">
+          <table>
+            <thead>
+              <tr>
+                <th>Month elapsed</th>
+                <th class="right">Early purchase amount</th>
+                <th class="right">% of basis</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${buyoutRows.map(r => `
+                <tr>
+                  <td class="mono">${escapeHtml(String(r[0]))}</td>
+                  <td class="right mono">${escapeHtml(fmtUSD(r[1]))}</td>
+                  <td class="right mono">${escapeHtml(String(r[2]))}%</td>
+                </tr>
+              `).join("")}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    `;
+
+    const pitchIntro = uiFlags.pitchMode ? `
+      <p style="margin: 8px 0; font-size: 12.5px;">
+        <strong>Pitch Mode:</strong> This preview includes exhibits commonly requested in diligence (payment schedule + early purchase schedule),
+        and may show placeholder disclosure checklist items. This is a synthetic environment.
+      </p>
+    ` : ``;
+
+    const regMPara = uiFlags.regmPlaceholders ? `
+      <p style="margin: 8px 0; font-size: 12.5px;">
+        <strong>Reg M placeholders (demo):</strong> Certain disclosure concepts are referenced here as placeholders only.
+        Final agreement language, calculations, and disclosures must be confirmed by counsel and aligned to applicable law and program structure.
+      </p>
+    ` : ``;
+
     viewEl.innerHTML = `
       <div class="card print-card">
         <div class="row" style="justify-content:space-between;">
           <div>
-            <h2 style="margin:0 0 6px;">Contract preview (demo)</h2>
+            <h2 style="margin:0 0 6px;">Contract preview ${uiFlags.pitchMode ? "(Pitch Mode)" : ""}</h2>
             <p class="sub" style="margin:0;">
-              Printable preview generated from the latest approved offer snapshot.
+              Printable preview generated from the latest offer snapshot. Use “Print / Save as PDF”.
             </p>
           </div>
           <div class="row">
             <button class="btn" id="btnPrint">Print / Save as PDF</button>
             <button class="btn" id="btnDownloadContractHTML">Download HTML</button>
+            <button class="btn" id="btnDownloadExhibitsCSV">Download exhibits (CSV)</button>
             <a class="btn" href="#/offer">Back to offer</a>
           </div>
         </div>
@@ -1015,6 +1233,10 @@
               <span class="k">Date</span> ${escapeHtml(today)} &nbsp;•&nbsp;
               <span class="k">Environment</span> SYNTHETIC DEMO
             </p>
+
+            ${pitchIntro}
+            ${regMPara}
+
             ${approved ? "" : `
               <p style="color:#a94442; font-weight:700;">
                 NOTE: This applicant is not approved under current policy. This preview is shown for demo purposes only.
@@ -1089,13 +1311,12 @@
               <span class="k">${escapeHtml(fmtUSD(d.residual))}</span> (illustrative).
             </p>
 
-            <h3>6. Early Purchase Option (Illustrative Schedule)</h3>
+            <h3>6. Early Purchase Option (Illustrative)</h3>
             <p>
               If an early purchase option is offered, the illustrative method used in this demo is:
               <strong>straight-line remaining capitalized cost</strong> from total cost basis down to residual over the term.
-              The schedule below shows the resulting illustrative early purchase amounts by month elapsed.
+              See <strong>Exhibit B</strong>.
             </p>
-            ${scheduleHTML}
 
             <h3>7. Fees, Taxes, and Capitalization</h3>
             <p>
@@ -1109,7 +1330,15 @@
               Any personal information displayed is synthetic.
             </p>
 
-            <h3>9. Signatures (Placeholder)</h3>
+            ${uiFlags.pitchMode ? `
+              <h3>9. Audit & Governance (Pitch Mode — Demo)</h3>
+              <p>
+                This demo illustrates: (i) policy-controlled underwriting thresholds, (ii) pricing parameters governed in an admin console,
+                (iii) immutable offer snapshots used to generate contract artifacts. In production, events would be logged to an audit ledger.
+              </p>
+            ` : ``}
+
+            <h3>${uiFlags.pitchMode ? "10" : "9"}. Signatures (Placeholder)</h3>
             <div class="sig-grid">
               <div class="sig">
                 <div class="line"></div>
@@ -1120,6 +1349,9 @@
                 <small>Lessor: Flintlock Financing • Date: __________</small>
               </div>
             </div>
+
+            ${exhibitA}
+            ${exhibitB}
 
             <div class="contract-foot">
               Demo build artifact. Contract language is illustrative and not legal advice. Production terms must be reviewed and approved by counsel.
@@ -1132,9 +1364,7 @@
       </div>
     `;
 
-    document.getElementById("btnPrint").addEventListener("click", () => {
-      window.print();
-    });
+    document.getElementById("btnPrint").addEventListener("click", () => window.print());
 
     document.getElementById("btnDownloadContractHTML").addEventListener("click", () => {
       const paper = document.getElementById("contractPaper");
@@ -1142,6 +1372,20 @@
 <html><head><meta charset="utf-8"><title>Contract Preview ${escapeHtml(contractId)}</title></head>
 <body>${paper.outerHTML}</body></html>`;
       downloadTextFile(`flintlock_contract_preview_${contractId}.html`, html, "text/html");
+    });
+
+    document.getElementById("btnDownloadExhibitsCSV").addEventListener("click", () => {
+      // bundle: two CSVs in one simple "multi-section" CSV text (keeps it zero-deps)
+      const buyoutCSV = toCSV(buildBuyoutScheduleRows(d));
+      const payCSV = toCSV(buildPaymentScheduleRows(d));
+      const bundle = [
+        "### Exhibit A — Payment Schedule (CSV)",
+        payCSV,
+        "",
+        "### Exhibit B — Early Purchase Schedule (CSV)",
+        buyoutCSV
+      ].join("\n");
+      downloadTextFile(`flintlock_exhibits_${contractId}.csv`, bundle, "text/csv");
     });
   }
 
@@ -1233,6 +1477,8 @@
           Money factor ${mono(String(POLICY.moneyFactor))} (~${mono(String(approxAPRFromMF(POLICY.moneyFactor)))}% APR equivalent). Term caps apply to ticket price.
         </div>
 
+        ${regMChecklistBlock()}
+
         <div class="row" style="margin-top: 12px;">
           <button class="btn primary" id="btnSubmit">Submit (demo)</button>
           <a class="btn" href="#/dashboard">Skip to dashboard</a>
@@ -1294,9 +1540,6 @@
     obj[parts[parts.length-1]] = value;
   }
 
-  // -----------------------------
-  // Router
-  // -----------------------------
   function renderAll(){
     POLICY = loadPolicy();
     const r = route();
@@ -1306,10 +1549,40 @@
     return renderDashboard();
   }
 
-  window.addEventListener("hashchange", renderAll);
+  // -----------------------------
+  // Topbar toggles wiring
+  // -----------------------------
+  function syncTopbarToggles(){
+    const pitch = document.getElementById("pitchSwitch");
+    const regm = document.getElementById("regmSwitch");
+    if(pitch){
+      pitch.classList.toggle("on", !!uiFlags.pitchMode);
+      pitch.setAttribute("aria-checked", uiFlags.pitchMode ? "true" : "false");
+      pitch.onclick = () => {
+        uiFlags.pitchMode = !uiFlags.pitchMode;
+        saveBool(PITCH_MODE_KEY, uiFlags.pitchMode);
+        renderAll();
+      };
+    }
+    if(regm){
+      regm.classList.toggle("on", !!uiFlags.regmPlaceholders);
+      regm.setAttribute("aria-checked", uiFlags.regmPlaceholders ? "true" : "false");
+      regm.onclick = () => {
+        uiFlags.regmPlaceholders = !uiFlags.regmPlaceholders;
+        saveBool(REGM_MODE_KEY, uiFlags.regmPlaceholders);
+        renderAll();
+      };
+    }
+  }
+
+  window.addEventListener("hashchange", () => {
+    renderAll();
+    syncTopbarToggles();
+  });
 
   if(!location.hash) location.hash = "#/dashboard";
   renderAll();
+  syncTopbarToggles();
 })();
 </script>
 </body>
