@@ -8,26 +8,25 @@
     :root{
       --bg0:#06111e;
       --bg1:#081a2c;
-      --card:#0b2136cc;
-      --card2:#0a1d30e6;
       --stroke:#ffffff1a;
       --stroke2:#ffffff22;
       --text:#e9f1ff;
       --muted:#bcd0ea;
       --muted2:#9eb6d6;
       --accent:#c98a2a;
-      --accent2:#f3b14a;
       --good:#3ddc97;
       --bad:#ff6b6b;
 
-      /* "DocuSign-style paper" */
+      /* DocuSign-ish paper */
       --paper:#f7f9fc;
       --paperText:#0e1b2b;
       --paperMuted:#4a607a;
       --paperStroke:#d8e2f0;
       --tabYellow:#ffe07a;
       --tabStroke:#e1c25a;
-      --shadow: 0 18px 60px rgba(0,0,0,.45);
+      --tabBlue:#cfe5ff;
+      --tabBlueStroke:#9cc4ff;
+
       --shadowSoft: 0 10px 35px rgba(0,0,0,.30);
       --radius:18px;
       --radius2:14px;
@@ -49,39 +48,22 @@
         linear-gradient(180deg, var(--bg0), var(--bg1) 60%, #050b13 120%);
       overflow-x:hidden;
     }
-
     a{color:inherit; text-decoration:none}
     .mono{font-family:var(--mono)}
-    .container{
-      max-width: 1180px;
-      margin: 0 auto;
-      padding: 26px 18px 60px;
-    }
+    .container{max-width:1180px;margin:0 auto;padding:26px 18px 60px}
 
     /* Topbar */
     .topbar{
-      position: sticky;
-      top: 0;
-      z-index: 30;
+      position: sticky; top:0; z-index:30;
       background: linear-gradient(180deg, rgba(5,10,18,.92), rgba(5,10,18,.65));
       backdrop-filter: blur(10px);
       border-bottom: 1px solid var(--stroke);
     }
     .topbar-inner{
-      max-width:1180px;
-      margin:0 auto;
-      padding: 14px 18px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:14px;
+      max-width:1180px;margin:0 auto;padding:14px 18px;
+      display:flex;align-items:center;justify-content:space-between;gap:14px;
     }
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      min-width: 260px;
-    }
+    .brand{display:flex;align-items:center;gap:12px;min-width:260px}
     .mark{
       width:34px;height:34px;border-radius:10px;
       background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.25), transparent 60%),
@@ -89,58 +71,24 @@
       border: 1px solid rgba(255,255,255,.18);
       box-shadow: 0 12px 22px rgba(0,0,0,.35);
     }
-    .brand-text strong{
-      display:block;
-      letter-spacing:.4px;
-      font-weight:800;
-      font-size: 13px;
-      line-height: 1.1;
-    }
-    .brand-text span{
-      display:block;
-      color:var(--muted2);
-      font-size: 12px;
-      margin-top: 2px;
-    }
+    .brand-text strong{display:block;letter-spacing:.4px;font-weight:800;font-size:13px;line-height:1.1}
+    .brand-text span{display:block;color:var(--muted2);font-size:12px;margin-top:2px}
 
     .pill{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding: 8px 12px;
+      display:inline-flex;align-items:center;gap:8px;padding:8px 12px;
       border: 1px solid var(--stroke);
-      border-radius: 999px;
-      color: var(--muted);
+      border-radius:999px;color:var(--muted);
       background: rgba(255,255,255,.06);
-      font-size: 12px;
-      white-space: nowrap;
+      font-size:12px;white-space:nowrap;
     }
-    .pill .dot{
-      width:8px;height:8px;border-radius:99px;
-      background: rgba(201,138,42,.95);
-      box-shadow: 0 0 0 3px rgba(201,138,42,.20);
-    }
+    .pill .dot{width:8px;height:8px;border-radius:99px;background: rgba(201,138,42,.95);box-shadow:0 0 0 3px rgba(201,138,42,.20)}
 
-    .nav{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      flex-wrap:wrap;
-      justify-content:flex-end;
-    }
+    .nav{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}
     .btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-      padding: 10px 14px;
-      border: 1px solid var(--stroke);
-      border-radius: 999px;
+      display:inline-flex;align-items:center;justify-content:center;gap:10px;
+      padding:10px 14px;border:1px solid var(--stroke);border-radius:999px;
       background: rgba(255,255,255,.06);
-      color: var(--text);
-      font-weight: 650;
-      font-size: 13px;
-      cursor:pointer;
+      color:var(--text);font-weight:650;font-size:13px;cursor:pointer;
       transition: transform .12s ease, background .12s ease, border-color .12s ease;
       user-select:none;
     }
@@ -151,23 +99,12 @@
       color:#0b1422;
     }
     .btn.primary:hover{background: linear-gradient(180deg, rgba(230,170,70,.98), rgba(160,100,18,.92))}
-    .btn.ghost{
-      background: transparent;
-    }
+    .btn.small{padding:8px 11px;font-size:12px}
+    .btn.ghost{background: transparent}
 
     /* Headings */
-    h1{
-      font-family: var(--serif);
-      letter-spacing: .2px;
-      font-size: 50px;
-      margin: 26px 0 6px;
-    }
-    .sub{
-      color: var(--muted);
-      margin: 0 0 18px;
-      max-width: 900px;
-      line-height: 1.45;
-    }
+    h1{font-family: var(--serif); letter-spacing:.2px; font-size:50px; margin:26px 0 6px}
+    .sub{color:var(--muted); margin:0 0 18px; max-width:900px; line-height:1.45}
 
     .note{
       border: 1px solid var(--stroke);
@@ -187,140 +124,59 @@
       box-shadow: var(--shadowSoft);
       overflow:hidden;
     }
-    .card-inner{ padding: 18px; }
-    .hr{ height:1px; background: var(--stroke); margin: 16px 0; }
+    .card-inner{padding:18px}
+    .hr{height:1px;background:var(--stroke);margin:16px 0}
 
     /* Tabs */
-    .tabs{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      margin: 12px 0 0;
-    }
+    .tabs{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0 0}
     .tab{
-      padding: 10px 12px;
-      border: 1px solid var(--stroke);
-      border-radius: 999px;
-      background: rgba(255,255,255,.05);
-      cursor:pointer;
-      font-weight: 650;
-      font-size: 13px;
-      color: var(--text);
-      user-select:none;
+      padding:10px 12px;border:1px solid var(--stroke);border-radius:999px;
+      background: rgba(255,255,255,.05);cursor:pointer;font-weight:650;font-size:13px;
+      color:var(--text);user-select:none;
     }
-    .tab.active{
-      border-color: rgba(201,138,42,.45);
-      box-shadow: 0 0 0 4px rgba(201,138,42,.14);
-    }
+    .tab.active{border-color: rgba(201,138,42,.45); box-shadow:0 0 0 4px rgba(201,138,42,.14)}
 
     /* Form grid */
-    .grid2{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-    }
-    @media (max-width: 900px){
-      h1{font-size: 40px}
-      .grid2{grid-template-columns: 1fr}
-      .brand{min-width:auto}
-    }
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    @media (max-width: 900px){ h1{font-size:40px} .grid2{grid-template-columns:1fr} .brand{min-width:auto} }
 
-    .field{
-      border: 1px solid var(--stroke);
-      border-radius: var(--radius2);
-      padding: 12px;
-      background: rgba(0,0,0,.18);
-    }
-    label{
-      display:block;
-      font-size: 12px;
-      color: var(--muted2);
-      margin-bottom: 6px;
-    }
+    .field{border:1px solid var(--stroke);border-radius:var(--radius2);padding:12px;background: rgba(0,0,0,.18)}
+    label{display:block;font-size:12px;color:var(--muted2);margin-bottom:6px}
     input, select{
-      width: 100%;
-      border-radius: 12px;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.06);
-      color: var(--text);
-      padding: 11px 12px;
-      outline:none;
-      font-size: 14px;
+      width:100%;border-radius:12px;border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06); color:var(--text); padding:11px 12px;
+      outline:none;font-size:14px;
     }
-    input:focus, select:focus{
-      border-color: rgba(201,138,42,.55);
-      box-shadow: 0 0 0 4px rgba(201,138,42,.15);
-    }
-    input[disabled]{
-      opacity:.85;
-      background: rgba(255,255,255,.04);
-    }
+    input:focus, select:focus{border-color: rgba(201,138,42,.55); box-shadow:0 0 0 4px rgba(201,138,42,.15)}
+    input[disabled]{opacity:.85;background: rgba(255,255,255,.04)}
 
-    /* KPI grid */
-    .kpis{
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      margin-top: 12px;
-    }
+    /* KPI */
+    .kpis{display:grid;grid-template-columns: repeat(3, 1fr);gap:12px;margin-top:12px}
     @media (max-width: 980px){ .kpis{grid-template-columns: 1fr 1fr} }
     @media (max-width: 640px){ .kpis{grid-template-columns: 1fr} }
-    .kpi{
-      border: 1px solid var(--stroke);
-      border-radius: var(--radius2);
-      background: rgba(0,0,0,.18);
-      padding: 12px 12px;
-    }
-    .kpi .k{color:var(--muted2); font-size:12px}
-    .kpi .v{margin-top:6px; font-weight:800; font-size: 16px}
+    .kpi{border:1px solid var(--stroke);border-radius:var(--radius2);background: rgba(0,0,0,.18);padding:12px}
+    .kpi .k{color:var(--muted2);font-size:12px}
+    .kpi .v{margin-top:6px;font-weight:800;font-size:16px}
 
-    .status{
-      display:flex; align-items:center; gap:10px;
-      margin-top: 8px;
-    }
+    .status{display:flex;align-items:center;gap:10px;margin-top:8px}
     .badge{
-      display:inline-flex; align-items:center; gap:8px;
-      padding: 8px 12px;
-      border-radius: 999px;
-      font-weight: 800;
-      letter-spacing:.2px;
-      font-size: 12px;
-      border: 1px solid var(--stroke);
-      background: rgba(255,255,255,.05);
+      display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;
+      font-weight:800;letter-spacing:.2px;font-size:12px;border:1px solid var(--stroke);background: rgba(255,255,255,.05);
     }
-    .badge.good{border-color: rgba(61,220,151,.35); box-shadow: 0 0 0 4px rgba(61,220,151,.12)}
-    .badge.bad{border-color: rgba(255,107,107,.40); box-shadow: 0 0 0 4px rgba(255,107,107,.12)}
+    .badge.good{border-color: rgba(61,220,151,.35); box-shadow:0 0 0 4px rgba(61,220,151,.12)}
+    .badge.bad{border-color: rgba(255,107,107,.40); box-shadow:0 0 0 4px rgba(255,107,107,.12)}
     .badge .dot{width:8px;height:8px;border-radius:99px;background:rgba(255,255,255,.6)}
     .badge.good .dot{background: var(--good)}
     .badge.bad .dot{background: var(--bad)}
 
     /* Table */
-    table{
-      width:100%;
-      border-collapse: separate;
-      border-spacing: 0;
-      overflow:hidden;
-      border: 1px solid var(--stroke);
-      border-radius: var(--radius2);
-      background: rgba(0,0,0,.16);
-    }
-    th, td{
-      padding: 10px 10px;
-      border-bottom: 1px solid var(--stroke);
-      font-size: 13px;
-    }
-    th{
-      text-align:left;
-      color: var(--muted2);
-      background: rgba(255,255,255,.05);
-      font-weight: 800;
-      letter-spacing:.2px;
-    }
+    table{width:100%;border-collapse:separate;border-spacing:0;overflow:hidden;border:1px solid var(--stroke);border-radius:var(--radius2);background: rgba(0,0,0,.16)}
+    th,td{padding:10px 10px;border-bottom:1px solid var(--stroke);font-size:13px}
+    th{text-align:left;color:var(--muted2);background: rgba(255,255,255,.05);font-weight:800;letter-spacing:.2px}
     tr:last-child td{border-bottom:none}
-    td.r{text-align:right; font-variant-numeric: tabular-nums}
-    td.mono{font-family: var(--mono)}
+    td.r{text-align:right;font-variant-numeric: tabular-nums}
 
-    /* ===== DocuSign-style document rendering (paper inside dark app) ===== */
+    /* ===== DocuSign-ish document shell + right rail ===== */
     .docShell{
       border: 1px solid var(--stroke);
       border-radius: var(--radius);
@@ -329,28 +185,30 @@
       overflow:hidden;
     }
     .docToolbar{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      padding: 12px 14px;
-      border-bottom: 1px solid var(--stroke);
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+      padding:12px 14px;border-bottom:1px solid var(--stroke);
       background: rgba(0,0,0,.18);
     }
-    .docToolbar .left{
-      display:flex; align-items:center; gap:10px; flex-wrap:wrap;
-      color: var(--muted);
-      font-size: 13px;
+    .docToolbar .left{display:flex;align-items:center;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:13px}
+    .docToolbar .right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+
+    .docWrap{
+      display:grid;
+      grid-template-columns: 1fr 320px;
+      gap: 14px;
+      padding: 14px;
+      background: rgba(0,0,0,.10);
     }
-    .docToolbar .right{
-      display:flex; align-items:center; gap:10px; flex-wrap:wrap;
-    }
+    @media (max-width: 980px){ .docWrap{grid-template-columns:1fr} }
+
     .docCanvas{
-      padding: 16px;
+      padding: 12px;
+      border: 1px solid var(--stroke);
+      border-radius: 14px;
       background:
-        radial-gradient(800px 300px at 20% 0%, rgba(201,138,42,.08), transparent 65%),
+        radial-gradient(900px 350px at 15% 0%, rgba(201,138,42,.08), transparent 65%),
         radial-gradient(900px 350px at 90% 10%, rgba(61,220,151,.06), transparent 60%),
-        rgba(0,0,0,.10);
+        rgba(0,0,0,.08);
     }
     .docPage{
       max-width: 920px;
@@ -366,50 +224,17 @@
       padding: 16px 18px 12px;
       border-bottom: 1px solid var(--paperStroke);
       background: linear-gradient(180deg, #ffffff, #f2f6ff);
-      display:flex;
-      justify-content:space-between;
-      gap: 14px;
-      flex-wrap:wrap;
-      align-items:flex-end;
+      display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:flex-end;
     }
-    .docHeader h3{
-      margin:0;
-      font-size: 16px;
-      letter-spacing:.2px;
-    }
-    .docMeta{
-      color: var(--paperMuted);
-      font-size: 12px;
-    }
-    .docBody{
-      padding: 18px;
-      line-height: 1.45;
-      font-size: 13.5px;
-    }
+    .docHeader h3{margin:0;font-size:16px;letter-spacing:.2px}
+    .docMeta{color: var(--paperMuted); font-size: 12px}
+    .docBody{padding:18px;line-height:1.45;font-size:13.5px}
     .docBody h4{
-      margin: 14px 0 8px;
-      font-size: 13px;
-      letter-spacing:.25px;
-      text-transform: uppercase;
-      color: #223a58;
+      margin:14px 0 8px;font-size:13px;letter-spacing:.25px;
+      text-transform: uppercase;color:#223a58;
     }
-    .docBody p{margin: 8px 0}
-    .docGrid{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin: 10px 0 12px;
-    }
-    @media (max-width: 850px){ .docGrid{grid-template-columns:1fr} }
+    .docBody p{margin:8px 0}
 
-    .docBox{
-      border: 1px solid var(--paperStroke);
-      background: #ffffff;
-      border-radius: 12px;
-      padding: 12px;
-    }
-    .docBox .k{color: var(--paperMuted); font-size: 12px}
-    .docBox .v{margin-top:6px; font-weight: 800; font-variant-numeric: tabular-nums}
     .docTable{
       width:100%;
       border-collapse: separate;
@@ -420,25 +245,72 @@
       background:#fff;
       margin: 10px 0 12px;
     }
-    .docTable th, .docTable td{
-      border-bottom: 1px solid var(--paperStroke);
-      padding: 10px 10px;
-      font-size: 13px;
-    }
-    .docTable th{
-      background: #f2f6ff;
-      color: #223a58;
-      font-weight: 900;
-    }
+    .docTable th,.docTable td{border-bottom:1px solid var(--paperStroke);padding:10px 10px;font-size:13px}
+    .docTable th{background:#f2f6ff;color:#223a58;font-weight:900}
     .docTable tr:last-child td{border-bottom:none}
-    .docTable td.r{text-align:right; font-variant-numeric: tabular-nums}
+    .docTable td.r{text-align:right;font-variant-numeric: tabular-nums}
 
-    .sigRow{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 12px;
+    /* DocuSign-style “required fields” */
+    .docFields{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:10px 0 12px}
+    @media (max-width: 850px){ .docFields{grid-template-columns:1fr} }
+
+    .docField{
+      border: 1px solid var(--paperStroke);
+      background: #fff;
+      border-radius: 12px;
+      padding: 10px 10px 12px;
+      position: relative;
     }
+    .docField .lbl{
+      font-size: 11px;
+      color: var(--paperMuted);
+      letter-spacing: .22px;
+      text-transform: uppercase;
+      font-weight: 900;
+      margin-bottom: 6px;
+    }
+    .docField .val{
+      min-height: 34px;
+      display:flex;align-items:center;
+      padding: 9px 10px;
+      border-radius: 10px;
+      border: 1px solid #cfe0f4;
+      background: #f5f9ff;
+      font-weight: 850;
+      color: #0e1b2b;
+      font-variant-numeric: tabular-nums;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .docField .val.mono{font-family: var(--mono); font-weight: 900}
+    .docField .hint{margin-top:6px;font-size:11.5px;color:#597293}
+
+    .tag{
+      position:absolute;top:10px;right:10px;
+      font-size:11px;font-weight:950;
+      padding:5px 8px;border-radius:10px;
+      box-shadow: 0 10px 18px rgba(0,0,0,.10);
+      user-select:none;
+    }
+    .tag.req{background: var(--tabYellow); border: 1px solid var(--tabStroke); color:#2a2a2a}
+    .tag.opt{background: var(--tabBlue); border: 1px solid var(--tabBlueStroke); color:#0b2b55}
+
+    .reqBlank{
+      font-family: var(--mono);
+      letter-spacing: .6px;
+      opacity: .95;
+    }
+
+    /* Highlight animation for “Next Required” */
+    .hl{
+      outline: 3px solid rgba(201,138,42,.75);
+      box-shadow: 0 0 0 6px rgba(201,138,42,.18);
+      transition: outline .2s ease, box-shadow .2s ease;
+    }
+
+    /* Signature blocks */
+    .sigRow{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
     @media (max-width: 850px){ .sigRow{grid-template-columns:1fr} }
     .sig{
       border: 1px dashed #93abc6;
@@ -446,48 +318,59 @@
       padding: 12px;
       background: #fbfdff;
       position: relative;
-      min-height: 86px;
+      min-height: 96px;
     }
-    .sig .tab{
-      position:absolute;
-      top: 10px;
-      right: 10px;
+    .sig .tabReq{
+      position:absolute;top:10px;right:10px;
       background: var(--tabYellow);
       border: 1px solid var(--tabStroke);
-      color: #2a2a2a;
-      font-weight: 900;
-      padding: 6px 10px;
+      color:#2a2a2a;
+      font-weight: 950;
+      padding: 7px 10px;
       border-radius: 10px;
       font-size: 12px;
       box-shadow: 0 10px 18px rgba(0,0,0,.12);
       cursor: default;
     }
-    .sig .line{
-      margin-top: 40px;
-      border-bottom: 2px solid #d0dceb;
-      height: 1px;
-    }
-    .sig .label{
-      margin-top: 8px;
-      color: var(--paperMuted);
-      font-size: 12px;
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      flex-wrap:wrap;
-    }
+    .sig .line{margin-top: 44px;border-bottom: 2px solid #d0dceb;height:1px}
+    .sig .label{margin-top: 8px;color: var(--paperMuted);font-size: 12px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+    .sig .label b{color:#223a58}
 
-    .rawJson{
-      font-family: var(--mono);
-      background: #0b1422;
-      color: #eaf2ff;
-      border-radius: 12px;
-      border: 1px solid rgba(255,255,255,.14);
+    /* Right rail */
+    .rail{
+      border: 1px solid var(--stroke);
+      border-radius: 14px;
+      background: rgba(0,0,0,.16);
       padding: 12px;
-      overflow:auto;
-      font-size: 12px;
-      line-height: 1.45;
+      position: sticky;
+      top: 78px;
+      height: fit-content;
     }
+    .rail h4{margin:0 0 8px;font-family:var(--serif);font-size:18px}
+    .rail .small{color:var(--muted);font-size:12px;line-height:1.4}
+    .rail .box{
+      margin-top:10px;
+      border: 1px solid var(--stroke);
+      border-radius: 12px;
+      background: rgba(255,255,255,.04);
+      padding: 10px;
+    }
+    .rail .row{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:12.5px;color:var(--muted)}
+    .rail .row strong{color:var(--text)}
+    .rail ul{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-direction:column;gap:8px}
+    .rail li{
+      border:1px solid var(--stroke);
+      border-radius: 12px;
+      padding: 10px 10px;
+      background: rgba(255,255,255,.04);
+      cursor:pointer;
+      transition: transform .12s ease, background .12s ease, border-color .12s ease;
+    }
+    .rail li:hover{transform: translateY(-1px); background: rgba(255,255,255,.06); border-color: var(--stroke2)}
+    .rail li .t{display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .rail li .t span{font-weight:800;color:var(--text);font-size:12.5px}
+    .rail li .t em{font-style:normal;font-size:11px;color:#0b1422;background:var(--tabYellow);border:1px solid var(--tabStroke);padding:3px 7px;border-radius:10px;font-weight:950}
+    .rail li .d{margin-top:4px;color:var(--muted);font-size:11.5px}
 
     .footer-disclaimer{
       margin-top: 16px;
@@ -512,10 +395,7 @@
         </div>
       </a>
 
-      <div class="pill" title="Demo environment status">
-        <span class="dot"></span>
-        <span class="mono">SYNTHETIC DEMO / NO CREDIT PULLS</span>
-      </div>
+      <div class="pill"><span class="dot"></span><span class="mono">SYNTHETIC DEMO / NO CREDIT PULLS</span></div>
 
       <nav class="nav" aria-label="Primary navigation">
         <a class="btn" href="/admin/" rel="noopener">Admin console</a>
@@ -574,14 +454,10 @@
     // ---------- Utilities ----------
     const $ = (sel, root=document) => root.querySelector(sel);
     const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
-
-    const fmtUSD = (n) => {
-      const x = Number(n || 0);
-      return x.toLocaleString(undefined, { style: "currency", currency: "USD" });
-    };
-    const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
-    const round2 = (n) => Math.round((Number(n)||0) * 100) / 100;
-    const escapeHtml = (s) => String(s)
+    const fmtUSD = (n) => (Number(n||0)).toLocaleString(undefined,{style:"currency",currency:"USD"});
+    const clamp = (v,a,b)=>Math.max(a,Math.min(b,v));
+    const round2 = (n)=>Math.round((Number(n)||0)*100)/100;
+    const escapeHtml = (s)=>String(s)
       .replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;")
       .replaceAll('"',"&quot;").replaceAll("'","&#039;");
 
@@ -595,7 +471,6 @@
       a.remove();
       setTimeout(()=>URL.revokeObjectURL(a.href), 1500);
     }
-
     function downloadJSON(filename, obj){
       const text = JSON.stringify(obj, null, 2);
       const blob = new Blob([text], {type:"application/json;charset=utf-8"});
@@ -607,14 +482,13 @@
       a.remove();
       setTimeout(()=>URL.revokeObjectURL(a.href), 1500);
     }
-
     function downloadCSV(filename, rows){
-      const esc = (v) => {
-        const s = String(v ?? "");
+      const esc=(v)=>{
+        const s=String(v??"");
         if (/[",\\n]/.test(s)) return '"' + s.replaceAll('"','""') + '"';
         return s;
       };
-      const csv = rows.map(r => r.map(esc).join(",")).join("\\n");
+      const csv = rows.map(r=>r.map(esc).join(",")).join("\\n");
       const blob = new Blob([csv], {type:"text/csv;charset=utf-8"});
       const a = document.createElement("a");
       a.href = URL.createObjectURL(blob);
@@ -625,7 +499,7 @@
       setTimeout(()=>URL.revokeObjectURL(a.href), 1500);
     }
 
-    // Preserve focus + cursor across re-renders (fixes "type 1 char then click again" bug)
+    // Focus preservation (fix one-char-then-click issue)
     function captureFocus(){
       const el = document.activeElement;
       if (!el) return null;
@@ -637,167 +511,147 @@
     }
     function restoreFocus(f){
       if (!f) return;
-      let el = null;
-      if (f.id) el = document.getElementById(f.id);
-      if (!el && f.name) el = document.querySelector('[name="'+CSS.escape(f.name)+'"]');
+      let el=null;
+      if (f.id) el=document.getElementById(f.id);
+      if (!el && f.name) el=document.querySelector('[name="'+CSS.escape(f.name)+'"]');
       if (!el) return;
       el.focus({preventScroll:true});
       try{
-        if (f.selStart != null && "setSelectionRange" in el){
-          el.setSelectionRange(f.selStart, f.selEnd ?? f.selStart);
-        }
+        if (f.selStart!=null && "setSelectionRange" in el) el.setSelectionRange(f.selStart, f.selEnd ?? f.selStart);
       }catch(_){}
     }
 
     // ---------- Policy + State ----------
-    const POLICY_KEY = "flintlock_policy_v1";
-    const DEFAULT_POLICY = {
-      minScore: 620,
-      maxTicket: 12000,
-      termCap1500: 24,
-      termCap2500: 36,
-      termCapOver2500: 48,
-      moneyFactor: 0.003,
-      residualPercent: 0.20,
-      residualFloor: 200
+    const POLICY_KEY="flintlock_policy_v1";
+    const DEFAULT_POLICY={
+      minScore:620,
+      maxTicket:12000,
+      termCap1500:24,
+      termCap2500:36,
+      termCapOver2500:48,
+      moneyFactor:0.003,
+      residualPercent:0.20,
+      residualFloor:200
     };
-
     function loadPolicy(){
       try{
-        const raw = localStorage.getItem(POLICY_KEY);
-        if (!raw) return {...DEFAULT_POLICY};
-        const obj = JSON.parse(raw);
-        return {...DEFAULT_POLICY, ...obj};
-      }catch(_){
-        return {...DEFAULT_POLICY};
-      }
+        const raw=localStorage.getItem(POLICY_KEY);
+        if(!raw) return {...DEFAULT_POLICY};
+        const obj=JSON.parse(raw);
+        return {...DEFAULT_POLICY,...obj};
+      }catch(_){ return {...DEFAULT_POLICY}; }
     }
 
-    // Demo input state (synthetic)
-    const state = {
-      tab: "application",
+    const state={
+      tab:"application",
       policy: loadPolicy(),
+      persona:"Prime Applicant",
+      score:720,
+      ticket:4500,
+      acquisitionFee:250,
+      tax:360,
+      processingFee:35,
+      buyoutMonth:12,
 
-      // "persona"
-      persona: "Prime Applicant",
-      score: 720,
-
-      // Pricing inputs (ticket + acquisition + tax + processing = full cost basis)
-      ticket: 4500,
-      acquisitionFee: 250,
-      tax: 360,
-      processingFee: 35,
-
-      // buyout month selector
-      buyoutMonth: 12,
-
-      // optional raw JSON view toggle on Exhibit B
-      showRawExhibitB: false
+      // DocuSign-y display toggles
+      docusignMode:true,
+      // Which fields are "blank/required" in the paper view
+      docReqBlank: {
+        lesseeEmail: false,     // set true if you want blank
+        lesseePhone: false,
+        lesseeAddress: false,
+        itemSerial: false,
+        delivery: false,
+        sigLessor: true,
+        sigLessee: true,
+        dateLessor: true,
+        dateLessee: true
+      }
     };
 
     function computeTermCap(policy, ticket){
-      if (ticket <= 1500) return policy.termCap1500;
-      if (ticket <= 2500) return policy.termCap2500;
+      if (ticket<=1500) return policy.termCap1500;
+      if (ticket<=2500) return policy.termCap2500;
       return policy.termCapOver2500;
     }
 
     function computeAll(){
-      const p = state.policy;
+      const p=state.policy;
+      const ticket=Number(state.ticket)||0;
+      const acquisitionFee=Number(state.acquisitionFee)||0;
+      const tax=Number(state.tax)||0;
+      const processingFee=Number(state.processingFee)||0;
 
-      const ticket = Number(state.ticket)||0;
-      const acquisitionFee = Number(state.acquisitionFee)||0;
-      const tax = Number(state.tax)||0;
-      const processingFee = Number(state.processingFee)||0;
+      const costBasis=round2(ticket+acquisitionFee+tax+processingFee);
+      const termCap=computeTermCap(p,ticket);
+      const term=termCap;
+      const residual=round2(Math.max(p.residualFloor, costBasis*(Number(p.residualPercent)||0)));
 
-      const costBasis = round2(ticket + acquisitionFee + tax + processingFee);
+      const depreciation=(costBasis-residual)/Math.max(1,term);
+      const rent=(costBasis+residual)*(Number(p.moneyFactor)||0);
+      const payment=round2(depreciation+rent);
+      const totalPayments=round2(payment*term);
 
-      const termCap = computeTermCap(p, ticket);
-      const term = termCap; // demo uses cap as offered term
-      const residual = round2(Math.max(p.residualFloor, costBasis * (Number(p.residualPercent)||0)));
+      const flags=[];
+      let approved=true;
+      if(state.score<p.minScore){approved=false;flags.push("Score below minimum");}
+      if(ticket>p.maxTicket){approved=false;flags.push("Ticket exceeds policy maximum");}
 
-      // storyboard payment: straight-line depreciation + rent charge (money factor)
-      const depreciation = (costBasis - residual) / Math.max(1, term);
-      const rent = (costBasis + residual) * (Number(p.moneyFactor)||0);
-      const payment = round2(depreciation + rent);
-
-      // decision gating
-      const flags = [];
-      let approved = true;
-
-      if (state.score < p.minScore){ approved = false; flags.push("Score below minimum"); }
-      if (ticket > p.maxTicket){ approved = false; flags.push("Ticket exceeds policy maximum"); }
-
-      // buyout schedule (straight-line from cost basis to residual)
-      const buyoutMonth = clamp(parseInt(state.buyoutMonth ?? 0, 10) || 0, 0, term);
-      const slope = (costBasis - residual) / Math.max(1, term);
-      const buyout = round2(costBasis - slope * buyoutMonth);
-
-      // total of payments (approx) for disclosure panel
-      const totalPayments = round2(payment * term);
+      const buyoutMonth=clamp(parseInt(state.buyoutMonth??0,10)||0,0,term);
+      const slope=(costBasis-residual)/Math.max(1,term);
+      const buyout=round2(costBasis - slope*buyoutMonth);
 
       return {
-        policy: p,
-        pricing: { ticket, acquisitionFee, tax, processingFee, costBasis, residual, term, payment, totalPayments },
-        decision: { approved, flags, termCap, term },
+        policy:p,
+        pricing:{ticket,acquisitionFee,tax,processingFee,costBasis,residual,term,payment,totalPayments},
+        decision:{approved,flags,termCap,term},
         buyoutMonth,
         buyout
       };
     }
 
-    function buyoutScheduleRows(costBasis, residual, term){
-      const rows = [];
-      const slope = (costBasis - residual) / Math.max(1, term);
-      for (let m=0; m<=term; m++){
-        const amt = round2(costBasis - slope * m);
-        rows.push({ month: m, buyout: amt });
+    function buyoutScheduleRows(costBasis,residual,term){
+      const rows=[];
+      const slope=(costBasis-residual)/Math.max(1,term);
+      for(let m=0;m<=term;m++){
+        rows.push({month:m,buyout: round2(costBasis - slope*m)});
       }
       return rows;
     }
 
     function renderBuyoutTable(d){
-      const rows = buyoutScheduleRows(d.pricing.costBasis, d.pricing.residual, d.pricing.term);
-      const head = `
+      const rows=buyoutScheduleRows(d.pricing.costBasis,d.pricing.residual,d.pricing.term);
+      return `
         <table>
-          <thead>
-            <tr>
-              <th style="width:120px">Month</th>
-              <th class="r">Buyout amount</th>
-            </tr>
-          </thead>
+          <thead><tr><th style="width:120px">Month</th><th class="r">Buyout amount</th></tr></thead>
           <tbody>
+            ${rows.map(r=>`
+              <tr><td class="mono">${r.month}</td><td class="r mono">${escapeHtml(fmtUSD(r.buyout))}</td></tr>
+            `).join("")}
+          </tbody>
+        </table>
       `;
-      const body = rows.map(r => `
-        <tr>
-          <td class="mono">${r.month}</td>
-          <td class="r mono">${escapeHtml(fmtUSD(r.buyout))}</td>
-        </tr>
-      `).join("");
-      return head + body + "</tbody></table>";
     }
 
-    // ---------- Doc rendering helpers ----------
-    function docShell({title, subtitle, leftMeta, buttonsHtml, pagesHtml}){
+    // ---------- Doc helpers ----------
+    function docShell({title,subtitle,leftMeta,buttonsHtml,innerHtml}){
       return `
         <div class="docShell">
           <div class="docToolbar">
             <div class="left">
               <strong>${escapeHtml(title)}</strong>
               <span style="opacity:.65">•</span>
-              <span>${escapeHtml(subtitle || "")}</span>
+              <span>${escapeHtml(subtitle||"")}</span>
               ${leftMeta ? `<span style="opacity:.65">•</span><span class="mono">${escapeHtml(leftMeta)}</span>` : ""}
             </div>
-            <div class="right">
-              ${buttonsHtml || ""}
-            </div>
+            <div class="right">${buttonsHtml||""}</div>
           </div>
-          <div class="docCanvas">
-            ${pagesHtml || ""}
-          </div>
+          ${innerHtml||""}
         </div>
       `;
     }
 
-    function docPage({headerTitle, headerMeta, bodyHtml}){
+    function docPage({headerTitle,headerMeta,bodyHtml}){
       return `
         <div class="docPage">
           <div class="docHeader">
@@ -807,9 +661,7 @@
             </div>
             <div class="docMeta">Synthetic demo / storyboard only</div>
           </div>
-          <div class="docBody">
-            ${bodyHtml || ""}
-          </div>
+          <div class="docBody">${bodyHtml||""}</div>
         </div>
       `;
     }
@@ -818,11 +670,51 @@
       return `
         <table class="docTable">
           <thead><tr><th>Field</th><th class="r">Value</th></tr></thead>
-          <tbody>
-            ${rows.map(r => `<tr><td>${escapeHtml(r.k)}</td><td class="r mono">${escapeHtml(r.v)}</td></tr>`).join("")}
-          </tbody>
+          <tbody>${rows.map(r=>`<tr><td>${escapeHtml(r.k)}</td><td class="r mono">${escapeHtml(r.v)}</td></tr>`).join("")}</tbody>
         </table>
       `;
+    }
+
+    function blankLine(len=22){
+      return `<span class="reqBlank">${"_".repeat(len)}</span>`;
+    }
+
+    function fieldValueOrBlank({value, mono, blank=false, blankLen=24}){
+      const val = blank ? blankLine(blankLen) : escapeHtml(value||"");
+      return `<div class="val ${mono ? "mono" : ""}">${val}</div>`;
+    }
+
+    // Required field blocks with IDs for “Next Required”
+    function docFields(fields){
+      return `
+        <div class="docFields">
+          ${fields.map(f=>{
+            const tag = f.required ? `<div class="tag req">REQUIRED</div>` : `<div class="tag opt">OPTIONAL</div>`;
+            return `
+              <div class="docField ${f.required ? "reqField" : ""}" data-req="${f.required ? "1":"0"}" id="${escapeHtml(f.id||"")}">
+                ${tag}
+                <div class="lbl">${escapeHtml(f.label)}</div>
+                ${fieldValueOrBlank({value:f.value, mono:f.mono, blank:f.blank, blankLen:f.blankLen||24})}
+                ${f.hint ? `<div class="hint">${escapeHtml(f.hint)}</div>` : ``}
+              </div>
+            `;
+          }).join("")}
+        </div>
+      `;
+    }
+
+    // Synthetic “party + asset” placeholders
+    function buildSyntheticPartyData(){
+      const persona=state.persona||"Prime Applicant";
+      const name = persona.includes("Decline") ? "Casey Applicant" : "Alex Applicant";
+      const email = (persona.includes("Decline") ? "casey" : "alex") + ".applicant@example.com";
+      const phone = persona.includes("Thin") ? "(555) 010-2210" : "(555) 010-1120";
+      const address = persona.includes("Near") ? "2451 Cypress Glen Dr, Tomball, TX 77375" : "1207 Oak Meadow Ln, Spring, TX 77389";
+      const itemDesc="Identity Tool (Demo Item)";
+      const sku="FL-IT-" + String(Math.abs(Math.floor((state.ticket||0)*10))%100000).padStart(5,"0");
+      const merchant="Flintlock Merchant (Demo)";
+      const delivery="In-store pickup (illustrative)";
+      return {name,email,phone,address,itemDesc,sku,merchant,delivery};
     }
 
     // ---------- Views ----------
@@ -833,8 +725,7 @@
             <div class="field">
               <label>Persona (synthetic)</label>
               <select id="persona">
-                ${["Prime Applicant","Near-Prime Applicant","Thin File","Decline Persona"].map(x =>
-                  `<option ${state.persona===x?"selected":""}>${escapeHtml(x)}</option>`).join("")}
+                ${["Prime Applicant","Near-Prime Applicant","Thin File","Decline Persona"].map(x=>`<option ${state.persona===x?"selected":""}>${escapeHtml(x)}</option>`).join("")}
               </select>
             </div>
             <div class="field">
@@ -879,49 +770,31 @@
     }
 
     function viewOffer(d){
-      const p = d.pricing;
+      const p=d.pricing;
       return `
         <div id="offer">
           <div class="grid2">
-            <div class="kpi">
-              <div class="k">Lease term</div>
-              <div class="v mono">${p.term} months</div>
-            </div>
-            <div class="kpi">
-              <div class="k">Monthly payment (illustrative)</div>
-              <div class="v mono">${escapeHtml(fmtUSD(p.payment))}</div>
-            </div>
-            <div class="kpi">
-              <div class="k">Total of payments (approx.)</div>
-              <div class="v mono">${escapeHtml(fmtUSD(p.totalPayments))}</div>
-            </div>
+            <div class="kpi"><div class="k">Lease term</div><div class="v mono">${p.term} months</div></div>
+            <div class="kpi"><div class="k">Monthly payment (illustrative)</div><div class="v mono">${escapeHtml(fmtUSD(p.payment))}</div></div>
+            <div class="kpi"><div class="k">Total of payments (approx.)</div><div class="v mono">${escapeHtml(fmtUSD(p.totalPayments))}</div></div>
           </div>
 
           <div class="hr"></div>
 
           <div class="grid2">
-            <div class="field">
-              <label>Cost basis</label>
-              <div class="mono" style="font-size:16px; margin-top:4px;">${escapeHtml(fmtUSD(p.costBasis))}</div>
-            </div>
-            <div class="field">
-              <label>Residual (purchase option)</label>
-              <div class="mono" style="font-size:16px; margin-top:4px;">${escapeHtml(fmtUSD(p.residual))}</div>
-            </div>
+            <div class="field"><label>Cost basis</label><div class="mono" style="font-size:16px;margin-top:4px">${escapeHtml(fmtUSD(p.costBasis))}</div></div>
+            <div class="field"><label>Residual (purchase option)</label><div class="mono" style="font-size:16px;margin-top:4px">${escapeHtml(fmtUSD(p.residual))}</div></div>
           </div>
 
           <div class="note" style="margin-top:14px">
-            <strong>Pricing note (demo):</strong>
-            Payment is computed from straight-line depreciation on cost basis plus an illustrative rent charge using a money factor.
+            <strong>Pricing note (demo):</strong> Payment is computed from straight-line depreciation on cost basis plus an illustrative rent charge using a money factor.
             This is storyboard math only.
           </div>
 
           <div class="hr"></div>
 
-          <h2 style="font-family:var(--serif); margin:0 0 8px">Early buyout (illustrative)</h2>
-          <p class="sub" style="margin-top:0">
-            Methodology: <span class="mono">Straight-line buyout</span> from full cost basis down to residual over the term.
-          </p>
+          <h2 style="font-family:var(--serif);margin:0 0 8px">Early buyout (illustrative)</h2>
+          <p class="sub" style="margin-top:0">Methodology: <span class="mono">Straight-line buyout</span> from full cost basis down to residual over the term.</p>
 
           <div class="grid2">
             <div class="field">
@@ -936,10 +809,8 @@
 
           <div class="hr"></div>
 
-          <h2 style="font-family:var(--serif); margin:0 0 8px">Buyout schedule (straight-line)</h2>
-          <p class="sub" style="margin-top:0">
-            Straight-line from cost basis to residual over ${p.term} months.
-          </p>
+          <h2 style="font-family:var(--serif);margin:0 0 8px">Buyout schedule (straight-line)</h2>
+          <p class="sub" style="margin-top:0">Straight-line from cost basis to residual over ${p.term} months.</p>
 
           <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:12px">
             <button class="btn" id="exportScheduleCsv">Export schedule (CSV)</button>
@@ -950,20 +821,33 @@
       `;
     }
 
+    function buildExhibitBObject(d){
+      return {
+        policy:{...d.policy},
+        decision:{approved:d.decision.approved, flags:d.decision.flags, termCap:d.decision.termCap, term:d.decision.term},
+        pricing:{
+          ticket:d.pricing.ticket,
+          acquisitionFee:d.pricing.acquisitionFee,
+          tax:d.pricing.tax,
+          processingFee:d.pricing.processingFee,
+          costBasis:d.pricing.costBasis,
+          residual:d.pricing.residual,
+          term:d.pricing.term,
+          payment:d.pricing.payment
+        }
+      };
+    }
+
     function viewDashboard(d){
-      const f = d.decision.flags;
+      const f=d.decision.flags;
       return `
         <div id="dashboard">
-          <div class="note">
-            <strong>Demo status</strong><br/>
-            Snapshot of current scenario and policy defaults (loaded from <span class="mono">/admin</span> via localStorage).
-          </div>
-
+          <div class="note"><strong>Demo status</strong><br/>Snapshot of current scenario and policy defaults (loaded from <span class="mono">/admin</span> via localStorage).</div>
           <div class="hr"></div>
 
           <div class="grid2">
-            <div class="kpi"><div class="k">Approved</div><div class="v mono">${d.decision.approved ? "true" : "false"}</div></div>
-            <div class="kpi"><div class="k">Flags</div><div class="v mono">${f.length ? escapeHtml(f.join("; ")) : "—"}</div></div>
+            <div class="kpi"><div class="k">Approved</div><div class="v mono">${d.decision.approved?"true":"false"}</div></div>
+            <div class="kpi"><div class="k">Flags</div><div class="v mono">${f.length?escapeHtml(f.join("; ")):"—"}</div></div>
             <div class="kpi"><div class="k">Term</div><div class="v mono">${d.pricing.term}</div></div>
             <div class="kpi"><div class="k">Money factor</div><div class="v mono">${d.policy.moneyFactor}</div></div>
             <div class="kpi"><div class="k">Residual %</div><div class="v mono">${d.policy.residualPercent}</div></div>
@@ -981,7 +865,7 @@
     }
 
     function viewDisclosures(d){
-      const p = d.pricing;
+      const p=d.pricing;
       return `
         <div id="disclosures">
           <div class="card" style="margin:0; background:rgba(0,0,0,.14)">
@@ -1023,182 +907,9 @@
       `;
     }
 
-    function buildExhibitBObject(d){
-      return {
-        policy: {
-          minScore: d.policy.minScore,
-          maxTicket: d.policy.maxTicket,
-          termCap1500: d.policy.termCap1500,
-          termCap2500: d.policy.termCap2500,
-          termCapOver2500: d.policy.termCapOver2500,
-          moneyFactor: d.policy.moneyFactor,
-          residualPercent: d.policy.residualPercent,
-          residualFloor: d.policy.residualFloor
-        },
-        decision: {
-          approved: d.decision.approved,
-          flags: d.decision.flags,
-          termCap: d.decision.termCap,
-          term: d.decision.term
-        },
-        pricing: {
-          ticket: d.pricing.ticket,
-          acquisitionFee: d.pricing.acquisitionFee,
-          tax: d.pricing.tax,
-          processingFee: d.pricing.processingFee,
-          costBasis: d.pricing.costBasis,
-          residual: d.pricing.residual,
-          term: d.pricing.term,
-          payment: d.pricing.payment
-        }
-      };
-    }
-
-    function viewContract(d){
-      const p = d.pricing;
-      const today = new Date();
-      const dateStr = (today.getMonth()+1)+"/"+today.getDate()+"/"+today.getFullYear();
-
-      const exhibitB = buildExhibitBObject(d);
-
-      // Document-style contract body (clean e-sign look)
-      const contractBody = `
-        <p><strong>IMPORTANT DEMO NOTICE:</strong><br/>
-          This document is a synthetic example generated for demonstrations and integration testing only. No financing is offered.
-          No credit pulls occur. Any personal data is synthetic.
-        </p>
-
-        <h4>1. Parties</h4>
-        <div class="docGrid">
-          <div class="docBox"><div class="k">Lessor</div><div class="v">Flintlock Financing (Demo Environment)</div></div>
-          <div class="docBox"><div class="k">Lessee</div><div class="v">${escapeHtml(state.persona)} (Synthetic)</div></div>
-        </div>
-
-        <h4>2. Asset / Merchandise</h4>
-        ${kvTable([
-          {k:"Item ticket price", v: fmtUSD(p.ticket)},
-          {k:"Acquisition fee (capitalized)", v: fmtUSD(p.acquisitionFee)},
-          {k:"Sales tax (capitalized)", v: fmtUSD(p.tax)},
-          {k:"Processing (capitalized)", v: fmtUSD(p.processingFee)},
-          {k:"Total cost basis", v: fmtUSD(p.costBasis)}
-        ])}
-
-        <h4>3. Term & Payments (Illustrative)</h4>
-        ${kvTable([
-          {k:"Lease term", v: p.term + " months"},
-          {k:"Estimated monthly payment (storyboard)", v: fmtUSD(p.payment)},
-          {k:"Money factor (illustrative)", v: String(d.policy.moneyFactor)}
-        ])}
-
-        <h4>4. Purchase Option (Residual)</h4>
-        <p>
-          At the end of the lease term, Lessee may have a purchase option equal to the residual amount shown below (illustrative).
-          Early buyout amounts are shown in <strong>Exhibit A</strong> (straight-line schedule).
-        </p>
-        ${kvTable([
-          {k:"Purchase option amount (end of term)", v: fmtUSD(p.residual)}
-        ])}
-
-        <h4>5. Disclosures (Demo)</h4>
-        <ul style="margin:8px 0 0; padding-left:18px">
-          <li>This is not a quote, offer, or contract for real financing.</li>
-          <li>All calculations are illustrative storyboard math.</li>
-          <li>Actual disclosure language must be reviewed by counsel for Reg M compliance.</li>
-        </ul>
-
-        <h4>6. Exhibits</h4>
-        <p style="margin-top:8px">
-          <strong>Exhibit A:</strong> Buyout schedule (Straight-Line)<br/>
-          <strong>Exhibit B:</strong> Pricing & Policy Summary (Illustrative)<br/>
-          <strong>Exhibit C:</strong> Credit Box Summary (One-Page)
-        </p>
-
-        <h4>7. Signatures (Demo Only)</h4>
-        <div class="sigRow">
-          <div class="sig">
-            <div class="tab">SIGN HERE</div>
-            <div class="line"></div>
-            <div class="label"><span>Lessor (Demo)</span><span>Date: __________</span></div>
-          </div>
-          <div class="sig">
-            <div class="tab">SIGN HERE</div>
-            <div class="line"></div>
-            <div class="label"><span>Lessee (Demo)</span><span>Date: __________</span></div>
-          </div>
-        </div>
-
-        <div style="margin-top:14px; padding:10px 12px; border:1px solid var(--paperStroke); border-radius:12px; background:#fbfdff; color:var(--paperMuted); font-size:12px">
-          <strong>Integration note:</strong> In production, this “paper” view would be generated from a template engine into PDF and sent to an e-signature provider.
-          For this demo, we keep it as HTML for portability and easy pitch walkthrough.
-        </div>
-
-        <h4 style="margin-top:18px">Exhibit A — Buyout schedule</h4>
-        <p style="margin-top:6px; color:var(--paperMuted)">
-          Straight-line from cost basis to residual over term.
-        </p>
-        <div style="overflow:auto">${renderBuyoutTable(d).replace("<table", "<table class='docTable'").replaceAll("class=\"r\"", "class=\"r\"")}</div>
-
-        <h4 style="margin-top:18px">Exhibit B — Pricing & policy summary</h4>
-        <p style="margin-top:6px; color:var(--paperMuted)">
-          Document view (investor-friendly). Raw JSON available via download.
-        </p>
-
-        ${kvTable([
-          {k:"Minimum credit score", v: String(d.policy.minScore)},
-          {k:"Max ticket (item price)", v: fmtUSD(d.policy.maxTicket)},
-          {k:"Term cap ≤ $1,500", v: d.policy.termCap1500 + " months"},
-          {k:"Term cap ≤ $2,500", v: d.policy.termCap2500 + " months"},
-          {k:"Term cap > $2,500", v: d.policy.termCapOver2500 + " months"},
-          {k:"Money factor (demo)", v: String(d.policy.moneyFactor)},
-          {k:"Residual percent (demo)", v: String(d.policy.residualPercent)},
-          {k:"Residual floor (demo)", v: fmtUSD(d.policy.residualFloor)}
-        ])}
-
-        ${kvTable([
-          {k:"Ticket", v: fmtUSD(p.ticket)},
-          {k:"Acquisition fee (capitalized)", v: fmtUSD(p.acquisitionFee)},
-          {k:"Sales tax (capitalized)", v: fmtUSD(p.tax)},
-          {k:"Processing (capitalized)", v: fmtUSD(p.processingFee)},
-          {k:"Total cost basis", v: fmtUSD(p.costBasis)},
-          {k:"Residual (purchase option)", v: fmtUSD(p.residual)},
-          {k:"Lease term", v: p.term + " months"},
-          {k:"Monthly payment (illustrative)", v: fmtUSD(p.payment)}
-        ])}
-
-        <div style="margin-top:10px; color:var(--paperMuted); font-size:12px">
-          This exhibit is intentionally plain and structured for pitch clarity. In production, you’d generate a PDF exhibit packet.
-        </div>
-      `;
-
-      const contractTxt = buildContractText(d, dateStr);
-      const exhibitCTxt = buildExhibitCText(d, dateStr);
-
-      const pages = [
-        docPage({
-          headerTitle: "FLINTLOCK FINANCING — SAMPLE CONSUMER LEASE AGREEMENT (DEMO)",
-          headerMeta: `Date: <span class="mono">${escapeHtml(dateStr)}</span>`,
-          bodyHtml: contractBody
-        })
-      ].join("");
-
-      const buttons = `
-        <button class="btn" id="dlContract">Download contract (.txt)</button>
-        <button class="btn" id="dlExhibitC">Download Exhibit C (.txt)</button>
-        <button class="btn" id="dlExhibitB">Download Exhibit B (.json)</button>
-        <button class="btn primary" id="backOffer">Back to offer</button>
-      `;
-
-      return docShell({
-        title: "Contract preview (demo)",
-        subtitle: "Doc-style rendering (pitch-friendly)",
-        leftMeta: "HTML “paper” view",
-        buttonsHtml: buttons,
-        pagesHtml: pages
-      });
-    }
-
     function buildContractText(d, dateStr){
-      const p = d.pricing;
+      const p=d.pricing;
+      const synth=buildSyntheticPartyData();
       return [
         "FLINTLOCK FINANCING — SAMPLE CONSUMER LEASE AGREEMENT (DEMO)",
         "Date: " + dateStr,
@@ -1209,9 +920,18 @@
         "",
         "PARTIES",
         "Lessor: Flintlock Financing (Demo Environment)",
-        "Lessee: " + state.persona + " (Synthetic)",
+        "Lessee: " + synth.name + " (Synthetic)",
+        "Email: " + synth.email,
+        "Phone: " + synth.phone,
+        "Address: " + synth.address,
         "",
-        "ASSET / MERCHANDISE",
+        "ASSET DETAILS (SYNTHETIC)",
+        "Item: " + synth.itemDesc,
+        "SKU/Serial: " + synth.sku,
+        "Merchant: " + synth.merchant,
+        "Delivery: " + synth.delivery,
+        "",
+        "ASSET / MERCHANDISE (CAPITALIZED)",
         "Item ticket price: " + fmtUSD(p.ticket),
         "Acquisition fee (capitalized): " + fmtUSD(p.acquisitionFee),
         "Sales tax (capitalized): " + fmtUSD(p.tax),
@@ -1245,8 +965,7 @@
     }
 
     function buildExhibitCText(d, dateStr){
-      const p = d.pricing;
-      const pol = d.policy;
+      const p=d.pricing, pol=d.policy;
       return [
         "EXHIBIT C — CREDIT BOX SUMMARY (DEMO)",
         "Date: " + dateStr,
@@ -1283,22 +1002,197 @@
       ].join("\\n");
     }
 
-    function viewExhibitC(d){
-      const today = new Date();
-      const dateStr = (today.getMonth()+1)+"/"+today.getDate()+"/"+today.getFullYear();
-      const txt = buildExhibitCText(d, dateStr);
+    function viewContract(d){
+      const p=d.pricing;
+      const today=new Date();
+      const dateStr=(today.getMonth()+1)+"/"+today.getDate()+"/"+today.getFullYear();
+      const synth=buildSyntheticPartyData();
+      const req=state.docReqBlank;
+
+      // Required fields list used by right rail + Next Required
+      const requiredFields = [
+        { id:"req_lessee_name", label:"Lessee name", desc:"Confirm lessee identity (synthetic)", required:true },
+        { id:"req_lessee_email", label:"Email", desc:"Required for e-sign routing", required:true },
+        { id:"req_lessee_phone", label:"Phone", desc:"Contact number", required:true },
+        { id:"req_lessee_address", label:"Address", desc:"Billing / residency (synthetic)", required:true },
+        { id:"req_item_desc", label:"Item description", desc:"Asset being leased", required:true },
+        { id:"req_item_serial", label:"SKU / Serial", desc:"Serialized asset reference", required:true },
+        { id:"req_delivery", label:"Delivery method", desc:"Fulfillment method", required:true },
+        { id:"req_sig_lessee", label:"Lessee signature", desc:"Signature tab", required:true },
+        { id:"req_date_lessee", label:"Date signed (Lessee)", desc:"Auto-stamp date", required:true }
+      ];
+
+      const contractBody = `
+        <p><strong>IMPORTANT DEMO NOTICE:</strong><br/>
+          This document is a synthetic example generated for demonstrations and integration testing only. No financing is offered.
+          No credit pulls occur. Any personal data is synthetic.
+        </p>
+
+        <h4>1. Parties</h4>
+        ${docFields([
+          { id:"req_lessor_name", label:"Lessor (demo)", value:"Flintlock Financing (Demo Environment)", required:false, blank:false, hint:"Demo-only party field." },
+          { id:"req_lessee_name", label:"Lessee (synthetic)", value:synth.name, required:true, blank:false, hint:"Synthetic persona name." }
+        ])}
+
+        <h4>2. Lessee information (synthetic)</h4>
+        ${docFields([
+          { id:"req_lessee_email", label:"Email", value:synth.email, mono:true, required:true, blank:req.lesseeEmail, blankLen:28, hint:"Used for e-sign routing in production." },
+          { id:"req_lessee_phone", label:"Phone", value:synth.phone, mono:true, required:true, blank:req.lesseePhone, blankLen:18, hint:"Used for notices in production." },
+          { id:"req_lessee_address", label:"Address", value:synth.address, required:true, blank:req.lesseeAddress, blankLen:34, hint:"Synthetic address for storyboard only." },
+          { id:"req_lessee_id", label:"Lessee ID reference", value:"DEMO-" + String(Math.abs(state.score||0)).padStart(3,"0") + "-A1", mono:true, required:false, blank:false, hint:"Placeholder identifier for audit trail demos." }
+        ])}
+
+        <h4>3. Asset details (synthetic)</h4>
+        ${docFields([
+          { id:"req_item_desc", label:"Item description", value:synth.itemDesc, required:true, blank:false },
+          { id:"req_item_serial", label:"SKU / Serial", value:synth.sku, mono:true, required:true, blank:req.itemSerial, blankLen:20, hint:"Serialized assets reduce loss + improve auditability." },
+          { id:"req_merchant", label:"Merchant / Dealer", value:synth.merchant, required:false, blank:false },
+          { id:"req_delivery", label:"Delivery method", value:synth.delivery, required:true, blank:req.delivery, blankLen:24 }
+        ])}
+
+        <h4>4. Asset / Merchandise pricing (capitalized)</h4>
+        ${kvTable([
+          {k:"Item ticket price", v: fmtUSD(p.ticket)},
+          {k:"Acquisition fee (capitalized)", v: fmtUSD(p.acquisitionFee)},
+          {k:"Sales tax (capitalized)", v: fmtUSD(p.tax)},
+          {k:"Processing (capitalized)", v: fmtUSD(p.processingFee)},
+          {k:"Total cost basis", v: fmtUSD(p.costBasis)}
+        ])}
+
+        <h4>5. Term & Payments (Illustrative)</h4>
+        ${kvTable([
+          {k:"Lease term", v: p.term + " months"},
+          {k:"Estimated monthly payment (storyboard)", v: fmtUSD(p.payment)},
+          {k:"Money factor (illustrative)", v: String(d.policy.moneyFactor)}
+        ])}
+
+        <h4>6. Purchase Option (Residual)</h4>
+        <p>
+          At the end of the lease term, Lessee may have a purchase option equal to the residual amount shown below (illustrative).
+          Early buyout amounts are shown in <strong>Exhibit A</strong> (straight-line schedule).
+        </p>
+        ${kvTable([{k:"Purchase option amount (end of term)", v: fmtUSD(p.residual)}])}
+
+        <h4>7. Disclosures (Demo)</h4>
+        <ul style="margin:8px 0 0;padding-left:18px">
+          <li>This is not a quote, offer, or contract for real financing.</li>
+          <li>All calculations are illustrative storyboard math.</li>
+          <li>Actual disclosure language must be reviewed by counsel for Reg M compliance.</li>
+        </ul>
+
+        <h4>8. Signatures (Demo Only)</h4>
+        <div class="sigRow">
+          <div class="sig reqField" data-req="1" id="req_sig_lessor">
+            <div class="tabReq">SIGN HERE</div>
+            <div class="line"></div>
+            <div class="label"><span><b>Lessor</b> (Demo)</span><span id="req_date_lessor"><b>Date signed:</b> ${req.dateLessor ? blankLine(10) : escapeHtml(dateStr)}</span></div>
+          </div>
+          <div class="sig reqField" data-req="1" id="req_sig_lessee">
+            <div class="tabReq">SIGN HERE</div>
+            <div class="line"></div>
+            <div class="label"><span><b>Lessee</b> (Demo)</span><span id="req_date_lessee"><b>Date signed:</b> ${req.dateLessee ? blankLine(10) : escapeHtml(dateStr)}</span></div>
+          </div>
+        </div>
+
+        <div style="margin-top:14px;padding:10px 12px;border:1px solid var(--paperStroke);border-radius:12px;background:#fbfdff;color:var(--paperMuted);font-size:12px">
+          <strong>Integration note:</strong> In production, this “paper” view would be generated as a PDF and routed through an e-sign provider.
+          For this demo, we render an HTML “paper” view and a “required fields” experience to match investor expectations.
+        </div>
+
+        <h4 style="margin-top:18px">Exhibit A — Buyout schedule</h4>
+        <p style="margin-top:6px;color:var(--paperMuted)">Straight-line from cost basis to residual over term.</p>
+        <div style="overflow:auto">${renderBuyoutTable(d).replace("<table", "<table class='docTable'")}</div>
+
+        <h4 style="margin-top:18px">Exhibit B — Pricing & policy summary</h4>
+        ${kvTable([
+          {k:"Minimum credit score", v: String(d.policy.minScore)},
+          {k:"Max ticket (item price)", v: fmtUSD(d.policy.maxTicket)},
+          {k:"Term cap ≤ $1,500", v: d.policy.termCap1500 + " months"},
+          {k:"Term cap ≤ $2,500", v: d.policy.termCap2500 + " months"},
+          {k:"Term cap > $2,500", v: d.policy.termCapOver2500 + " months"},
+          {k:"Money factor (demo)", v: String(d.policy.moneyFactor)},
+          {k:"Residual percent (demo)", v: String(d.policy.residualPercent)},
+          {k:"Residual floor (demo)", v: fmtUSD(d.policy.residualFloor)}
+        ])}
+      `;
 
       const page = docPage({
-        headerTitle: "Exhibit C — Credit Box Summary (Demo)",
-        headerMeta: `Date: <span class="mono">${escapeHtml(dateStr)}</span>`,
-        bodyHtml: `
-          <p style="margin-top:0;color:var(--paperMuted)">
-            One-page credit box summary for pitch packets. Demo only.
-          </p>
-          <div class="docBox">
-            <pre style="margin:0; white-space:pre-wrap; font-family:var(--mono); font-size:12.5px; line-height:1.45">${escapeHtml(txt)}</pre>
+        headerTitle:"FLINTLOCK FINANCING — SAMPLE CONSUMER LEASE AGREEMENT (DEMO)",
+        headerMeta:`Date: <span class="mono">${escapeHtml(dateStr)}</span>`,
+        bodyHtml: contractBody
+      });
+
+      const rail = `
+        <aside class="rail">
+          <h4>Recipients</h4>
+          <div class="small">DocuSign-style “required fields” rail (demo). No real signing occurs.</div>
+
+          <div class="box">
+            <div class="row"><strong>Lessee</strong><span class="mono">${escapeHtml(synth.name)}</span></div>
+            <div class="row" style="margin-top:6px"><strong>Required</strong><span class="mono" id="reqCount">—</span></div>
+            <div class="row" style="margin-top:6px"><strong>Completed</strong><span class="mono" id="doneCount">—</span></div>
+            <div style="margin-top:10px; display:flex; gap:10px; flex-wrap:wrap">
+              <button class="btn small primary" id="nextReq">Next required</button>
+              <button class="btn small" id="toggleBlanks">${state.docusignMode ? "Hide blanks" : "Show blanks"}</button>
+            </div>
           </div>
 
+          <div class="box">
+            <div class="small"><strong>Required fields</strong> (click to jump)</div>
+            <ul id="reqList">
+              ${requiredFields.map(f=>`
+                <li data-jump="${escapeHtml(f.id)}">
+                  <div class="t"><span>${escapeHtml(f.label)}</span><em>REQ</em></div>
+                  <div class="d">${escapeHtml(f.desc)}</div>
+                </li>
+              `).join("")}
+            </ul>
+          </div>
+
+          <div class="box">
+            <div class="small">
+              <strong>Demo note:</strong> We can map these IDs to a real template engine later (PDF + e-sign tabs).
+            </div>
+          </div>
+        </aside>
+      `;
+
+      const buttons = `
+        <button class="btn" id="dlContract">Download contract (.txt)</button>
+        <button class="btn" id="dlExhibitC">Download Exhibit C (.txt)</button>
+        <button class="btn" id="dlExhibitB">Download Exhibit B (.json)</button>
+        <button class="btn primary" id="backOffer">Back to offer</button>
+      `;
+
+      const inner = `
+        <div class="docWrap">
+          <div class="docCanvas" id="docCanvas">${page}</div>
+          ${rail}
+        </div>
+      `;
+
+      return docShell({
+        title:"Contract preview (demo)",
+        subtitle:"DocuSign-y required fields experience",
+        leftMeta:"HTML “paper” view + right rail",
+        buttonsHtml: buttons,
+        innerHtml: inner
+      });
+    }
+
+    function viewExhibitC(d){
+      const today=new Date();
+      const dateStr=(today.getMonth()+1)+"/"+today.getDate()+"/"+today.getFullYear();
+      const txt=buildExhibitCText(d,dateStr);
+
+      const page = docPage({
+        headerTitle:"Exhibit C — Credit Box Summary (Demo)",
+        headerMeta:`Date: <span class="mono">${escapeHtml(dateStr)}</span>`,
+        bodyHtml: `
+          <p style="margin-top:0;color:var(--paperMuted)">One-page credit box summary for pitch packets. Demo only.</p>
+          <div style="border:1px solid var(--paperStroke);background:#fff;border-radius:12px;padding:12px">
+            <pre style="margin:0;white-space:pre-wrap;font-family:var(--mono);font-size:12.5px;line-height:1.45">${escapeHtml(txt)}</pre>
+          </div>
           <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap">
             <button class="btn" id="dlExhibitC2">Download Exhibit C (.txt)</button>
             <button class="btn primary" id="goContract2">Back to contract</button>
@@ -1307,175 +1201,216 @@
       });
 
       return docShell({
-        title: "Exhibit C",
-        subtitle: "Credit box summary (one-page)",
-        leftMeta: "Demo exhibit",
-        buttonsHtml: "",
-        pagesHtml: page
+        title:"Exhibit C",
+        subtitle:"Credit box summary (one-page)",
+        leftMeta:"Demo exhibit",
+        buttonsHtml:"",
+        innerHtml:`<div class="docWrap" style="grid-template-columns:1fr"><div class="docCanvas">${page}</div></div>`
       });
     }
 
-    // ---------- Rendering + Events ----------
+    // ---------- Rendering + Wiring ----------
     function setKpis(d){
-      $("#scoreKpi").textContent = String(state.score);
-      $("#ticketKpi").textContent = fmtUSD(d.pricing.ticket);
-      $("#termCapKpi").textContent = d.decision.termCap + " mo";
-      $("#minScoreKpi").textContent = String(d.policy.minScore);
-      $("#maxTicketKpi").textContent = fmtUSD(d.policy.maxTicket);
-      $("#residualKpi").textContent = fmtUSD(d.pricing.residual);
+      $("#scoreKpi").textContent=String(state.score);
+      $("#ticketKpi").textContent=fmtUSD(d.pricing.ticket);
+      $("#termCapKpi").textContent=d.decision.termCap+" mo";
+      $("#minScoreKpi").textContent=String(d.policy.minScore);
+      $("#maxTicketKpi").textContent=fmtUSD(d.policy.maxTicket);
+      $("#residualKpi").textContent=fmtUSD(d.pricing.residual);
+      $("#personaText").textContent=state.persona;
 
-      $("#personaText").textContent = state.persona;
-
-      const badge = $("#decisionBadge");
-      const text = $("#decisionText");
-      if (d.decision.approved){
-        badge.classList.remove("bad");
-        badge.classList.add("good");
-        text.textContent = "Approved";
+      const badge=$("#decisionBadge");
+      const text=$("#decisionText");
+      if(d.decision.approved){
+        badge.classList.remove("bad"); badge.classList.add("good"); text.textContent="Approved";
       }else{
-        badge.classList.remove("good");
-        badge.classList.add("bad");
-        text.textContent = "Declined";
+        badge.classList.remove("good"); badge.classList.add("bad"); text.textContent="Declined";
       }
     }
 
     function render(){
-      const focus = captureFocus();
-      const d = computeAll();
+      const focus=captureFocus();
+      const d=computeAll();
 
       setKpis(d);
+      $$(".tab").forEach(t=>t.classList.toggle("active", t.dataset.tab===state.tab));
 
-      // tabs
-      $$(".tab").forEach(t => t.classList.toggle("active", t.dataset.tab === state.tab));
-
-      // view
-      const view = $("#view");
-      let html = "";
-      if (state.tab === "application") html = viewApplication(d);
-      else if (state.tab === "offer") html = viewOffer(d);
-      else if (state.tab === "dashboard") html = viewDashboard(d);
-      else if (state.tab === "disclosures") html = viewDisclosures(d);
-      else if (state.tab === "contract") html = viewContract(d);
-      else if (state.tab === "exhibitC") html = viewExhibitC(d);
-      view.innerHTML = html;
+      const view=$("#view");
+      let html="";
+      if(state.tab==="application") html=viewApplication(d);
+      else if(state.tab==="offer") html=viewOffer(d);
+      else if(state.tab==="dashboard") html=viewDashboard(d);
+      else if(state.tab==="disclosures") html=viewDisclosures(d);
+      else if(state.tab==="contract") html=viewContract(d);
+      else if(state.tab==="exhibitC") html=viewExhibitC(d);
+      view.innerHTML=html;
 
       wireViewEvents(d);
-
       restoreFocus(focus);
     }
 
-    function wireViewEvents(d){
-      // tab buttons (static)
-      $$(".tab").forEach(t => {
-        t.onclick = () => { state.tab = t.dataset.tab; render(); };
+    // Count required fields that are “completed”
+    function updateRequiredCounts(){
+      const reqFields = $$(".reqField");
+      const required = reqFields.length;
+      // Completed = not showing blanks (heuristic: any element containing underscores is "not complete")
+      let done = 0;
+      reqFields.forEach(el=>{
+        const hasBlank = el.innerHTML.includes("____");
+        if (!hasBlank) done++;
       });
+      const reqCount=$("#reqCount"), doneCount=$("#doneCount");
+      if (reqCount) reqCount.textContent=String(required);
+      if (doneCount) doneCount.textContent=String(done);
+    }
+
+    function clearHighlights(){
+      $$(".hl").forEach(el=>el.classList.remove("hl"));
+    }
+
+    function jumpTo(id){
+      const el = document.getElementById(id);
+      if (!el) return;
+      clearHighlights();
+      el.classList.add("hl");
+      el.scrollIntoView({behavior:"smooth", block:"center"});
+      setTimeout(()=>el.classList.remove("hl"), 1400);
+    }
+
+    function nextRequired(){
+      const reqEls = $$(".reqField");
+      if (!reqEls.length) return;
+
+      // find next one with blank underscores, else first one
+      const idx = reqEls.findIndex(el => el.innerHTML.includes("____"));
+      const target = idx>=0 ? reqEls[idx] : reqEls[0];
+      jumpTo(target.id);
+    }
+
+    function wireViewEvents(d){
+      // Tabs
+      $$(".tab").forEach(t=>t.onclick=()=>{state.tab=t.dataset.tab;render();});
 
       // Application
-      const personaSel = $("#persona");
-      if (personaSel){
-        personaSel.onchange = (e) => { state.persona = e.target.value; render(); };
-      }
-      const score = $("#score");
-      if (score){
-        score.oninput = (e) => { state.score = clamp(parseInt(e.target.value||0,10)||0, 300, 850); render(); };
-      }
-      const ticket = $("#ticket");
-      if (ticket){
-        ticket.oninput = (e) => { state.ticket = Math.max(0, Number(e.target.value||0)); render(); };
-      }
-      const acq = $("#acq");
-      if (acq){
-        acq.oninput = (e) => { state.acquisitionFee = Math.max(0, Number(e.target.value||0)); render(); };
-      }
-      const tax = $("#tax");
-      if (tax){
-        tax.oninput = (e) => { state.tax = Math.max(0, Number(e.target.value||0)); render(); };
-      }
-      const proc = $("#proc");
-      if (proc){
-        proc.oninput = (e) => { state.processingFee = Math.max(0, Number(e.target.value||0)); render(); };
-      }
+      const personaSel=$("#persona");
+      if (personaSel) personaSel.onchange=(e)=>{state.persona=e.target.value;render();};
+      const score=$("#score");
+      if (score) score.oninput=(e)=>{state.score=clamp(parseInt(e.target.value||0,10)||0,300,850);render();};
+      const ticket=$("#ticket");
+      if (ticket) ticket.oninput=(e)=>{state.ticket=Math.max(0,Number(e.target.value||0));render();};
+      const acq=$("#acq");
+      if (acq) acq.oninput=(e)=>{state.acquisitionFee=Math.max(0,Number(e.target.value||0));render();};
+      const tax=$("#tax");
+      if (tax) tax.oninput=(e)=>{state.tax=Math.max(0,Number(e.target.value||0));render();};
+      const proc=$("#proc");
+      if (proc) proc.oninput=(e)=>{state.processingFee=Math.max(0,Number(e.target.value||0));render();};
 
-      const goOffer = $("#goOffer");
-      if (goOffer) goOffer.onclick = () => { state.tab = "offer"; render(); };
-
-      const resetInputs = $("#resetInputs");
-      if (resetInputs) resetInputs.onclick = () => {
-        state.persona = "Prime Applicant";
-        state.score = 720;
-        state.ticket = 4500;
-        state.acquisitionFee = 250;
-        state.tax = 360;
-        state.processingFee = 35;
-        state.buyoutMonth = 12;
+      const goOffer=$("#goOffer");
+      if (goOffer) goOffer.onclick=()=>{state.tab="offer";render();};
+      const resetInputs=$("#resetInputs");
+      if (resetInputs) resetInputs.onclick=()=>{
+        state.persona="Prime Applicant";
+        state.score=720;
+        state.ticket=4500;
+        state.acquisitionFee=250;
+        state.tax=360;
+        state.processingFee=35;
+        state.buyoutMonth=12;
+        // reset doc blanks
+        state.docusignMode=true;
+        state.docReqBlank.sigLessor=true;
+        state.docReqBlank.sigLessee=true;
+        state.docReqBlank.dateLessor=true;
+        state.docReqBlank.dateLessee=true;
         render();
       };
 
       // Offer
-      const buyoutMonth = $("#buyoutMonth");
-      if (buyoutMonth){
-        buyoutMonth.oninput = (e) => { state.buyoutMonth = e.target.value; render(); };
-      }
-      const exportScheduleCsv = $("#exportScheduleCsv");
-      if (exportScheduleCsv){
-        exportScheduleCsv.onclick = () => {
-          const rows = buyoutScheduleRows(d.pricing.costBasis, d.pricing.residual, d.pricing.term);
-          const csv = [["Month","BuyoutAmountUSD"]].concat(rows.map(r => [r.month, r.buyout]));
-          downloadCSV("buyout_schedule_demo.csv", csv);
-        };
-      }
+      const buyoutMonth=$("#buyoutMonth");
+      if (buyoutMonth) buyoutMonth.oninput=(e)=>{state.buyoutMonth=e.target.value;render();};
+      const exportScheduleCsv=$("#exportScheduleCsv");
+      if (exportScheduleCsv) exportScheduleCsv.onclick=()=>{
+        const rows=buyoutScheduleRows(d.pricing.costBasis,d.pricing.residual,d.pricing.term);
+        const csv=[["Month","BuyoutAmountUSD"]].concat(rows.map(r=>[r.month,r.buyout]));
+        downloadCSV("buyout_schedule_demo.csv",csv);
+      };
 
-      // Dashboard exports
-      const exportPolicyJson = $("#exportPolicyJson");
-      if (exportPolicyJson){
-        exportPolicyJson.onclick = () => downloadJSON("policy_demo.json", d.policy);
-      }
-      const exportExhibitBJson = $("#exportExhibitBJson");
-      if (exportExhibitBJson){
-        exportExhibitBJson.onclick = () => downloadJSON("exhibit_b_pricing_policy_demo.json", buildExhibitBObject(d));
-      }
+      // Dashboard
+      const exportPolicyJson=$("#exportPolicyJson");
+      if (exportPolicyJson) exportPolicyJson.onclick=()=>downloadJSON("policy_demo.json", d.policy);
+      const exportExhibitBJson=$("#exportExhibitBJson");
+      if (exportExhibitBJson) exportExhibitBJson.onclick=()=>downloadJSON("exhibit_b_pricing_policy_demo.json", buildExhibitBObject(d));
 
       // Disclosures nav
-      const goContract = $("#goContract");
-      if (goContract) goContract.onclick = () => { state.tab = "contract"; render(); };
-      const goOffer2 = $("#goOffer2");
-      if (goOffer2) goOffer2.onclick = () => { state.tab = "offer"; render(); };
+      const goContract=$("#goContract");
+      if (goContract) goContract.onclick=()=>{state.tab="contract";render();};
+      const goOffer2=$("#goOffer2");
+      if (goOffer2) goOffer2.onclick=()=>{state.tab="offer";render();};
 
       // Contract downloads
-      const dlContract = $("#dlContract");
-      if (dlContract){
-        dlContract.onclick = () => {
-          const today = new Date();
-          const dateStr = (today.getMonth()+1)+"/"+today.getDate()+"/"+today.getFullYear();
-          downloadText("consumer_lease_agreement_demo.txt", buildContractText(d, dateStr));
-        };
-      }
-      const dlExhibitC = $("#dlExhibitC");
-      if (dlExhibitC){
-        dlExhibitC.onclick = () => {
-          const today = new Date();
-          const dateStr = (today.getMonth()+1)+"/"+today.getDate()+"/"+today.getFullYear();
-          downloadText("exhibit_c_credit_box_demo.txt", buildExhibitCText(d, dateStr));
-        };
-      }
-      const dlExhibitB = $("#dlExhibitB");
-      if (dlExhibitB){
-        dlExhibitB.onclick = () => downloadJSON("exhibit_b_pricing_policy_demo.json", buildExhibitBObject(d));
-      }
-      const backOffer = $("#backOffer");
-      if (backOffer) backOffer.onclick = () => { state.tab = "offer"; render(); };
+      const dlContract=$("#dlContract");
+      if (dlContract) dlContract.onclick=()=>{
+        const today=new Date();
+        const dateStr=(today.getMonth()+1)+"/"+today.getDate()+"/"+today.getFullYear();
+        downloadText("consumer_lease_agreement_demo.txt", buildContractText(d,dateStr));
+      };
+      const dlExhibitC=$("#dlExhibitC");
+      if (dlExhibitC) dlExhibitC.onclick=()=>{
+        const today=new Date();
+        const dateStr=(today.getMonth()+1)+"/"+today.getDate()+"/"+today.getFullYear();
+        downloadText("exhibit_c_credit_box_demo.txt", buildExhibitCText(d,dateStr));
+      };
+      const dlExhibitB=$("#dlExhibitB");
+      if (dlExhibitB) dlExhibitB.onclick=()=>downloadJSON("exhibit_b_pricing_policy_demo.json", buildExhibitBObject(d));
+      const backOffer=$("#backOffer");
+      if (backOffer) backOffer.onclick=()=>{state.tab="offer";render();};
 
-      // Exhibit C buttons
-      const dlExhibitC2 = $("#dlExhibitC2");
-      if (dlExhibitC2){
-        dlExhibitC2.onclick = () => {
-          const today = new Date();
-          const dateStr = (today.getMonth()+1)+"/"+today.getDate()+"/"+today.getFullYear();
-          downloadText("exhibit_c_credit_box_demo.txt", buildExhibitCText(d, dateStr));
+      // Exhibit C
+      const dlExhibitC2=$("#dlExhibitC2");
+      if (dlExhibitC2) dlExhibitC2.onclick=()=>{
+        const today=new Date();
+        const dateStr=(today.getMonth()+1)+"/"+today.getDate()+"/"+today.getFullYear();
+        downloadText("exhibit_c_credit_box_demo.txt", buildExhibitCText(d,dateStr));
+      };
+      const goContract2=$("#goContract2");
+      if (goContract2) goContract2.onclick=()=>{state.tab="contract";render();};
+
+      // DocuSign-y rail wiring (contract view only)
+      if (state.tab==="contract"){
+        updateRequiredCounts();
+
+        const nextReq=$("#nextReq");
+        if (nextReq) nextReq.onclick=()=>nextRequired();
+
+        const toggleBlanks=$("#toggleBlanks");
+        if (toggleBlanks) toggleBlanks.onclick=()=>{
+          // "Hide blanks" => mark most fields as filled; "Show blanks" => bring them back
+          state.docusignMode = !state.docusignMode;
+          const show = state.docusignMode; // when true, show blanks for required signature/date (and optionally other fields)
+          // for a realistic look: keep signatures/dates blank in show mode
+          state.docReqBlank.sigLessor = show;
+          state.docReqBlank.sigLessee = show;
+          state.docReqBlank.dateLessor = show;
+          state.docReqBlank.dateLessee = show;
+          render();
         };
+
+        const reqList=$("#reqList");
+        if (reqList){
+          $$("#reqList li").forEach(li=>{
+            li.onclick=()=>{
+              const id=li.getAttribute("data-jump");
+              jumpTo(id);
+            };
+          });
+        }
+
+        // Click on any required field highlights it (feels interactive)
+        $$(".reqField").forEach(el=>{
+          el.style.cursor="pointer";
+          el.onclick=()=>jumpTo(el.id);
+        });
       }
-      const goContract2 = $("#goContract2");
-      if (goContract2) goContract2.onclick = () => { state.tab = "contract"; render(); };
     }
 
     // Boot
