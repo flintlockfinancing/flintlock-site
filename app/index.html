@@ -31,9 +31,7 @@
       --max: 1080px;
       --serif: ui-serif, Georgia, "Times New Roman", Times, serif;
       --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
-
       --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-
       --focus: rgba(226,164,93,0.45);
     }
 
@@ -248,9 +246,98 @@
       max-height: 340px;
     }
 
+    /* Contract preview print styles */
+    .contract-wrap{
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 16px;
+      padding: 14px;
+    }
+    .contract-paper{
+      background: rgba(255,255,255,0.96);
+      color: rgba(0,0,0,0.88);
+      border-radius: 14px;
+      padding: 18px;
+      border: 1px solid rgba(0,0,0,0.10);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.30);
+    }
+    .contract-paper h2,
+    .contract-paper h3{
+      color: rgba(0,0,0,0.88);
+      font-family: var(--serif);
+      letter-spacing: 0.02em;
+      text-transform:none;
+      margin: 0 0 8px;
+    }
+    .contract-paper h3{
+      font-size: 14px;
+      margin-top: 14px;
+    }
+    .contract-paper p{margin: 8px 0; font-size: 12.5px; line-height: 1.45}
+    .contract-paper .k{
+      font-family: var(--mono);
+      font-size: 12.5px;
+      background: rgba(0,0,0,0.06);
+      padding: 2px 6px;
+      border-radius: 8px;
+      border: 1px solid rgba(0,0,0,0.10);
+      white-space: nowrap;
+    }
+    .contract-grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 8px;
+    }
+    .contract-box{
+      border: 1px solid rgba(0,0,0,0.12);
+      border-radius: 10px;
+      padding: 10px;
+      background: rgba(255,255,255,0.75);
+    }
+    .contract-box .lbl{font-size: 11px; color: rgba(0,0,0,0.60)}
+    .contract-box .val{font-family: var(--mono); font-size: 12.5px; margin-top: 4px}
+    .sig-grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .sig{
+      border: 1px solid rgba(0,0,0,0.16);
+      border-radius: 10px;
+      padding: 10px;
+      min-height: 80px;
+    }
+    .sig .line{
+      border-top: 1px solid rgba(0,0,0,0.45);
+      margin-top: 36px;
+    }
+    .sig small{display:block; color: rgba(0,0,0,0.60); margin-top: 6px}
+    .contract-foot{
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(0,0,0,0.15);
+      font-size: 11px;
+      color: rgba(0,0,0,0.60);
+    }
+
     @media (max-width: 980px){
       .grid2, .grid3{grid-template-columns: 1fr}
       .table-wrap{max-height: 300px}
+      .contract-grid, .sig-grid{grid-template-columns: 1fr}
+    }
+
+    @media print{
+      body{
+        background: #ffffff !important;
+        color: #000000 !important;
+      }
+      .topbar, .note, .tabs, .btn, .pill, .row, .section, .card:not(.print-card){ display:none !important; }
+      main.container{ padding: 0 !important; }
+      .print-card{ box-shadow:none !important; border:none !important; background: transparent !important; padding: 0 !important; }
+      .contract-wrap{ border:none !important; background: transparent !important; padding: 0 !important; }
+      .contract-paper{ box-shadow:none !important; border:none !important; border-radius:0 !important; padding: 0 !important; }
     }
   </style>
 </head>
@@ -293,7 +380,7 @@
 <script>
 (() => {
   // -----------------------------
-  // Policy: loaded from Admin (same origin) or default
+  // Policy (from Admin localStorage) + snapshot
   // -----------------------------
   const DEFAULT_POLICY = {
     minScore: 620,
@@ -305,11 +392,11 @@
     ],
     residualPct: 0.20,
     residualFloor: 200,
-    // Money factor is a pricing control. Rough APR approximation: MF * 2400 (illustrative)
     moneyFactor: 0.0030
   };
 
   const ADMIN_POLICY_KEY = "flintlock_demo_policy_v1";
+  const LAST_OFFER_KEY   = "flintlock_demo_last_offer_v1";
 
   function structuredCloneSafe(o){ return JSON.parse(JSON.stringify(o)); }
 
@@ -321,8 +408,8 @@
 
       const termCaps = Array.isArray(p.termCaps) && p.termCaps.length >= 3
         ? [
-            { max: Number(p.termCaps[0].max ?? 1500), term: Number(p.termCaps[0].term ?? 24) },
-            { max: Number(p.termCaps[1].max ?? 2500), term: Number(p.termCaps[1].term ?? 36) },
+            { max: 1500, term: Number(p.termCaps[0].term ?? 24) },
+            { max: 2500, term: Number(p.termCaps[1].term ?? 36) },
             { max: Infinity, term: Number(p.termCaps[2].term ?? 48) }
           ]
         : structuredCloneSafe(DEFAULT_POLICY.termCaps);
@@ -337,6 +424,18 @@
       };
     } catch(e){
       return structuredCloneSafe(DEFAULT_POLICY);
+    }
+  }
+
+  function saveLastOffer(offer){
+    try{ localStorage.setItem(LAST_OFFER_KEY, JSON.stringify(offer)); } catch(e){}
+  }
+  function loadLastOffer(){
+    try{
+      const raw = localStorage.getItem(LAST_OFFER_KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch(e){
+      return null;
     }
   }
 
@@ -398,7 +497,6 @@
   const round2 = (n) => Math.round(Number(n||0) * 100) / 100;
 
   function approxAPRFromMF(mf){
-    // Common rough approximation in leasing: APR ≈ money factor × 2400
     return round2(Number(mf||0) * 2400);
   }
 
@@ -406,6 +504,7 @@
     const h = location.hash || "#/dashboard";
     if(h.startsWith("#/application")) return "application";
     if(h.startsWith("#/offer")) return "offer";
+    if(h.startsWith("#/contract")) return "contract";
     return "dashboard";
   }
 
@@ -426,14 +525,12 @@
   }
 
   function computePayment(costBasis, residual, term){
-    // Illustrative lease math: depreciation + rent (money factor)
     const dep = (costBasis - residual) / term;
     const rent = (costBasis + residual) * POLICY.moneyFactor;
     return round2(dep + rent);
   }
 
-  // Straight-line buyout (Excel-aligned):
-  // Declines from cost basis to residual over term months.
+  // Straight-line buyout (Excel-aligned)
   function buyoutAtMonth(costBasis, residual, term, monthElapsed){
     const m = clamp(Number(monthElapsed||0), 0, term);
     return residual + (costBasis - residual) * ((term - m) / term);
@@ -456,7 +553,6 @@
 
   // CSV helpers
   function toCSV(rows){
-    // rows: array of arrays (strings/numbers)
     const esc = (v) => {
       const s = String(v ?? "");
       if(s.includes('"') || s.includes(",") || s.includes("\n")){
@@ -523,7 +619,6 @@
   // -----------------------------
   function evaluate(){
     POLICY = loadPolicy();
-
     const persona = activePersona();
 
     const ticket = Number(state.purchase.price || 0);
@@ -532,15 +627,12 @@
     const processingFee = Number(state.purchase.processingFee || 0);
 
     const basis = ticket + acquisitionFee + tax + processingFee;
-
     const reasons = [];
 
-    // Basic validations
     if(ticket <= 0) reasons.push("Invalid item price.");
     if(ticket > POLICY.maxTicket) reasons.push(`Item price exceeds policy maximum (${fmtUSD(POLICY.maxTicket)}).`);
     if(persona.score < POLICY.minScore) reasons.push(`Score below policy minimum (${POLICY.minScore}).`);
 
-    // Demo flags
     if(persona.flags.idMismatch){
       return makeDecision({
         outcome: "DECLINE",
@@ -577,8 +669,8 @@
   }
 
   function makeDecision({ outcome, summary, reasons, persona, ticket, acquisitionFee, tax, processingFee, costBasis }){
-    const term = computeTerm(ticket);                // term caps based on item price (ticket)
-    const residual = computeResidual(costBasis);     // residual based on full cost basis
+    const term = computeTerm(ticket);
+    const residual = computeResidual(costBasis);
     const payment = computePayment(costBasis, residual, term);
     const totalOfPayments = round2(payment * term);
 
@@ -591,6 +683,7 @@
       score: persona.score,
       flags: persona.flags,
       itemDescription: state.purchase.itemDescription,
+      applicant: structuredCloneSafe(state.applicant),
       ticket,
       acquisitionFee,
       tax,
@@ -606,6 +699,7 @@
     };
 
     state.decision = d;
+    saveLastOffer(d); // keep stable snapshot for contract preview
     return d;
   }
 
@@ -618,6 +712,7 @@
         <a class="tab ${active==="application"?"active":""}" href="#/application" role="tab">Application</a>
         <a class="tab ${active==="offer"?"active":""}" href="#/offer" role="tab">Offer</a>
         <a class="tab ${active==="dashboard"?"active":""}" href="#/dashboard" role="tab">Dashboard</a>
+        <a class="tab ${active==="contract"?"active":""}" href="#/contract" role="tab">Contract</a>
       </div>
     `;
   }
@@ -648,64 +743,31 @@
         <div class="card">
           <h3>Policy controls</h3>
           <div class="grid2">
-            <div class="field">
-              <label>Minimum score</label>
-              <div class="mono">${escapeHtml(String(POLICY.minScore))}</div>
-            </div>
-            <div class="field">
-              <label>Max ticket</label>
-              <div class="mono">${escapeHtml(fmtUSD(POLICY.maxTicket))}</div>
-            </div>
-            <div class="field">
-              <label>Term caps</label>
-              <div class="mono">${escapeHtml(POLICY.termCaps.map(c => (c.max===Infinity ? "else" : "<="+c.max) + ":" + c.term).join(", "))}</div>
-            </div>
-            <div class="field">
-              <label>Residual</label>
-              <div class="mono">${escapeHtml(String(Math.round(POLICY.residualPct*100)))}% (floor ${escapeHtml(fmtUSD(POLICY.residualFloor))})</div>
-            </div>
+            <div class="field"><label>Minimum score</label><div class="mono">${escapeHtml(String(POLICY.minScore))}</div></div>
+            <div class="field"><label>Max ticket</label><div class="mono">${escapeHtml(fmtUSD(POLICY.maxTicket))}</div></div>
+            <div class="field"><label>Term caps</label><div class="mono">${escapeHtml(POLICY.termCaps.map(c => (c.max===Infinity ? "else" : "<="+c.max) + ":" + c.term).join(", "))}</div></div>
+            <div class="field"><label>Residual</label><div class="mono">${escapeHtml(String(Math.round(POLICY.residualPct*100)))}% (floor ${escapeHtml(fmtUSD(POLICY.residualFloor))})</div></div>
           </div>
           <div class="note" style="margin-top:12px;">
-            <strong>Governance note:</strong> Policy values are controlled in the admin console and read here at runtime (same-origin).
+            <strong>Governance note:</strong> Policy values are controlled in the admin console and read here at runtime (demo).
           </div>
         </div>
 
         <div class="card">
           <h3>Transaction</h3>
           <div class="grid2">
-            <div class="field">
-              <label>Ticket (item price)</label>
-              <div class="mono">${escapeHtml(fmtUSD(d.ticket))}</div>
-            </div>
-            <div class="field">
-              <label>Term cap</label>
-              <div class="mono">${escapeHtml(String(d.term))} months</div>
-            </div>
-            <div class="field">
-              <label>Cost basis</label>
-              <div class="mono">${escapeHtml(fmtUSD(d.costBasis))}</div>
-            </div>
-            <div class="field">
-              <label>Residual (purchase option)</label>
-              <div class="mono">${escapeHtml(fmtUSD(d.residual))}</div>
-            </div>
+            <div class="field"><label>Ticket (item price)</label><div class="mono">${escapeHtml(fmtUSD(d.ticket))}</div></div>
+            <div class="field"><label>Term cap</label><div class="mono">${escapeHtml(String(d.term))} months</div></div>
+            <div class="field"><label>Cost basis</label><div class="mono">${escapeHtml(fmtUSD(d.costBasis))}</div></div>
+            <div class="field"><label>Residual (purchase option)</label><div class="mono">${escapeHtml(fmtUSD(d.residual))}</div></div>
           </div>
 
           <div class="hr"></div>
 
           <div class="grid3">
-            <div class="field">
-              <label>Monthly payment (illustrative)</label>
-              <div class="mono" style="font-size:16px;">${escapeHtml(fmtUSD(d.payment))}</div>
-            </div>
-            <div class="field">
-              <label>Total of payments (illustrative)</label>
-              <div class="mono" style="font-size:16px;">${escapeHtml(fmtUSD(d.totalOfPayments))}</div>
-            </div>
-            <div class="field">
-              <label>Evaluated at</label>
-              <div class="mono">${escapeHtml(d.evaluatedAt)}</div>
-            </div>
+            <div class="field"><label>Monthly payment (illustrative)</label><div class="mono" style="font-size:16px;">${escapeHtml(fmtUSD(d.payment))}</div></div>
+            <div class="field"><label>Total of payments (illustrative)</label><div class="mono" style="font-size:16px;">${escapeHtml(fmtUSD(d.totalOfPayments))}</div></div>
+            <div class="field"><label>Evaluated at</label><div class="mono">${escapeHtml(d.evaluatedAt)}</div></div>
           </div>
 
           <div class="note">
@@ -723,7 +785,6 @@
         <h2 style="margin:0 0 8px;">Early purchase option (illustrative)</h2>
         <p class="sub" style="margin:0 0 10px;">
           Methodology: <span class="mono">straight-line remaining capitalized cost</span> from full cost basis down to the residual over the term.
-          (This mirrors the buyout schedule approach from your Excel methodology.)
         </p>
 
         <div class="grid2">
@@ -745,6 +806,7 @@
         <div class="row" style="margin-top:12px;">
           <button class="btn" id="btnCSV">Download buyout schedule (CSV)</button>
           <button class="btn" id="btnJSON">Download offer snapshot (JSON)</button>
+          <a class="btn primary" href="#/contract">Preview contract</a>
           <button class="btn danger" id="btnReset">Reset demo</button>
         </div>
 
@@ -764,7 +826,6 @@
       </div>
     `;
 
-    // listeners
     document.getElementById("buyoutMonth").addEventListener("input", (e) => {
       state.ui.buyoutMonth = Number(e.target.value || 0);
       renderDashboard();
@@ -834,14 +895,8 @@
       <div class="card">
         <h3>Transaction overview</h3>
         <div class="grid2">
-          <div class="field">
-            <label>Item</label>
-            <input value="${escapeHtml(d.itemDescription)}" disabled />
-          </div>
-          <div class="field">
-            <label>Persona / score (synthetic)</label>
-            <input value="${escapeHtml(d.personaName)} • ${escapeHtml(String(d.score))}" disabled />
-          </div>
+          <div class="field"><label>Item</label><input value="${escapeHtml(d.itemDescription)}" disabled /></div>
+          <div class="field"><label>Persona / score (synthetic)</label><input value="${escapeHtml(d.personaName)} • ${escapeHtml(String(d.score))}" disabled /></div>
         </div>
 
         <div class="hr"></div>
@@ -849,12 +904,7 @@
         <h3>Capitalized cost (cost basis)</h3>
         <div class="table-wrap" style="max-height:none;">
           <table>
-            <thead>
-              <tr>
-                <th>Component</th>
-                <th class="right">Amount</th>
-              </tr>
-            </thead>
+            <thead><tr><th>Component</th><th class="right">Amount</th></tr></thead>
             <tbody>
               <tr><td>Ticket (item price)</td><td class="right mono">${escapeHtml(fmtUSD(d.ticket))}</td></tr>
               <tr><td>Acquisition fee (capitalized)</td><td class="right mono">${escapeHtml(fmtUSD(d.acquisitionFee))}</td></tr>
@@ -869,18 +919,9 @@
 
         <h3>Illustrative lease terms</h3>
         <div class="grid3">
-          <div class="field">
-            <label>Monthly payment</label>
-            <input value="${fmtUSD(d.payment)}" disabled />
-          </div>
-          <div class="field">
-            <label>Total of payments</label>
-            <input value="${fmtUSD(d.totalOfPayments)}" disabled />
-          </div>
-          <div class="field">
-            <label>Purchase option (residual)</label>
-            <input value="${fmtUSD(d.residual)}" disabled />
-          </div>
+          <div class="field"><label>Monthly payment</label><input value="${fmtUSD(d.payment)}" disabled /></div>
+          <div class="field"><label>Total of payments</label><input value="${fmtUSD(d.totalOfPayments)}" disabled /></div>
+          <div class="field"><label>Purchase option (residual)</label><input value="${fmtUSD(d.residual)}" disabled /></div>
         </div>
 
         <div class="note">
@@ -892,15 +933,216 @@
             <li>This page is a storyboard demonstration and not a consumer disclosure, quote, or contract.</li>
           </ul>
         </div>
+
+        <div class="row" style="margin-top:12px;">
+          <a class="btn" href="#/application">Back to application</a>
+          <a class="btn" href="#/dashboard">Dashboard</a>
+          <a class="btn primary" href="#/contract">Preview contract</a>
+        </div>
       </div>
 
       ${renderTabs("offer")}
+    `;
+  }
 
-      <div class="row" style="margin-top:12px;">
-        <a class="btn" href="#/application">Back to application</a>
-        <a class="btn primary" href="#/dashboard">View dashboard</a>
+  function renderContract(){
+    // Use last offer snapshot to keep contract stable
+    const d = loadLastOffer() || state.decision || evaluate();
+    const policy = loadPolicy();
+
+    // If not approved, still show a preview shell but flag it
+    const approved = d.outcome === "APPROVE";
+
+    const contractId = `FF-DEMO-${(d.evaluatedAt || new Date().toISOString()).replaceAll(/[^0-9]/g,"").slice(0,14)}`;
+    const today = new Date().toISOString().slice(0,10);
+
+    // Derived
+    const aprEq = approxAPRFromMF(Number(d.moneyFactor || policy.moneyFactor || 0));
+    const scheduleRows = buildBuyoutScheduleRows(d).slice(1); // skip header
+
+    const scheduleHTML = `
+      <div class="table-wrap" style="max-height: 260px; border-color: rgba(0,0,0,0.15);">
+        <table>
+          <thead>
+            <tr>
+              <th>Month elapsed</th>
+              <th class="right">Early purchase amount</th>
+              <th class="right">% of basis</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${scheduleRows.map(r => `
+              <tr>
+                <td class="mono">${escapeHtml(String(r[0]))}</td>
+                <td class="right mono">${escapeHtml(fmtUSD(r[1]))}</td>
+                <td class="right mono">${escapeHtml(String(r[2]))}%</td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
       </div>
     `;
+
+    // Printable contract card: mark it for print CSS
+    viewEl.innerHTML = `
+      <div class="card print-card">
+        <div class="row" style="justify-content:space-between;">
+          <div>
+            <h2 style="margin:0 0 6px;">Contract preview (demo)</h2>
+            <p class="sub" style="margin:0;">
+              Printable preview generated from the latest approved offer snapshot.
+            </p>
+          </div>
+          <div class="row">
+            <button class="btn" id="btnPrint">Print / Save as PDF</button>
+            <button class="btn" id="btnDownloadContractHTML">Download HTML</button>
+            <a class="btn" href="#/offer">Back to offer</a>
+          </div>
+        </div>
+
+        <div class="note">
+          <strong>Important:</strong> This is a demo contract preview for pitch/testing only and is not legal advice or a binding agreement.
+          In production, final contract language and disclosures must be reviewed by counsel and aligned to program structure and applicable law.
+        </div>
+
+        <div class="hr"></div>
+
+        <div class="contract-wrap">
+          <div class="contract-paper" id="contractPaper">
+            <h2>Flintlock Financing — Consumer Lease Agreement (Demo Preview)</h2>
+            <p>
+              <span class="k">Contract ID</span> ${escapeHtml(contractId)} &nbsp;•&nbsp;
+              <span class="k">Date</span> ${escapeHtml(today)} &nbsp;•&nbsp;
+              <span class="k">Environment</span> SYNTHETIC DEMO
+            </p>
+            ${approved ? "" : `
+              <p style="color:#a94442; font-weight:700;">
+                NOTE: This applicant is not approved under current policy. This preview is shown for demo purposes only.
+              </p>
+            `}
+
+            <h3>1. Parties</h3>
+            <p>
+              This Lease Agreement (“Agreement”) is between <strong>Flintlock Financing</strong> (“Lessor”) and
+              <strong>${escapeHtml(d.applicant?.name || "Applicant Name")}</strong> (“Lessee”).
+              Contact (synthetic): ${escapeHtml(d.applicant?.email || "email")} / ${escapeHtml(d.applicant?.phone || "phone")}.
+            </p>
+
+            <h3>2. Leased Property</h3>
+            <p>
+              Description: <strong>${escapeHtml(d.itemDescription || "Item")}</strong>.
+              The leased property is provided by a participating merchant (not shown in this demo).
+            </p>
+
+            <h3>3. Capitalized Cost (Cost Basis) and Components</h3>
+            <div class="contract-grid">
+              <div class="contract-box">
+                <div class="lbl">Ticket (Item Price)</div>
+                <div class="val">${escapeHtml(fmtUSD(d.ticket))}</div>
+              </div>
+              <div class="contract-box">
+                <div class="lbl">Acquisition Fee (Capitalized)</div>
+                <div class="val">${escapeHtml(fmtUSD(d.acquisitionFee))}</div>
+              </div>
+              <div class="contract-box">
+                <div class="lbl">Sales Tax (Capitalized)</div>
+                <div class="val">${escapeHtml(fmtUSD(d.tax))}</div>
+              </div>
+              <div class="contract-box">
+                <div class="lbl">Processing Fee (Capitalized)</div>
+                <div class="val">${escapeHtml(fmtUSD(d.processingFee))}</div>
+              </div>
+              <div class="contract-box" style="grid-column: 1 / -1;">
+                <div class="lbl"><strong>Total Cost Basis (Capitalized Cost)</strong></div>
+                <div class="val"><strong>${escapeHtml(fmtUSD(d.costBasis))}</strong></div>
+              </div>
+            </div>
+
+            <h3>4. Term and Payments (Illustrative)</h3>
+            <div class="contract-grid">
+              <div class="contract-box">
+                <div class="lbl">Lease Term</div>
+                <div class="val">${escapeHtml(String(d.term))} months</div>
+              </div>
+              <div class="contract-box">
+                <div class="lbl">Monthly Payment (Illustrative)</div>
+                <div class="val">${escapeHtml(fmtUSD(d.payment))}</div>
+              </div>
+              <div class="contract-box">
+                <div class="lbl">Total of Payments (Illustrative)</div>
+                <div class="val">${escapeHtml(fmtUSD(d.totalOfPayments))}</div>
+              </div>
+              <div class="contract-box">
+                <div class="lbl">Pricing Parameter (Money Factor)</div>
+                <div class="val">${escapeHtml(String(d.moneyFactor))} (≈ ${escapeHtml(String(aprEq))}% APR equivalent)</div>
+              </div>
+            </div>
+
+            <p style="margin-top:10px;">
+              <strong>Demo pricing note:</strong> Monthly payment is calculated as straight-line depreciation of cost basis plus an illustrative rent charge.
+              The APR equivalent shown is an approximation for discussion only and is not a consumer APR disclosure.
+            </p>
+
+            <h3>5. Purchase Option (Residual)</h3>
+            <p>
+              Lessee may have an option to purchase the leased property at end of term for the residual amount:
+              <span class="k">${escapeHtml(fmtUSD(d.residual))}</span> (illustrative).
+            </p>
+
+            <h3>6. Early Purchase Option (Illustrative Schedule)</h3>
+            <p>
+              If an early purchase option is offered, the illustrative method used in this demo is:
+              <strong>straight-line remaining capitalized cost</strong> from total cost basis down to residual over the term.
+              The schedule below shows the resulting illustrative early purchase amounts by month elapsed.
+            </p>
+            ${scheduleHTML}
+
+            <h3>7. Fees, Taxes, and Capitalization</h3>
+            <p>
+              The <strong>Acquisition Fee</strong> is capitalized into the cost basis in this demo. Taxes and processing fees, if applicable, may also be capitalized.
+              Final treatment depends on program configuration, merchant arrangements, and applicable law.
+            </p>
+
+            <h3>8. Consumer Acknowledgements (Demo)</h3>
+            <p>
+              This preview is generated for testing and pitch purposes only. No credit pull, identity verification, funding, or payment processing occurs in this environment.
+              Any personal information displayed is synthetic.
+            </p>
+
+            <h3>9. Signatures (Placeholder)</h3>
+            <div class="sig-grid">
+              <div class="sig">
+                <div class="line"></div>
+                <small>Lessee: ${escapeHtml(d.applicant?.name || "Applicant Name")} • Date: __________</small>
+              </div>
+              <div class="sig">
+                <div class="line"></div>
+                <small>Lessor: Flintlock Financing • Date: __________</small>
+              </div>
+            </div>
+
+            <div class="contract-foot">
+              Demo build artifact. Contract language is illustrative and not legal advice. Production terms must be reviewed and approved by counsel.
+              Contract ID ${escapeHtml(contractId)}.
+            </div>
+          </div>
+        </div>
+
+        ${renderTabs("contract")}
+      </div>
+    `;
+
+    document.getElementById("btnPrint").addEventListener("click", () => {
+      window.print();
+    });
+
+    document.getElementById("btnDownloadContractHTML").addEventListener("click", () => {
+      const paper = document.getElementById("contractPaper");
+      const html = `<!doctype html>
+<html><head><meta charset="utf-8"><title>Contract Preview ${escapeHtml(contractId)}</title></head>
+<body>${paper.outerHTML}</body></html>`;
+      downloadTextFile(`flintlock_contract_preview_${contractId}.html`, html, "text/html");
+    });
   }
 
   function renderApplication(){
@@ -1000,14 +1242,12 @@
       ${renderTabs("application")}
     `;
 
-    // Persona change triggers re-render (expected)
     document.getElementById("persona").addEventListener("change", (e)=> {
       state.personaId = e.target.value;
       state.decision = null;
       renderApplication();
     });
 
-    // Focus-safe: do not re-render on keystroke
     function updateCostBasisDisplay(){
       const el = document.getElementById("costBasisDisplay");
       if(!el) return;
@@ -1062,6 +1302,7 @@
     const r = route();
     if(r === "application") return renderApplication();
     if(r === "offer") return renderOffer();
+    if(r === "contract") return renderContract();
     return renderDashboard();
   }
 
