@@ -1,943 +1,237 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Flintlock Financing | Admin Demo Console</title>
-  <meta name="description" content="Flintlock Financing admin demo console (synthetic demo)." />
-
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Flintlock Financing | Admin</title>
+  <meta name="description" content="Flintlock Financing admin console (demo)."/>
   <style>
     :root{
-      --bg0:#050F1B;
-      --bg1:#061424;
-      --bg2:#071726;
-
+      --bg0:#050F1B; --bg1:#061424; --bg2:#071726;
       --panel: rgba(255,255,255,0.06);
       --panel2: rgba(255,255,255,0.04);
       --text: rgba(255,255,255,0.92);
       --muted: rgba(255,255,255,0.70);
       --muted2: rgba(255,255,255,0.55);
       --line: rgba(255,255,255,0.12);
-
-      --accent: #C57B2A;
-      --accent2: #E2A45D;
-
-      --ok: #86efac;
-      --warn:#ffd166;
-      --bad:#ff6b6b;
-
+      --accent:#C57B2A;
+      --radius:18px; --max:980px;
       --shadow: 0 18px 40px rgba(0,0,0,0.40);
-      --radius: 18px;
-      --serif: ui-serif, Georgia, "Times New Roman", Times, serif;
-      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
       --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      --focus: rgba(226,164,93,0.45);
+      --focus: rgba(197,123,42,0.35);
     }
-
     *{box-sizing:border-box}
-    html, body { height:100%; }
     body{
-      margin:0;
-      font-family: var(--sans);
-      color: var(--text);
+      margin:0; font-family:var(--sans); color:var(--text);
       background:
         radial-gradient(900px 420px at 18% 0%, rgba(197,123,42,0.18), transparent 55%),
-        radial-gradient(720px 380px at 92% 8%, rgba(226,164,93,0.12), transparent 55%),
         linear-gradient(180deg, var(--bg1) 0%, var(--bg2) 55%, var(--bg0) 100%);
-      line-height:1.45;
     }
-
-    a{color:inherit; text-decoration:none}
-    .mono{font-family:var(--mono)}
-    .wrap{display:grid; grid-template-columns: 280px 1fr; min-height:100vh}
-    .sidebar{
-      border-right: 1px solid rgba(255,255,255,0.10);
-      background: rgba(0,0,0,0.12);
-      backdrop-filter: blur(10px);
-      padding: 16px;
-      position: sticky;
-      top:0;
-      height:100vh;
-      overflow:auto;
-    }
-
-    .brand{display:flex; align-items:center; gap:10px; margin-bottom: 14px}
-    .mark{
-      width: 32px; height: 32px; border-radius: 10px;
-      background:
-        radial-gradient(10px 10px at 70% 30%, rgba(255,255,255,0.9), transparent 55%),
-        radial-gradient(18px 18px at 65% 35%, rgba(226,164,93,0.65), transparent 60%),
-        linear-gradient(180deg, rgba(197,123,42,0.95), rgba(197,123,42,0.35));
-      box-shadow: 0 10px 22px rgba(197,123,42,0.25);
-      border: 1px solid rgba(255,255,255,0.15);
-    }
-    .brand-text{display:flex; flex-direction:column; line-height:1.1}
-    .brand-text strong{
-      font-family: var(--serif);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      font-size: 12px;
-      color: rgba(255,255,255,0.92);
-    }
-    .brand-text span{font-size:12px; color: var(--muted2)}
-
-    .nav{display:flex; flex-direction:column; gap:6px; margin-top: 10px}
-    .nav a{
-      padding: 10px 12px;
-      border-radius: 12px;
-      border: 1px solid rgba(255,255,255,0.10);
-      background: rgba(255,255,255,0.03);
-      color: rgba(255,255,255,0.86);
-      font-size: 13px;
-      user-select:none;
-    }
-    .nav a.active{
-      border-color: rgba(197,123,42,0.42);
-      background: rgba(197,123,42,0.10);
-    }
-
-    .pill{
-      display:inline-flex; gap:10px; align-items:center;
-      padding: 7px 10px; border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.14);
-      background: rgba(255,255,255,0.04);
-      color: var(--muted);
-      font-size: 12px;
-      user-select:none;
-      margin-top: 12px;
-    }
-    .spark{
-      width: 8px; height: 8px; border-radius: 999px;
-      background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(226,164,93,0.95) 35%, rgba(197,123,42,0.5) 65%, transparent 70%);
-      box-shadow: 0 0 22px rgba(226,164,93,0.50);
-    }
-
-    .content{
-      padding: 18px 18px 36px;
-      max-width: 1200px;
-    }
-
-    .toolbar{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      flex-wrap:wrap;
-      border: 1px solid rgba(255,255,255,0.10);
-      background: rgba(255,255,255,0.03);
-      border-radius: 16px;
-      padding: 12px;
-      margin-bottom: 14px;
-    }
-
-    .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
-
+    .container{max-width:var(--max); margin:0 auto; padding: 22px 18px}
+    .top{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap}
+    .brand{display:flex; align-items:center; gap:10px}
+    .mark{width:32px;height:32px;border-radius:10px;background:linear-gradient(180deg, rgba(197,123,42,0.95), rgba(197,123,42,0.35));border:1px solid rgba(255,255,255,0.15); box-shadow:0 10px 22px rgba(197,123,42,0.25)}
+    .title{display:flex; flex-direction:column; line-height:1.1}
+    .title strong{letter-spacing:0.08em; text-transform:uppercase; font-size:12px}
+    .title span{font-size:12px; color:rgba(255,255,255,0.55)}
     .btn{
-      display:inline-flex; align-items:center; justify-content:center; gap:10px;
-      padding: 10px 13px; border-radius: 12px;
-      border: 1px solid rgba(255,255,255,0.16);
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:10px 13px; border-radius:12px;
+      border:1px solid rgba(255,255,255,0.16);
       background: rgba(255,255,255,0.06);
       color: rgba(255,255,255,0.92);
-      font-size: 13px;
-      cursor:pointer;
-      transition: transform 0.06s ease, background 0.2s ease, border-color 0.2s ease;
-      user-select:none; white-space:nowrap;
+      font-size:13px; cursor:pointer; user-select:none; text-decoration:none;
     }
-    .btn:hover{background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.20)}
-    .btn:active{transform: translateY(1px)}
-    .btn.primary{
-      border-color: rgba(197,123,42,0.55);
-      background: linear-gradient(180deg, rgba(197,123,42,0.95), rgba(197,123,42,0.55));
-      box-shadow: 0 16px 34px rgba(197,123,42,0.18);
-      color: #0b1016;
-      font-weight: 900;
-    }
-    .btn.small{ padding: 8px 10px; font-size: 12px; border-radius: 10px; }
-    .btn.danger{ border-color: rgba(255,107,107,0.40); background: rgba(255,107,107,0.10); }
-
-    .card{
-      background: linear-gradient(180deg, var(--panel) 0%, var(--panel2) 100%);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 16px;
-      margin-bottom: 14px;
-    }
-
-    h1{
-      font-family: var(--serif);
-      font-size: 26px;
-      margin: 8px 0 6px;
-      letter-spacing: 0.02em;
-    }
-    h2{
-      font-family: var(--serif);
-      font-size: 20px;
-      margin: 0 0 8px;
-    }
-    h3{
-      margin: 0 0 8px;
-      font-size: 13px;
-      letter-spacing: 0.10em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.86);
-      font-weight: 800;
-    }
-    .sub{color: var(--muted); font-size: 14px; margin: 0 0 12px}
-    .hr{height:1px; background: rgba(255,255,255,0.08); margin: 12px 0}
-
-    .badge{
-      display:inline-flex; align-items:center; gap:8px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.12);
-      background: rgba(255,255,255,0.03);
-      color: rgba(255,255,255,0.80);
-      font-size: 12px;
-      white-space:nowrap;
-      user-select:none;
-    }
-    .badge.ok{border-color: rgba(134,239,172,0.25); background: rgba(134,239,172,0.08)}
-    .badge.warn{border-color: rgba(255,209,102,0.25); background: rgba(255,209,102,0.08)}
-    .badge.bad{border-color: rgba(255,107,107,0.25); background: rgba(255,107,107,0.08)}
-
+    .btn.primary{border-color: rgba(197,123,42,0.55); background: linear-gradient(180deg, rgba(197,123,42,0.95), rgba(197,123,42,0.55)); color:#0b1016; font-weight:900}
+    .card{margin-top:16px; background: linear-gradient(180deg, var(--panel) 0%, var(--panel2) 100%); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:16px}
+    h1{margin:14px 0 6px; font-size:20px}
+    p{margin:0 0 12px; color:var(--muted)}
     .grid2{display:grid; grid-template-columns: 1fr 1fr; gap:12px}
-    .grid3{display:grid; grid-template-columns: repeat(3, 1fr); gap:12px}
+    label{font-size:12px; color:var(--muted2)}
     .field{display:flex; flex-direction:column; gap:6px}
-    label{font-size: 12px; color: var(--muted2)}
-    input, select, textarea{
-      padding: 10px 12px;
-      border-radius: 12px;
-      border: 1px solid rgba(255,255,255,0.14);
+    input{
+      padding:10px 12px; border-radius:12px;
+      border:1px solid rgba(255,255,255,0.14);
       background: rgba(0,0,0,0.18);
       color: rgba(255,255,255,0.92);
       outline:none;
-      font-size: 14px;
+      font-size:14px;
+      font-family: var(--mono);
     }
-    input:focus, select:focus, textarea:focus{
-      border-color: rgba(226,164,93,0.42);
-      box-shadow: 0 0 0 3px var(--focus);
-    }
-
-    table{width:100%; border-collapse: collapse; font-size: 13px}
-    th, td{padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.07)}
-    th{
-      text-align:left;
-      color: rgba(255,255,255,0.84);
-      font-weight: 800;
-      background: rgba(255,255,255,0.03);
-      position: sticky;
-      top: 0;
-      z-index: 2;
-      backdrop-filter: blur(6px);
-    }
-    tr:hover td{background: rgba(255,255,255,0.02)}
-    .right{text-align:right}
-    .table-wrap{
-      overflow:auto;
-      border:1px solid rgba(255,255,255,0.10);
-      border-radius:14px;
-      max-height: 420px;
-    }
-
+    input:focus{border-color: rgba(197,123,42,0.50); box-shadow: 0 0 0 3px var(--focus)}
     .note{
       margin-top: 12px;
       padding: 12px 14px;
       border-radius: 14px;
       border: 1px solid rgba(255,255,255,0.12);
       background: rgba(255,255,255,0.03);
-      color: var(--muted2);
+      color: rgba(255,255,255,0.62);
       font-size: 12px;
     }
-    .note strong{color: rgba(255,255,255,0.85)}
-    .note ul{margin: 8px 0 0 18px; padding:0}
-    .note li{margin: 4px 0}
-
-    @media (max-width: 980px){
-      .wrap{grid-template-columns: 1fr}
-      .sidebar{position:relative; height:auto}
-      .grid2, .grid3{grid-template-columns: 1fr}
-      .table-wrap{max-height: 320px}
-    }
+    @media(max-width:900px){ .grid2{grid-template-columns:1fr} }
   </style>
 </head>
-
 <body>
-  <div class="wrap">
-    <aside class="sidebar">
-      <a class="brand" href="/" aria-label="Flintlock Financing Home">
-        <div class="mark" aria-hidden="true"></div>
-        <div class="brand-text">
+  <div class="container">
+    <div class="top">
+      <div class="brand">
+        <div class="mark"></div>
+        <div class="title">
           <strong>Flintlock Financing</strong>
-          <span>Admin demo console</span>
+          <span>Admin console (demo)</span>
         </div>
-      </a>
+      </div>
+      <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <a class="btn" href="/app/">Open app</a>
+        <a class="btn" href="/">Home</a>
+      </div>
+    </div>
 
-      <div class="nav" id="nav">
-        <a href="#/pitch" data-route="pitch">Pitch mode</a>
-        <a href="#/queue" data-route="queue">Application queue</a>
-        <a href="#/policy" data-route="policy">Policy & pricing controls</a>
-        <a href="#/audit" data-route="audit">Audit log</a>
-        <a href="#/about" data-route="about">About this demo</a>
+    <div class="card">
+      <h1>Policy controls</h1>
+      <p>Edits are stored in your browser (localStorage) for demo/testing. Not production controls.</p>
+
+      <div class="grid2">
+        <div class="field">
+          <label>Minimum score</label>
+          <input id="minScore" type="number" min="300" max="850" step="1"/>
+        </div>
+        <div class="field">
+          <label>Max ticket (item price)</label>
+          <input id="maxTicket" type="number" min="0" step="1"/>
+        </div>
+
+        <div class="field">
+          <label>Term cap ≤ $1,500 (months)</label>
+          <input id="term1" type="number" min="1" max="84" step="1"/>
+        </div>
+        <div class="field">
+          <label>Term cap ≤ $2,500 (months)</label>
+          <input id="term2" type="number" min="1" max="84" step="1"/>
+        </div>
+
+        <div class="field">
+          <label>Term cap > $2,500 (months)</label>
+          <input id="term3" type="number" min="1" max="84" step="1"/>
+        </div>
+        <div class="field">
+          <label>Money factor (illustrative)</label>
+          <input id="moneyFactor" type="number" step="0.0001"/>
+        </div>
+
+        <div class="field">
+          <label>Residual percent (e.g., 0.20 = 20%)</label>
+          <input id="residualPct" type="number" step="0.01"/>
+        </div>
+        <div class="field">
+          <label>Residual floor ($)</label>
+          <input id="residualFloor" type="number" min="0" step="1"/>
+        </div>
       </div>
 
-      <div class="pill"><span class="spark" aria-hidden="true"></span><span>SYNTHETIC DEMO / NO BANK INTEGRATIONS</span></div>
-
-      <div class="hr"></div>
-
-      <div class="row">
-        <a class="btn small" href="/app" target="_blank" rel="noopener">Open consumer portal</a>
-        <button class="btn small" id="btnReseed">Reseed data</button>
+      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;">
+        <button class="btn primary" id="btnSave">Save policy</button>
+        <button class="btn" id="btnReset">Reset to defaults</button>
+        <button class="btn" id="btnExport">Export policy (JSON)</button>
       </div>
 
       <div class="note">
-        <strong>Tip:</strong> For a clean pitch, click <span class="mono">Reseed data</span>, then open Pitch Mode.
+        <strong>Tip:</strong> After saving, open /app and refresh to pick up the updated policy values.
       </div>
-    </aside>
-
-    <main class="content">
-      <div class="toolbar">
-        <div class="row" id="statusRow"></div>
-        <div class="row">
-          <a class="btn" href="/app" target="_blank" rel="noopener">Consumer portal</a>
-          <a class="btn" href="/admin#/policy">Policy</a>
-          <a class="btn primary" href="/admin#/pitch">Pitch mode</a>
-        </div>
-      </div>
-
-      <div id="view"></div>
-    </main>
+    </div>
   </div>
 
 <script>
 (() => {
-  // -----------------------------
-  // Storage keys
-  // -----------------------------
-  const KEY_POLICY = "flintlock_demo_policy_v1";
-  const KEY_APPS   = "flintlock_demo_apps_v1";
-  const KEY_AUDIT  = "flintlock_demo_audit_v1";
-
-  // -----------------------------
-  // Defaults
-  // -----------------------------
+  const ADMIN_POLICY_KEY = "flintlock_demo_policy_v1";
   const DEFAULT_POLICY = {
     minScore: 620,
     maxTicket: 12000,
     termCaps: [
       { max: 1500, term: 24 },
       { max: 2500, term: 36 },
-      { max: 999999, term: 48 }
+      { max: Infinity, term: 48 }
     ],
     residualPct: 0.20,
     residualFloor: 200,
     moneyFactor: 0.0030
   };
 
-  const SEEDED_APPS = [
-    {
-      id: "A-1001",
-      createdAt: new Date(Date.now() - 1000*60*45).toISOString(),
-      applicantName: "Alex Morgan",
-      persona: "Prime Applicant",
-      score: 720,
-      ticket: 4500,
-      acquisitionFee: 0,
-      tax: 0,
-      processingFee: 0,
-      status: "NEW",
-      notes: ""
-    },
-    {
-      id: "A-1002",
-      createdAt: new Date(Date.now() - 1000*60*30).toISOString(),
-      applicantName: "Taylor Reed",
-      persona: "Near Prime Applicant",
-      score: 640,
-      ticket: 2500,
-      acquisitionFee: 125,
-      tax: 0,
-      processingFee: 15,
-      status: "NEW",
-      notes: ""
-    },
-    {
-      id: "A-1003",
-      createdAt: new Date(Date.now() - 1000*60*20).toISOString(),
-      applicantName: "Jordan Lee",
-      persona: "Fraud Flag",
-      score: 700,
-      ticket: 1600,
-      acquisitionFee: 0,
-      tax: 0,
-      processingFee: 0,
-      status: "MANUAL_REVIEW",
-      notes: "Fraud indicator triggered (demo)."
-    }
-  ];
-
-  // -----------------------------
-  // Utilities
-  // -----------------------------
-  const viewEl = document.getElementById("view");
-  const statusRow = document.getElementById("statusRow");
-  const navEl = document.getElementById("nav");
-
-  function escapeHtml(str){
-    return String(str ?? "")
-      .replaceAll("&","&amp;")
-      .replaceAll("<","&lt;")
-      .replaceAll(">","&gt;")
-      .replaceAll('"',"&quot;")
-      .replaceAll("'","&#039;");
-  }
-  const mono = (s) => `<span class="mono">${escapeHtml(s)}</span>`;
-  const fmtUSD = (n) => new Intl.NumberFormat("en-US", { style:"currency", currency:"USD" }).format(Number(n||0));
-  const round2 = (n) => Math.round(Number(n||0) * 100) / 100;
-
-  function approxAPRFromMF(mf){
-    return round2(Number(mf||0) * 2400);
-  }
-
-  function loadJSON(key, fallback){
+  function loadPolicy(){
     try{
-      const raw = localStorage.getItem(key);
-      if(!raw) return fallback;
-      return JSON.parse(raw);
-    } catch(e){
-      return fallback;
-    }
-  }
-  function saveJSON(key, obj){
-    localStorage.setItem(key, JSON.stringify(obj));
-  }
-
-  function nowISO(){ return new Date().toISOString(); }
-
-  function audit(eventType, details){
-    const log = loadJSON(KEY_AUDIT, []);
-    log.unshift({
-      at: nowISO(),
-      actor: "demo_admin",
-      eventType,
-      details: details || {}
-    });
-    saveJSON(KEY_AUDIT, log);
-    renderStatus();
-  }
-
-  function ensureSeeded(){
-    const existing = loadJSON(KEY_APPS, null);
-    if(!existing){
-      saveJSON(KEY_APPS, SEEDED_APPS);
-    }
-    const p = loadJSON(KEY_POLICY, null);
-    if(!p){
-      saveJSON(KEY_POLICY, DEFAULT_POLICY);
-    }
-    const a = loadJSON(KEY_AUDIT, null);
-    if(!a){
-      saveJSON(KEY_AUDIT, []);
-    }
-  }
-
-  function route(){
-    const h = location.hash || "#/pitch";
-    if(h.startsWith("#/pitch")) return "pitch";
-    if(h.startsWith("#/policy")) return "policy";
-    if(h.startsWith("#/audit")) return "audit";
-    if(h.startsWith("#/about")) return "about";
-    return "queue";
-  }
-
-  function setActiveNav(){
-    const r = route();
-    [...navEl.querySelectorAll("a")].forEach(a => {
-      a.classList.toggle("active", a.dataset.route === r);
-    });
-  }
-
-  function computeTermCaps(policy, ticket){
-    const c0 = policy.termCaps?.[0] || { max: 1500, term: 24 };
-    const c1 = policy.termCaps?.[1] || { max: 2500, term: 36 };
-    const c2 = policy.termCaps?.[2] || { max: 999999, term: 48 };
-    if(ticket <= c0.max) return c0.term;
-    if(ticket <= c1.max) return c1.term;
-    return c2.term;
-  }
-
-  function evaluateApp(app, policy){
-    const reasons = [];
-    if(app.ticket <= 0) reasons.push("Invalid item price.");
-    if(app.ticket > policy.maxTicket) reasons.push("Ticket exceeds policy max.");
-    if(app.score < policy.minScore) reasons.push("Score below minimum.");
-
-    if(app.persona === "Fraud Flag") return { outcome: "MANUAL_REVIEW", reasons: ["Fraud indicator (demo).", ...reasons] };
-    if(reasons.length) return { outcome: "DECLINE", reasons };
-    return { outcome: "APPROVE", reasons: [] };
-  }
-
-  function renderStatus(){
-    const policy = loadJSON(KEY_POLICY, DEFAULT_POLICY);
-    const apps = loadJSON(KEY_APPS, []);
-    const log = loadJSON(KEY_AUDIT, []);
-    statusRow.innerHTML = `
-      <span class="badge">Apps ${mono(String(apps.length))}</span>
-      <span class="badge">Audit ${mono(String(log.length))}</span>
-      <span class="badge">Min score ${mono(String(policy.minScore))}</span>
-      <span class="badge">Max ticket ${mono(fmtUSD(policy.maxTicket))}</span>
-      <span class="badge">MF ${mono(String(policy.moneyFactor))} (~${mono(String(approxAPRFromMF(policy.moneyFactor)))}% APR)</span>
-    `;
-  }
-
-  // -----------------------------
-  // Views
-  // -----------------------------
-  function renderPitch(){
-    setActiveNav();
-    renderStatus();
-
-    const policy = loadJSON(KEY_POLICY, DEFAULT_POLICY);
-    const apps = loadJSON(KEY_APPS, []);
-    const log = loadJSON(KEY_AUDIT, []);
-
-    viewEl.innerHTML = `
-      <div class="card">
-        <h1>Pitch mode</h1>
-        <p class="sub">
-          A guided, repeatable script for banks and investors: consumer UX, policy controls, governance, and auditability.
-        </p>
-
-        <div class="row">
-          <span class="badge">Apps ${mono(String(apps.length))}</span>
-          <span class="badge">Audit events ${mono(String(log.length))}</span>
-          <span class="badge">Policy MF ${mono(String(policy.moneyFactor))} (~${mono(String(approxAPRFromMF(policy.moneyFactor)))}% APR)</span>
-        </div>
-
-        <div class="hr"></div>
-
-        <div class="note">
-          <strong>Demo objective:</strong> Show a disciplined, policy-driven consumer lease workflow with governance: configurable guardrails,
-          human review routing, pricing controls, and an auditable trail — without live integrations in this sandbox.
-        </div>
-
-        <div class="hr"></div>
-
-        <h3>6–8 minute demo script</h3>
-
-        <div class="note">
-          <strong>0:00–0:45 — Positioning</strong><br/>
-          • “Flintlock is compliance-first consumer leasing with bank-grade controls.”<br/>
-          • “This is a synthetic demo: no credit pulls, no payments, no bank integrations.”<br/>
-          • “We’ll show the consumer flow, then governance controls and auditability.”
-          <div class="row" style="margin-top:10px;">
-            <a class="btn" href="/" target="_blank" rel="noopener">Open homepage</a>
-            <a class="btn primary" href="/app" target="_blank" rel="noopener">Open consumer portal</a>
-          </div>
-        </div>
-
-        <div class="note">
-          <strong>0:45–3:00 — Consumer portal</strong><br/>
-          1) Prime persona → submit → offer + disclosures (illustrative).<br/>
-          2) Show cost basis: ticket + acquisition fee + tax + processing (capitalized).<br/>
-          3) Show early purchase option: straight-line remaining basis to residual + schedule + CSV export.
-          <div class="row" style="margin-top:10px;">
-            <a class="btn" href="/app" target="_blank" rel="noopener">Open consumer portal</a>
-          </div>
-        </div>
-
-        <div class="note">
-          <strong>3:00–5:45 — Admin controls</strong><br/>
-          1) Open application queue → show computed outcomes.<br/>
-          2) Open policy & pricing controls → adjust money factor + min score → save.<br/>
-          3) Return to consumer portal → demonstrate policy change impact.
-          <div class="row" style="margin-top:10px;">
-            <a class="btn" href="#/queue">Go to queue</a>
-            <a class="btn primary" href="#/policy">Go to policy</a>
-          </div>
-        </div>
-
-        <div class="note">
-          <strong>5:45–8:00 — Auditability</strong><br/>
-          • Show audit log: policy updates + reseed + any overrides and notes.<br/>
-          • “In Phase 2 this becomes DB-backed with roles/RLS and immutable-style event logging.”
-          <div class="row" style="margin-top:10px;">
-            <a class="btn primary" href="#/audit">Open audit log</a>
-          </div>
-        </div>
-      </div>
-    `;
-  }
-
-  function renderQueue(){
-    setActiveNav();
-    renderStatus();
-
-    const policy = loadJSON(KEY_POLICY, DEFAULT_POLICY);
-    const apps = loadJSON(KEY_APPS, []);
-
-    const rows = apps.map(a => {
-      const ev = evaluateApp(a, policy);
-      const badge = ev.outcome === "APPROVE" ? "ok" : ev.outcome === "MANUAL_REVIEW" ? "warn" : "bad";
-      const outcomeText = ev.outcome === "APPROVE" ? "Approved" : ev.outcome === "MANUAL_REVIEW" ? "Manual review" : "Declined";
-      const term = computeTermCaps(policy, a.ticket);
-      const basis = a.ticket + a.acquisitionFee + a.tax + a.processingFee;
-
-      return `
-        <tr>
-          <td class="mono">${escapeHtml(a.id)}</td>
-          <td>${escapeHtml(a.applicantName)}</td>
-          <td class="mono">${escapeHtml(String(a.score))}</td>
-          <td class="mono right">${escapeHtml(fmtUSD(a.ticket))}</td>
-          <td class="mono right">${escapeHtml(fmtUSD(basis))}</td>
-          <td class="mono right">${term}</td>
-          <td><span class="badge ${badge}">${outcomeText}</span></td>
-          <td class="right"><button class="btn small" data-open="${escapeHtml(a.id)}">Open</button></td>
-        </tr>
-      `;
-    }).join("");
-
-    viewEl.innerHTML = `
-      <div class="card">
-        <h1>Application queue</h1>
-        <p class="sub">Synthetic queue for demos. Outcomes are computed from current policy (including pricing controls).</p>
-
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>App ID</th>
-                <th>Applicant</th>
-                <th>Score</th>
-                <th class="right">Ticket</th>
-                <th class="right">Cost basis</th>
-                <th class="right">Term cap</th>
-                <th>Computed outcome</th>
-                <th class="right">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${rows || `<tr><td colspan="8" class="mono">No apps</td></tr>`}
-            </tbody>
-          </table>
-        </div>
-
-        <div class="note">
-          <strong>Note:</strong> This queue is synthetic and seeded for demos. It does not represent production underwriting or servicing behavior.
-        </div>
-      </div>
-
-      <div class="card" id="detailCard" style="display:none;"></div>
-    `;
-
-    [...document.querySelectorAll("[data-open]")].forEach(btn => {
-      btn.addEventListener("click", () => openApp(btn.getAttribute("data-open")));
-    });
-
-    function openApp(appId){
-      const apps2 = loadJSON(KEY_APPS, []);
-      const a = apps2.find(x => x.id === appId);
-      if(!a) return;
-
-      const policy2 = loadJSON(KEY_POLICY, DEFAULT_POLICY);
-      const ev = evaluateApp(a, policy2);
-      const term = computeTermCaps(policy2, a.ticket);
-      const basis = a.ticket + a.acquisitionFee + a.tax + a.processingFee;
-
-      const detail = document.getElementById("detailCard");
-      detail.style.display = "block";
-      detail.innerHTML = `
-        <h2 style="margin:0 0 6px;">Application ${mono(a.id)}</h2>
-        <p class="sub" style="margin:0 0 10px;">Review record (synthetic). You can add notes and set status for demo purposes.</p>
-
-        <div class="grid3">
-          <div class="field"><label>Applicant</label><input value="${escapeHtml(a.applicantName)}" disabled /></div>
-          <div class="field"><label>Persona</label><input value="${escapeHtml(a.persona)}" disabled /></div>
-          <div class="field"><label>Score</label><input value="${escapeHtml(String(a.score))}" disabled /></div>
-
-          <div class="field"><label>Ticket</label><input value="${escapeHtml(fmtUSD(a.ticket))}" disabled /></div>
-          <div class="field"><label>Cost basis</label><input value="${escapeHtml(fmtUSD(basis))}" disabled /></div>
-          <div class="field"><label>Term cap</label><input value="${escapeHtml(String(term))} mo"}" disabled /></div>
-        </div>
-
-        <div class="hr"></div>
-
-        <div class="row">
-          <span class="badge ${ev.outcome==="APPROVE"?"ok":ev.outcome==="MANUAL_REVIEW"?"warn":"bad"}">
-            ${ev.outcome==="APPROVE"?"Approved":ev.outcome==="MANUAL_REVIEW"?"Manual review":"Declined"}
-          </span>
-          <span class="badge">Reasons ${mono(String(ev.reasons.length))}</span>
-        </div>
-
-        ${ev.reasons.length ? `
-          <div class="note">
-            <strong>Reasons:</strong>
-            <ul>${ev.reasons.map(r => `<li>${escapeHtml(r)}</li>`).join("")}</ul>
-          </div>
-        ` : `<div class="note"><strong>Reasons:</strong> None (approved per policy).</div>`}
-
-        <div class="hr"></div>
-
-        <div class="grid2">
-          <div class="field">
-            <label>Status</label>
-            <select id="statusSel">
-              ${["NEW","MANUAL_REVIEW","APPROVED","DECLINED","CLOSED"].map(s => `<option value="${s}" ${a.status===s?"selected":""}>${s}</option>`).join("")}
-            </select>
-          </div>
-          <div class="field">
-            <label>Notes (demo)</label>
-            <input id="notesInp" value="${escapeHtml(a.notes || "")}" />
-          </div>
-        </div>
-
-        <div class="row" style="margin-top:12px;">
-          <button class="btn primary" id="btnSaveApp">Save</button>
-          <button class="btn" id="btnCloseDetail">Close</button>
-        </div>
-      `;
-
-      document.getElementById("btnCloseDetail").addEventListener("click", () => {
-        detail.style.display = "none";
-        detail.innerHTML = "";
-      });
-
-      document.getElementById("btnSaveApp").addEventListener("click", () => {
-        const status = document.getElementById("statusSel").value;
-        const notes = document.getElementById("notesInp").value;
-
-        const updated = loadJSON(KEY_APPS, []).map(x => {
-          if(x.id !== a.id) return x;
-          return { ...x, status, notes };
-        });
-
-        saveJSON(KEY_APPS, updated);
-        audit("APPLICATION_UPDATED", { appId: a.id, status, notes });
-        renderQueue();
-      });
-    }
-  }
-
-  function renderPolicy(){
-    setActiveNav();
-    renderStatus();
-
-    const policy = loadJSON(KEY_POLICY, DEFAULT_POLICY);
-
-    viewEl.innerHTML = `
-      <div class="card">
-        <h1>Policy & pricing controls</h1>
-        <p class="sub">
-          Adjust underwriting guardrails and pricing controls for demo purposes.
-          These values are read by the consumer portal in real time (same-origin localStorage).
-        </p>
-
-        <div class="grid2">
-          <div class="field">
-            <label>Minimum score</label>
-            <input id="minScore" type="number" min="300" max="850" step="1" value="${escapeHtml(String(policy.minScore))}">
-          </div>
-          <div class="field">
-            <label>Max ticket (item price)</label>
-            <input id="maxTicket" type="number" min="100" step="1" value="${escapeHtml(String(policy.maxTicket))}">
-          </div>
-        </div>
-
-        <div class="hr"></div>
-
-        <h3>Term caps (based on ticket price)</h3>
-        <div class="grid3">
-          <div class="field">
-            <label>≤ $1,500 term (months)</label>
-            <input id="term1" type="number" min="1" max="84" step="1" value="${escapeHtml(String(policy.termCaps?.[0]?.term ?? 24))}">
-          </div>
-          <div class="field">
-            <label>≤ $2,500 term (months)</label>
-            <input id="term2" type="number" min="1" max="84" step="1" value="${escapeHtml(String(policy.termCaps?.[1]?.term ?? 36))}">
-          </div>
-          <div class="field">
-            <label>> $2,500 term (months)</label>
-            <input id="term3" type="number" min="1" max="84" step="1" value="${escapeHtml(String(policy.termCaps?.[2]?.term ?? 48))}">
-          </div>
-        </div>
-
-        <div class="hr"></div>
-
-        <h3>Residual settings (applies to full cost basis)</h3>
-        <div class="grid2">
-          <div class="field">
-            <label>Residual percent (e.g., 0.20 = 20%)</label>
-            <input id="residualPct" type="number" min="0" max="0.95" step="0.01" value="${escapeHtml(String(policy.residualPct))}">
-          </div>
-          <div class="field">
-            <label>Residual floor ($)</label>
-            <input id="residualFloor" type="number" min="0" step="1" value="${escapeHtml(String(policy.residualFloor))}">
-          </div>
-        </div>
-
-        <div class="hr"></div>
-
-        <h3>Pricing control (money factor)</h3>
-        <div class="grid2">
-          <div class="field">
-            <label>Money factor</label>
-            <input id="moneyFactor" type="number" min="0" max="0.02" step="0.0001" value="${escapeHtml(String(policy.moneyFactor))}">
-          </div>
-          <div class="field">
-            <label>APR equivalent (approx.)</label>
-            <input id="aprEq" value="${escapeHtml(String(approxAPRFromMF(policy.moneyFactor)))}%" disabled>
-          </div>
-        </div>
-
-        <div class="note">
-          <strong>Interpretation (demo):</strong> Money factor is used here as an illustrative rent charge parameter.
-          A common rough approximation is <span class="mono">APR ≈ MF × 2400</span>. This is for discussion only and not a consumer disclosure.
-        </div>
-
-        <div class="row" style="margin-top:12px;">
-          <button class="btn primary" id="btnSavePolicy">Save policy + audit</button>
-          <button class="btn" id="btnResetPolicy">Reset to defaults</button>
-        </div>
-      </div>
-    `;
-
-    const mfEl = document.getElementById("moneyFactor");
-    mfEl.addEventListener("input", () => {
-      const mf = Number(mfEl.value || 0);
-      document.getElementById("aprEq").value = `${approxAPRFromMF(mf)}%`;
-    });
-
-    document.getElementById("btnResetPolicy").addEventListener("click", () => {
-      saveJSON(KEY_POLICY, DEFAULT_POLICY);
-      audit("POLICY_RESET_DEFAULTS", { policy: DEFAULT_POLICY });
-      renderPolicy();
-    });
-
-    document.getElementById("btnSavePolicy").addEventListener("click", () => {
-      const next = {
-        minScore: Number(document.getElementById("minScore").value || 620),
-        maxTicket: Number(document.getElementById("maxTicket").value || 12000),
-        termCaps: [
-          { max: 1500, term: Number(document.getElementById("term1").value || 24) },
-          { max: 2500, term: Number(document.getElementById("term2").value || 36) },
-          { max: 999999, term: Number(document.getElementById("term3").value || 48) }
-        ],
-        residualPct: Number(document.getElementById("residualPct").value || 0.20),
-        residualFloor: Number(document.getElementById("residualFloor").value || 200),
-        moneyFactor: Number(document.getElementById("moneyFactor").value || 0.0030)
+      const raw = localStorage.getItem(ADMIN_POLICY_KEY);
+      if(!raw) return JSON.parse(JSON.stringify(DEFAULT_POLICY));
+      const p = JSON.parse(raw);
+      return {
+        minScore: Number(p.minScore ?? DEFAULT_POLICY.minScore),
+        maxTicket: Number(p.maxTicket ?? DEFAULT_POLICY.maxTicket),
+        termCaps: Array.isArray(p.termCaps) ? p.termCaps : JSON.parse(JSON.stringify(DEFAULT_POLICY.termCaps)),
+        residualPct: Number(p.residualPct ?? DEFAULT_POLICY.residualPct),
+        residualFloor: Number(p.residualFloor ?? DEFAULT_POLICY.residualFloor),
+        moneyFactor: Number(p.moneyFactor ?? DEFAULT_POLICY.moneyFactor)
       };
-
-      saveJSON(KEY_POLICY, next);
-      audit("POLICY_UPDATED", { policy: next });
-      renderPolicy();
-    });
+    }catch(e){
+      return JSON.parse(JSON.stringify(DEFAULT_POLICY));
+    }
   }
 
-  function renderAudit(){
-    setActiveNav();
-    renderStatus();
-
-    const log = loadJSON(KEY_AUDIT, []);
-
-    const rows = log.map(e => `
-      <tr>
-        <td class="mono">${escapeHtml(e.at)}</td>
-        <td class="mono">${escapeHtml(e.actor)}</td>
-        <td class="mono">${escapeHtml(e.eventType)}</td>
-        <td class="mono">${escapeHtml(JSON.stringify(e.details || {}))}</td>
-      </tr>
-    `).join("");
-
-    viewEl.innerHTML = `
-      <div class="card">
-        <h1>Audit log</h1>
-        <p class="sub">Append-only demo audit trail (localStorage). Phase 2: DB-backed + roles + immutable-style event logging.</p>
-
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Timestamp</th>
-                <th>Actor</th>
-                <th>Event</th>
-                <th>Details</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${rows || `<tr><td colspan="4" class="mono">No events</td></tr>`}
-            </tbody>
-          </table>
-        </div>
-
-        <div class="row" style="margin-top:12px;">
-          <button class="btn danger" id="btnClearAudit">Clear audit log (demo)</button>
-        </div>
-      </div>
-    `;
-
-    document.getElementById("btnClearAudit").addEventListener("click", () => {
-      saveJSON(KEY_AUDIT, []);
-      audit("AUDIT_CLEARED", {});
-      renderAudit();
-    });
+  function setInputs(p){
+    document.getElementById("minScore").value = p.minScore;
+    document.getElementById("maxTicket").value = p.maxTicket;
+    document.getElementById("term1").value = Number(p.termCaps?.[0]?.term ?? 24);
+    document.getElementById("term2").value = Number(p.termCaps?.[1]?.term ?? 36);
+    document.getElementById("term3").value = Number(p.termCaps?.[2]?.term ?? 48);
+    document.getElementById("moneyFactor").value = p.moneyFactor;
+    document.getElementById("residualPct").value = p.residualPct;
+    document.getElementById("residualFloor").value = p.residualFloor;
   }
 
-  function renderAbout(){
-    setActiveNav();
-    renderStatus();
-
-    viewEl.innerHTML = `
-      <div class="card">
-        <h1>About this demo</h1>
-        <p class="sub">
-          This is a synthetic demo environment intended for walkthroughs with banks and investors.
-          It is not production software and does not perform real credit checks, identity verification, funding, or payment processing.
-        </p>
-
-        <div class="note">
-          <strong>What’s included:</strong>
-          <ul>
-            <li>Policy controls: min score, max ticket, term caps</li>
-            <li>Pricing control: money factor (illustrative rent charge), APR-equivalent shown for discussion only</li>
-            <li>Consumer portal reads policy from admin and can export buyout schedule CSV</li>
-            <li>Audit log records policy changes and admin updates</li>
-          </ul>
-        </div>
-
-        <div class="note">
-          <strong>Next phase (recommended):</strong> DB-backed roles + RLS, application objects, immutable audit events, and contract generation hooks.
-        </div>
-      </div>
-    `;
+  function readInputs(){
+    const t1 = Number(document.getElementById("term1").value || 24);
+    const t2 = Number(document.getElementById("term2").value || 36);
+    const t3 = Number(document.getElementById("term3").value || 48);
+    return {
+      minScore: Number(document.getElementById("minScore").value || 620),
+      maxTicket: Number(document.getElementById("maxTicket").value || 12000),
+      termCaps: [
+        { max: 1500, term: t1 },
+        { max: 2500, term: t2 },
+        { max: Infinity, term: t3 }
+      ],
+      moneyFactor: Number(document.getElementById("moneyFactor").value || 0.0030),
+      residualPct: Number(document.getElementById("residualPct").value || 0.20),
+      residualFloor: Number(document.getElementById("residualFloor").value || 200)
+    };
   }
 
-  // -----------------------------
-  // Wiring
-  // -----------------------------
-  function render(){
-    const r = route();
-    if(r === "pitch") return renderPitch();
-    if(r === "policy") return renderPolicy();
-    if(r === "audit") return renderAudit();
-    if(r === "about") return renderAbout();
-    return renderQueue();
+  function download(filename, text, mime){
+    const blob = new Blob([text], {type: mime || "text/plain"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click(); a.remove();
+    URL.revokeObjectURL(url);
   }
 
-  document.getElementById("btnReseed").addEventListener("click", () => {
-    saveJSON(KEY_APPS, SEEDED_APPS);
-    saveJSON(KEY_POLICY, DEFAULT_POLICY);
-    saveJSON(KEY_AUDIT, []);
-    audit("DEMO_RESEEDED", { apps: SEEDED_APPS.length });
-    location.hash = "#/pitch";
-    render();
+  setInputs(loadPolicy());
+
+  document.getElementById("btnSave").addEventListener("click", () => {
+    const p = readInputs();
+    localStorage.setItem(ADMIN_POLICY_KEY, JSON.stringify(p));
+    alert("Saved. Open /app and refresh to apply.");
   });
 
-  window.addEventListener("hashchange", render);
+  document.getElementById("btnReset").addEventListener("click", () => {
+    localStorage.setItem(ADMIN_POLICY_KEY, JSON.stringify(DEFAULT_POLICY));
+    setInputs(DEFAULT_POLICY);
+    alert("Reset to defaults.");
+  });
 
-  ensureSeeded();
-  if(!location.hash) location.hash = "#/pitch";
-  renderStatus();
-  render();
+  document.getElementById("btnExport").addEventListener("click", () => {
+    const p = readInputs();
+    download("flintlock_policy.json", JSON.stringify(p, null, 2), "application/json");
+  });
 })();
 </script>
 </body>
