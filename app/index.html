@@ -208,7 +208,6 @@
       border-color: rgba(226,164,93,0.42);
       box-shadow: 0 0 0 3px var(--focus);
     }
-    textarea{min-height: 90px; resize: vertical}
 
     .mono{font-family: var(--mono);}
     .badge{
@@ -266,7 +265,6 @@
       z-index: 2;
       backdrop-filter: blur(6px);
     }
-    tr:hover td{background: rgba(255,255,255,0.02)}
     .right{text-align:right}
     .table-wrap{
       overflow:auto;
@@ -370,18 +368,57 @@
       position: sticky;
       top: 0;
     }
+    .onepage{
+      border: 1px solid rgba(0,0,0,0.14);
+      border-radius: 12px;
+      padding: 12px;
+      background: rgba(255,255,255,0.88);
+    }
+    .onepage h4{
+      margin:0 0 8px;
+      font-family: var(--serif);
+      font-size: 13px;
+      color: rgba(0,0,0,0.86);
+      letter-spacing: 0.02em;
+    }
+    .onepage .meta{
+      font-size: 11.5px;
+      color: rgba(0,0,0,0.65);
+      margin-bottom: 10px;
+    }
+    .onepage .cols{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .onepage .blk{
+      border: 1px solid rgba(0,0,0,0.12);
+      border-radius: 10px;
+      padding: 10px;
+      background: rgba(255,255,255,0.78);
+    }
+    .onepage .blk .t{
+      font-size: 11px;
+      color: rgba(0,0,0,0.60);
+      margin-bottom: 6px;
+    }
+    .onepage .blk .v{
+      font-family: var(--mono);
+      font-size: 12px;
+      color: rgba(0,0,0,0.85);
+      line-height: 1.35;
+      white-space: pre-wrap;
+    }
 
     @media (max-width: 980px){
       .grid2, .grid3{grid-template-columns: 1fr}
       .table-wrap{max-height: 300px}
       .contract-grid, .sig-grid{grid-template-columns: 1fr}
+      .onepage .cols{grid-template-columns: 1fr}
     }
 
     @media print{
-      body{
-        background: #ffffff !important;
-        color: #000000 !important;
-      }
+      body{ background: #ffffff !important; color: #000000 !important; }
       .topbar, .note, .tabs, .btn, .pill, .row, .section, .card:not(.print-card){ display:none !important; }
       main.container{ padding: 0 !important; }
       .print-card{ box-shadow:none !important; border:none !important; background: transparent !important; padding: 0 !important; }
@@ -439,9 +476,6 @@
 
 <script>
 (() => {
-  // -----------------------------
-  // Policy (from Admin localStorage) + snapshot
-  // -----------------------------
   const DEFAULT_POLICY = {
     minScore: 620,
     maxTicket: 12000,
@@ -514,15 +548,11 @@
 
   let POLICY = loadPolicy();
 
-  // Pitch / Reg M toggles
   const uiFlags = {
     pitchMode: loadBool(PITCH_MODE_KEY, false),
     regmPlaceholders: loadBool(REGM_MODE_KEY, false)
   };
 
-  // -----------------------------
-  // Personas (synthetic)
-  // -----------------------------
   const PERSONAS = [
     { id:"prime", name:"Prime Applicant", score:720, flags:{ fraud:false, idMismatch:false }, blurb:"Typical approval path. Use to walk through offer + disclosures." },
     { id:"near",  name:"Near Prime Applicant", score:640, flags:{ fraud:false, idMismatch:false }, blurb:"Closer to policy minimum; useful to demonstrate thresholding." },
@@ -531,9 +561,6 @@
     { id:"below", name:"Below Minimum Score", score:590, flags:{ fraud:false, idMismatch:false }, blurb:"Declines due to policy minimum score." }
   ];
 
-  // -----------------------------
-  // State
-  // -----------------------------
   const state = {
     personaId: "prime",
     applicant: {
@@ -547,18 +574,15 @@
     },
     purchase: {
       itemDescription: "Illustrative Merchant Item",
-      price: 4500,            // ticket (item price)
-      acquisitionFee: 0,      // capitalized
-      tax: 0,                 // capitalized
-      processingFee: 0        // capitalized
+      price: 4500,
+      acquisitionFee: 0,
+      tax: 0,
+      processingFee: 0
     },
     decision: null,
     ui: { buyoutMonth: 12 }
   };
 
-  // -----------------------------
-  // Utilities
-  // -----------------------------
   const viewEl = document.getElementById("view");
 
   function escapeHtml(str){
@@ -575,9 +599,7 @@
   const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
   const round2 = (n) => Math.round(Number(n||0) * 100) / 100;
 
-  function approxAPRFromMF(mf){
-    return round2(Number(mf||0) * 2400);
-  }
+  function approxAPRFromMF(mf){ return round2(Number(mf||0) * 2400); }
 
   function route(){
     const h = location.hash || "#/dashboard";
@@ -587,14 +609,10 @@
     return "dashboard";
   }
 
-  function activePersona(){
-    return PERSONAS.find(p => p.id === state.personaId) || PERSONAS[0];
-  }
+  function activePersona(){ return PERSONAS.find(p => p.id === state.personaId) || PERSONAS[0]; }
 
   function computeTerm(ticket){
-    for(const cap of POLICY.termCaps){
-      if(ticket <= cap.max) return cap.term;
-    }
+    for(const cap of POLICY.termCaps){ if(ticket <= cap.max) return cap.term; }
     return POLICY.termCaps[POLICY.termCaps.length-1].term;
   }
 
@@ -609,7 +627,6 @@
     return round2(dep + rent);
   }
 
-  // Straight-line buyout (Excel-aligned)
   function buyoutAtMonth(costBasis, residual, term, monthElapsed){
     const m = clamp(Number(monthElapsed||0), 0, term);
     return residual + (costBasis - residual) * ((term - m) / term);
@@ -630,7 +647,6 @@
     );
   }
 
-  // CSV helpers
   function toCSV(rows){
     const esc = (v) => {
       const s = String(v ?? "");
@@ -743,15 +759,12 @@
           <li><strong>Advertising / lead copy</strong> must avoid APR claims unless computed under approved methodology.</li>
         </ul>
         <div style="margin-top:8px;">
-          <strong>Note:</strong> These are placeholders only. Final Reg M treatment and disclosure format should be validated by counsel.
+          <strong>Note:</strong> Placeholders only. Final Reg M treatment and disclosure format should be validated by counsel.
         </div>
       </div>
     `;
   }
 
-  // -----------------------------
-  // Decision logic (demo)
-  // -----------------------------
   function evaluate(){
     POLICY = loadPolicy();
     const persona = activePersona();
@@ -838,9 +851,6 @@
     return d;
   }
 
-  // -----------------------------
-  // Rendering
-  // -----------------------------
   function renderTabs(active){
     return `
       <div class="tabs" role="tablist" aria-label="Demo navigation">
@@ -880,10 +890,10 @@
         <div class="card">
           <h3>Policy controls</h3>
           <div class="grid2">
-            <div class="field"><label>Minimum score</label><div class="mono">${escapeHtml(String(POLICY.minScore))}</div></div>
-            <div class="field"><label>Max ticket</label><div class="mono">${escapeHtml(fmtUSD(POLICY.maxTicket))}</div></div>
-            <div class="field"><label>Term caps</label><div class="mono">${escapeHtml(POLICY.termCaps.map(c => (c.max===Infinity ? "else" : "<="+c.max) + ":" + c.term).join(", "))}</div></div>
-            <div class="field"><label>Residual</label><div class="mono">${escapeHtml(String(Math.round(POLICY.residualPct*100)))}% (floor ${escapeHtml(fmtUSD(POLICY.residualFloor))})</div></div>
+            <div class="field"><label>Minimum score</label><div class="mono">${escapeHtml(String(loadPolicy().minScore))}</div></div>
+            <div class="field"><label>Max ticket</label><div class="mono">${escapeHtml(fmtUSD(loadPolicy().maxTicket))}</div></div>
+            <div class="field"><label>Term caps</label><div class="mono">${escapeHtml(loadPolicy().termCaps.map(c => (c.max===Infinity ? "else" : "<="+c.max) + ":" + c.term).join(", "))}</div></div>
+            <div class="field"><label>Residual</label><div class="mono">${escapeHtml(String(Math.round(loadPolicy().residualPct*100)))}% (floor ${escapeHtml(fmtUSD(loadPolicy().residualFloor))})</div></div>
           </div>
           <div class="note" style="margin-top:12px;">
             <strong>Governance note:</strong> Policy values are controlled in the admin console and read here at runtime (demo).
@@ -956,7 +966,6 @@
         <p class="sub" style="margin:0 0 10px;">
           Straight-line from cost basis to residual over ${d.term} months.
         </p>
-
         ${renderBuyoutScheduleTable(d)}
 
         <div class="hr"></div>
@@ -965,19 +974,13 @@
         <p class="sub" style="margin:0 0 10px;">
           Fixed monthly payment for the term (illustrative storyboard schedule).
         </p>
-
         ${renderPaymentScheduleTable(d)}
-      </div>
-
-      <div class="note">
-        <strong>Disclosure posture (demo):</strong> All figures shown are illustrative and for testing/demonstration only.
-        Actual disclosures and calculations depend on program design, the lease agreement, and applicable law.
       </div>
     `;
 
     document.getElementById("buyoutMonth").addEventListener("input", (e) => {
       state.ui.buyoutMonth = Number(e.target.value || 0);
-      renderDashboard();
+      updateUI();
     });
 
     document.getElementById("btnReset").addEventListener("click", () => {
@@ -989,21 +992,17 @@
       state.decision = null;
       state.ui.buyoutMonth = 12;
       location.hash = "#/dashboard";
-      renderAll();
+      updateUI();
     });
 
     document.getElementById("btnCSVBuyout").addEventListener("click", () => {
       const rows = buildBuyoutScheduleRows(d);
-      const csv = toCSV(rows);
-      const filename = `flintlock_buyout_schedule_${d.personaId}_${d.term}mo.csv`;
-      downloadTextFile(filename, csv, "text/csv");
+      downloadTextFile(`flintlock_buyout_schedule_${d.personaId}_${d.term}mo.csv`, toCSV(rows), "text/csv");
     });
 
     document.getElementById("btnCSVPayments").addEventListener("click", () => {
       const rows = buildPaymentScheduleRows(d);
-      const csv = toCSV(rows);
-      const filename = `flintlock_payment_schedule_${d.personaId}_${d.term}mo.csv`;
-      downloadTextFile(filename, csv, "text/csv");
+      downloadTextFile(`flintlock_payment_schedule_${d.personaId}_${d.term}mo.csv`, toCSV(rows), "text/csv");
     });
 
     document.getElementById("btnJSON").addEventListener("click", () => {
@@ -1026,8 +1025,7 @@
           notes: r[3]
         }))
       };
-      const filename = `flintlock_offer_snapshot_${d.personaId}_${d.term}mo.json`;
-      downloadTextFile(filename, JSON.stringify(payload, null, 2), "application/json");
+      downloadTextFile(`flintlock_offer_snapshot_${d.personaId}_${d.term}mo.json`, JSON.stringify(payload, null, 2), "application/json");
     });
   }
 
@@ -1039,7 +1037,7 @@
       <div class="section">
         <h2 style="margin:0 0 6px;">Offer & disclosures (illustrative)</h2>
         <p class="sub" style="margin:0;">
-          This page demonstrates how terms and disclosure language can be presented. Not a quote or contract.
+          Demonstration only. Not a quote or contract.
         </p>
       </div>
 
@@ -1058,14 +1056,6 @@
       <div class="hr"></div>
 
       <div class="card">
-        <h3>Transaction overview</h3>
-        <div class="grid2">
-          <div class="field"><label>Item</label><input value="${escapeHtml(d.itemDescription)}" disabled /></div>
-          <div class="field"><label>Persona / score (synthetic)</label><input value="${escapeHtml(d.personaName)} • ${escapeHtml(String(d.score))}" disabled /></div>
-        </div>
-
-        <div class="hr"></div>
-
         <h3>Capitalized cost (cost basis)</h3>
         <div class="table-wrap" style="max-height:none;">
           <table>
@@ -1093,9 +1083,8 @@
           <strong>Disclosure language (demo):</strong>
           <ul>
             <li><strong>Acquisition fee</strong> is shown as a capitalized cost component (included in cost basis), not a dealer fee.</li>
-            <li><strong>Early purchase option</strong> (if offered) is illustrated as straight-line remaining capitalized cost down to the residual over the term.</li>
-            <li><strong>Money factor</strong> is a policy-controlled pricing parameter in the admin console. An APR-equivalent is shown as an approximation for discussion only.</li>
-            <li>This page is a storyboard demonstration and not a consumer disclosure, quote, or contract.</li>
+            <li><strong>Early purchase option</strong> is illustrated as straight-line remaining capitalized cost down to residual (see Exhibit B).</li>
+            <li><strong>Money factor</strong> is policy-controlled; APR-equivalent shown is approximate and not a consumer APR disclosure.</li>
           </ul>
         </div>
 
@@ -1113,17 +1102,16 @@
   }
 
   function renderContract(){
-    // Use last offer snapshot to keep contract stable
     const d = loadLastOffer() || state.decision || evaluate();
     const policy = loadPolicy();
     const approved = d.outcome === "APPROVE";
 
     const contractId = `FF-DEMO-${(d.evaluatedAt || new Date().toISOString()).replaceAll(/[^0-9]/g,"").slice(0,14)}`;
     const today = new Date().toISOString().slice(0,10);
-
     const aprEq = approxAPRFromMF(Number(d.moneyFactor || policy.moneyFactor || 0));
-    const buyoutRows = buildBuyoutScheduleRows(d).slice(1);   // rows: [m, buyout, pct]
-    const payRows = buildPaymentScheduleRows(d).slice(1);     // rows: [i, amt, freq, notes]
+
+    const buyoutRows = buildBuyoutScheduleRows(d).slice(1);
+    const payRows = buildPaymentScheduleRows(d).slice(1);
 
     const exhibitA = `
       <div class="exhibit">
@@ -1187,17 +1175,89 @@
       </div>
     `;
 
+    // Exhibit C — 1-page Credit Box Summary
+    const creditBoxText = [
+      `Min score: ${policy.minScore}`,
+      `Max ticket (item price): ${fmtUSD(policy.maxTicket)}`,
+      `Term caps (by ticket): ${policy.termCaps.map(c => (c.max===Infinity ? "else" : "<="+c.max) + " → " + c.term + "mo").join(" | ")}`,
+      `Fraud: route to manual review (demo)`,
+      `Identity mismatch: decline (demo)`,
+    ].join("\n");
+
+    const pricingText = [
+      `Money factor: ${policy.moneyFactor} (≈ ${approxAPRFromMF(policy.moneyFactor)}% APR eq; demo only)`,
+      `Residual policy: ${Math.round(policy.residualPct*100)}% of cost basis (floor ${fmtUSD(policy.residualFloor)})`,
+      `Cost basis components: ticket + acquisition fee + tax + processing`,
+      `Early purchase method: straight-line to residual over term (illustrative)`
+    ].join("\n");
+
+    const decisionTrace = [
+      `Persona: ${d.personaName} (${d.personaId})`,
+      `Score: ${d.score}`,
+      `Flags: fraud=${d.flags?.fraud ? "true" : "false"}, idMismatch=${d.flags?.idMismatch ? "true" : "false"}`,
+      `Outcome: ${d.outcome}`,
+      `Summary: ${d.summary}`,
+      ...(Array.isArray(d.reasons) && d.reasons.length ? [`Reasons: ${d.reasons.join(" | ")}`] : [])
+    ].join("\n");
+
+    const exhibitC = `
+      <div class="exhibit">
+        <h3>Exhibit C — Credit Box Summary (1-page)</h3>
+        <p style="margin:6px 0 10px; font-size:12.5px;">
+          ${uiFlags.pitchMode
+            ? "Investor-facing summary of policy controls, pricing levers, and decision trace for this offer snapshot (demo)."
+            : "Program summary of credit policy and pricing controls (demo)."}
+        </p>
+
+        <div class="onepage">
+          <div class="meta">
+            <span class="k">Policy snapshot</span> ${escapeHtml(policy ? "loaded from admin" : "default")} &nbsp;•&nbsp;
+            <span class="k">Offer snapshot</span> ${escapeHtml(d.evaluatedAt || "n/a")}
+          </div>
+
+          <div class="cols">
+            <div class="blk">
+              <div class="t">Credit Box</div>
+              <div class="v">${escapeHtml(creditBoxText)}</div>
+            </div>
+            <div class="blk">
+              <div class="t">Pricing Controls</div>
+              <div class="v">${escapeHtml(pricingText)}</div>
+            </div>
+
+            ${uiFlags.pitchMode ? `
+              <div class="blk" style="grid-column: 1 / -1;">
+                <div class="t">Decision Trace (this snapshot)</div>
+                <div class="v">${escapeHtml(decisionTrace)}</div>
+              </div>
+            ` : ``}
+
+            ${uiFlags.regmPlaceholders ? `
+              <div class="blk" style="grid-column: 1 / -1;">
+                <div class="t">Reg M placeholders (demo)</div>
+                <div class="v">${escapeHtml(
+                  "PLACEHOLDER ONLY:\n" +
+                  "- Final consumer disclosures and contract terms must be reviewed by counsel.\n" +
+                  "- Payment methodology, totals, and any APR-equivalent references must align to approved disclosure rules.\n" +
+                  "- Early purchase option availability and method are program-dependent."
+                )}</div>
+              </div>
+            ` : ``}
+          </div>
+        </div>
+      </div>
+    `;
+
     const pitchIntro = uiFlags.pitchMode ? `
       <p style="margin: 8px 0; font-size: 12.5px;">
-        <strong>Pitch Mode:</strong> This preview includes exhibits commonly requested in diligence (payment schedule + early purchase schedule),
-        and may show placeholder disclosure checklist items. This is a synthetic environment.
+        <strong>Pitch Mode:</strong> Includes diligence-friendly exhibits (A/B/C) and additional governance narrative. Synthetic environment.
       </p>
     ` : ``;
 
     const regMPara = uiFlags.regmPlaceholders ? `
       <p style="margin: 8px 0; font-size: 12.5px;">
-        <strong>Reg M placeholders (demo):</strong> Certain disclosure concepts are referenced here as placeholders only.
-        Final agreement language, calculations, and disclosures must be confirmed by counsel and aligned to applicable law and program structure.
+        <strong>Reg M placeholders (demo):</strong> Certain disclosure concepts are referenced as placeholders only.
+        Final agreement language, calculations, and disclosures must be confirmed by counsel.
       </p>
     ` : ``;
 
@@ -1206,9 +1266,7 @@
         <div class="row" style="justify-content:space-between;">
           <div>
             <h2 style="margin:0 0 6px;">Contract preview ${uiFlags.pitchMode ? "(Pitch Mode)" : ""}</h2>
-            <p class="sub" style="margin:0;">
-              Printable preview generated from the latest offer snapshot. Use “Print / Save as PDF”.
-            </p>
+            <p class="sub" style="margin:0;">Printable preview generated from the latest offer snapshot.</p>
           </div>
           <div class="row">
             <button class="btn" id="btnPrint">Print / Save as PDF</button>
@@ -1219,8 +1277,7 @@
         </div>
 
         <div class="note">
-          <strong>Important:</strong> This is a demo contract preview for pitch/testing only and is not legal advice or a binding agreement.
-          In production, final contract language and disclosures must be reviewed by counsel and aligned to program structure and applicable law.
+          <strong>Important:</strong> Demo contract preview for pitch/testing only. Not legal advice or a binding agreement.
         </div>
 
         <div class="hr"></div>
@@ -1239,7 +1296,7 @@
 
             ${approved ? "" : `
               <p style="color:#a94442; font-weight:700;">
-                NOTE: This applicant is not approved under current policy. This preview is shown for demo purposes only.
+                NOTE: Not approved under current policy. Preview shown for demo only.
               </p>
             `}
 
@@ -1247,115 +1304,59 @@
             <p>
               This Lease Agreement (“Agreement”) is between <strong>Flintlock Financing</strong> (“Lessor”) and
               <strong>${escapeHtml(d.applicant?.name || "Applicant Name")}</strong> (“Lessee”).
-              Contact (synthetic): ${escapeHtml(d.applicant?.email || "email")} / ${escapeHtml(d.applicant?.phone || "phone")}.
             </p>
 
             <h3>2. Leased Property</h3>
             <p>
               Description: <strong>${escapeHtml(d.itemDescription || "Item")}</strong>.
-              The leased property is provided by a participating merchant (not shown in this demo).
             </p>
 
-            <h3>3. Capitalized Cost (Cost Basis) and Components</h3>
+            <h3>3. Capitalized Cost (Cost Basis)</h3>
             <div class="contract-grid">
-              <div class="contract-box">
-                <div class="lbl">Ticket (Item Price)</div>
-                <div class="val">${escapeHtml(fmtUSD(d.ticket))}</div>
-              </div>
-              <div class="contract-box">
-                <div class="lbl">Acquisition Fee (Capitalized)</div>
-                <div class="val">${escapeHtml(fmtUSD(d.acquisitionFee))}</div>
-              </div>
-              <div class="contract-box">
-                <div class="lbl">Sales Tax (Capitalized)</div>
-                <div class="val">${escapeHtml(fmtUSD(d.tax))}</div>
-              </div>
-              <div class="contract-box">
-                <div class="lbl">Processing Fee (Capitalized)</div>
-                <div class="val">${escapeHtml(fmtUSD(d.processingFee))}</div>
-              </div>
+              <div class="contract-box"><div class="lbl">Ticket (Item Price)</div><div class="val">${escapeHtml(fmtUSD(d.ticket))}</div></div>
+              <div class="contract-box"><div class="lbl">Acquisition Fee (Capitalized)</div><div class="val">${escapeHtml(fmtUSD(d.acquisitionFee))}</div></div>
+              <div class="contract-box"><div class="lbl">Sales Tax (Capitalized)</div><div class="val">${escapeHtml(fmtUSD(d.tax))}</div></div>
+              <div class="contract-box"><div class="lbl">Processing Fee (Capitalized)</div><div class="val">${escapeHtml(fmtUSD(d.processingFee))}</div></div>
               <div class="contract-box" style="grid-column: 1 / -1;">
-                <div class="lbl"><strong>Total Cost Basis (Capitalized Cost)</strong></div>
+                <div class="lbl"><strong>Total Cost Basis</strong></div>
                 <div class="val"><strong>${escapeHtml(fmtUSD(d.costBasis))}</strong></div>
               </div>
             </div>
 
             <h3>4. Term and Payments (Illustrative)</h3>
             <div class="contract-grid">
-              <div class="contract-box">
-                <div class="lbl">Lease Term</div>
-                <div class="val">${escapeHtml(String(d.term))} months</div>
-              </div>
-              <div class="contract-box">
-                <div class="lbl">Monthly Payment (Illustrative)</div>
-                <div class="val">${escapeHtml(fmtUSD(d.payment))}</div>
-              </div>
-              <div class="contract-box">
-                <div class="lbl">Total of Payments (Illustrative)</div>
-                <div class="val">${escapeHtml(fmtUSD(d.totalOfPayments))}</div>
-              </div>
-              <div class="contract-box">
-                <div class="lbl">Pricing Parameter (Money Factor)</div>
-                <div class="val">${escapeHtml(String(d.moneyFactor))} (≈ ${escapeHtml(String(aprEq))}% APR equivalent)</div>
-              </div>
+              <div class="contract-box"><div class="lbl">Lease Term</div><div class="val">${escapeHtml(String(d.term))} months</div></div>
+              <div class="contract-box"><div class="lbl">Monthly Payment (Illustrative)</div><div class="val">${escapeHtml(fmtUSD(d.payment))}</div></div>
+              <div class="contract-box"><div class="lbl">Total of Payments (Illustrative)</div><div class="val">${escapeHtml(fmtUSD(d.totalOfPayments))}</div></div>
+              <div class="contract-box"><div class="lbl">Money Factor</div><div class="val">${escapeHtml(String(d.moneyFactor))} (≈ ${escapeHtml(String(aprEq))}% APR eq)</div></div>
             </div>
 
-            <p style="margin-top:10px;">
-              <strong>Demo pricing note:</strong> Monthly payment is calculated as straight-line depreciation of cost basis plus an illustrative rent charge.
-              The APR equivalent shown is an approximation for discussion only and is not a consumer APR disclosure.
-            </p>
-
             <h3>5. Purchase Option (Residual)</h3>
-            <p>
-              Lessee may have an option to purchase the leased property at end of term for the residual amount:
-              <span class="k">${escapeHtml(fmtUSD(d.residual))}</span> (illustrative).
-            </p>
+            <p>End-of-term purchase option (illustrative): <span class="k">${escapeHtml(fmtUSD(d.residual))}</span>.</p>
 
             <h3>6. Early Purchase Option (Illustrative)</h3>
-            <p>
-              If an early purchase option is offered, the illustrative method used in this demo is:
-              <strong>straight-line remaining capitalized cost</strong> from total cost basis down to residual over the term.
-              See <strong>Exhibit B</strong>.
-            </p>
-
-            <h3>7. Fees, Taxes, and Capitalization</h3>
-            <p>
-              The <strong>Acquisition Fee</strong> is capitalized into the cost basis in this demo. Taxes and processing fees, if applicable, may also be capitalized.
-              Final treatment depends on program configuration, merchant arrangements, and applicable law.
-            </p>
-
-            <h3>8. Consumer Acknowledgements (Demo)</h3>
-            <p>
-              This preview is generated for testing and pitch purposes only. No credit pull, identity verification, funding, or payment processing occurs in this environment.
-              Any personal information displayed is synthetic.
-            </p>
+            <p>Illustrative method: straight-line remaining capitalized cost to residual over term. See Exhibit B.</p>
 
             ${uiFlags.pitchMode ? `
-              <h3>9. Audit & Governance (Pitch Mode — Demo)</h3>
+              <h3>7. Audit & Governance (Pitch Mode — Demo)</h3>
               <p>
-                This demo illustrates: (i) policy-controlled underwriting thresholds, (ii) pricing parameters governed in an admin console,
-                (iii) immutable offer snapshots used to generate contract artifacts. In production, events would be logged to an audit ledger.
+                This demo illustrates policy-governed underwriting, policy-controlled pricing, and immutable offer snapshots used to generate contract artifacts.
+                In production, events would be written to an audit ledger with role-based access controls.
               </p>
             ` : ``}
 
-            <h3>${uiFlags.pitchMode ? "10" : "9"}. Signatures (Placeholder)</h3>
+            <h3>${uiFlags.pitchMode ? "8" : "7"}. Signatures (Placeholder)</h3>
             <div class="sig-grid">
-              <div class="sig">
-                <div class="line"></div>
-                <small>Lessee: ${escapeHtml(d.applicant?.name || "Applicant Name")} • Date: __________</small>
-              </div>
-              <div class="sig">
-                <div class="line"></div>
-                <small>Lessor: Flintlock Financing • Date: __________</small>
-              </div>
+              <div class="sig"><div class="line"></div><small>Lessee: ${escapeHtml(d.applicant?.name || "Applicant Name")} • Date: __________</small></div>
+              <div class="sig"><div class="line"></div><small>Lessor: Flintlock Financing • Date: __________</small></div>
             </div>
 
             ${exhibitA}
             ${exhibitB}
+            ${exhibitC}
 
             <div class="contract-foot">
-              Demo build artifact. Contract language is illustrative and not legal advice. Production terms must be reviewed and approved by counsel.
-              Contract ID ${escapeHtml(contractId)}.
+              Demo artifact. Not legal advice. Contract ID ${escapeHtml(contractId)}.
             </div>
           </div>
         </div>
@@ -1368,17 +1369,26 @@
 
     document.getElementById("btnDownloadContractHTML").addEventListener("click", () => {
       const paper = document.getElementById("contractPaper");
-      const html = `<!doctype html>
-<html><head><meta charset="utf-8"><title>Contract Preview ${escapeHtml(contractId)}</title></head>
-<body>${paper.outerHTML}</body></html>`;
+      const html = `<!doctype html><html><head><meta charset="utf-8"><title>Contract Preview ${escapeHtml(contractId)}</title></head><body>${paper.outerHTML}</body></html>`;
       downloadTextFile(`flintlock_contract_preview_${contractId}.html`, html, "text/html");
     });
 
     document.getElementById("btnDownloadExhibitsCSV").addEventListener("click", () => {
-      // bundle: two CSVs in one simple "multi-section" CSV text (keeps it zero-deps)
       const buyoutCSV = toCSV(buildBuyoutScheduleRows(d));
       const payCSV = toCSV(buildPaymentScheduleRows(d));
+      const policyCSV = toCSV([
+        ["field","value"],
+        ["min_score", policy.minScore],
+        ["max_ticket", policy.maxTicket],
+        ["term_caps", policy.termCaps.map(c => (c.max===Infinity ? "else" : "<="+c.max) + "->" + c.term + "mo").join(" | ")],
+        ["money_factor", policy.moneyFactor],
+        ["residual_pct", policy.residualPct],
+        ["residual_floor", policy.residualFloor]
+      ]);
       const bundle = [
+        "### Exhibit C — Credit Box Summary (Policy Snapshot CSV)",
+        policyCSV,
+        "",
         "### Exhibit A — Payment Schedule (CSV)",
         payCSV,
         "",
@@ -1396,9 +1406,7 @@
     viewEl.innerHTML = `
       <div class="section">
         <h2 style="margin:0 0 6px;">Application (synthetic)</h2>
-        <p class="sub" style="margin:0;">
-          Select a persona and enter capitalized cost components. This page does not re-render while typing (focus-safe).
-        </p>
+        <p class="sub" style="margin:0;">Focus-safe inputs: page does not re-render on every keystroke.</p>
       </div>
 
       <div class="hr"></div>
@@ -1472,11 +1480,6 @@
           </div>
         </div>
 
-        <div class="note">
-          <strong>Current pricing policy (from admin):</strong>
-          Money factor ${mono(String(POLICY.moneyFactor))} (~${mono(String(approxAPRFromMF(POLICY.moneyFactor)))}% APR equivalent). Term caps apply to ticket price.
-        </div>
-
         ${regMChecklistBlock()}
 
         <div class="row" style="margin-top: 12px;">
@@ -1491,13 +1494,12 @@
     document.getElementById("persona").addEventListener("change", (e)=> {
       state.personaId = e.target.value;
       state.decision = null;
-      renderApplication();
+      updateUI();
     });
 
     function updateCostBasisDisplay(){
       const el = document.getElementById("costBasisDisplay");
-      if(!el) return;
-      el.value = fmtUSD(costBasis());
+      if(el) el.value = fmtUSD(costBasis());
     }
 
     const bind = (id, path, parser) => {
@@ -1525,19 +1527,47 @@
 
     document.getElementById("btnSubmit").addEventListener("click", () => {
       const d = evaluate();
-      if(d.outcome === "APPROVE") location.hash = "#/offer";
-      else location.hash = "#/dashboard";
-      renderAll();
+      location.hash = (d.outcome === "APPROVE") ? "#/offer" : "#/dashboard";
+      updateUI();
     });
   }
 
   function setPath(path, value){
     const parts = path.split(".");
     let obj = state;
-    for(let i=0;i<parts.length-1;i++){
-      obj = obj[parts[i]];
-    }
+    for(let i=0;i<parts.length-1;i++) obj = obj[parts[i]];
     obj[parts[parts.length-1]] = value;
+  }
+
+  function syncTopbarToggles(){
+    const pitch = document.getElementById("pitchSwitch");
+    const regm = document.getElementById("regmSwitch");
+
+    if(pitch){
+      pitch.classList.toggle("on", !!uiFlags.pitchMode);
+      pitch.setAttribute("aria-checked", uiFlags.pitchMode ? "true" : "false");
+      if(!pitch.dataset.bound){
+        pitch.dataset.bound = "1";
+        pitch.addEventListener("click", () => {
+          uiFlags.pitchMode = !uiFlags.pitchMode;
+          saveBool(PITCH_MODE_KEY, uiFlags.pitchMode);
+          updateUI(); // instant render + instant toggle visual update
+        });
+      }
+    }
+
+    if(regm){
+      regm.classList.toggle("on", !!uiFlags.regmPlaceholders);
+      regm.setAttribute("aria-checked", uiFlags.regmPlaceholders ? "true" : "false");
+      if(!regm.dataset.bound){
+        regm.dataset.bound = "1";
+        regm.addEventListener("click", () => {
+          uiFlags.regmPlaceholders = !uiFlags.regmPlaceholders;
+          saveBool(REGM_MODE_KEY, uiFlags.regmPlaceholders);
+          updateUI(); // instant
+        });
+      }
+    }
   }
 
   function renderAll(){
@@ -1549,40 +1579,18 @@
     return renderDashboard();
   }
 
-  // -----------------------------
-  // Topbar toggles wiring
-  // -----------------------------
-  function syncTopbarToggles(){
-    const pitch = document.getElementById("pitchSwitch");
-    const regm = document.getElementById("regmSwitch");
-    if(pitch){
-      pitch.classList.toggle("on", !!uiFlags.pitchMode);
-      pitch.setAttribute("aria-checked", uiFlags.pitchMode ? "true" : "false");
-      pitch.onclick = () => {
-        uiFlags.pitchMode = !uiFlags.pitchMode;
-        saveBool(PITCH_MODE_KEY, uiFlags.pitchMode);
-        renderAll();
-      };
-    }
-    if(regm){
-      regm.classList.toggle("on", !!uiFlags.regmPlaceholders);
-      regm.setAttribute("aria-checked", uiFlags.regmPlaceholders ? "true" : "false");
-      regm.onclick = () => {
-        uiFlags.regmPlaceholders = !uiFlags.regmPlaceholders;
-        saveBool(REGM_MODE_KEY, uiFlags.regmPlaceholders);
-        renderAll();
-      };
-    }
+  function updateUI(){
+    // Always keep topbar toggles visually correct, then render the current route.
+    syncTopbarToggles();
+    renderAll();
+    // Render may have rebuilt view content, but topbar is static; still ensure toggles remain correct.
+    syncTopbarToggles();
   }
 
-  window.addEventListener("hashchange", () => {
-    renderAll();
-    syncTopbarToggles();
-  });
+  window.addEventListener("hashchange", updateUI);
 
   if(!location.hash) location.hash = "#/dashboard";
-  renderAll();
-  syncTopbarToggles();
+  updateUI();
 })();
 </script>
 </body>
