@@ -485,10 +485,10 @@
     function downloadCSV(filename, rows){
       const esc=(v)=>{
         const s=String(v??"");
-        if (/[",\\n]/.test(s)) return '"' + s.replaceAll('"','""') + '"';
+        if (/[",\n]/.test(s)) return '"' + s.replaceAll('"','""') + '"';
         return s;
       };
-      const csv = rows.map(r=>r.map(esc).join(",")).join("\\n");
+      const csv = rows.map(r=>r.map(esc).join(",")).join("\n");
       const blob = new Blob([csv], {type:"text/csv;charset=utf-8"});
       const a = document.createElement("a");
       a.href = URL.createObjectURL(blob);
@@ -497,28 +497,6 @@
       a.click();
       a.remove();
       setTimeout(()=>URL.revokeObjectURL(a.href), 1500);
-    }
-
-    // Focus preservation (fix one-char-then-click issue)
-    function captureFocus(){
-      const el = document.activeElement;
-      if (!el) return null;
-      const id = el.id || null;
-      const name = el.getAttribute?.("name") || null;
-      const selStart = ("selectionStart" in el) ? el.selectionStart : null;
-      const selEnd = ("selectionEnd" in el) ? el.selectionEnd : null;
-      return { id, name, selStart, selEnd };
-    }
-    function restoreFocus(f){
-      if (!f) return;
-      let el=null;
-      if (f.id) el=document.getElementById(f.id);
-      if (!el && f.name) el=document.querySelector('[name="'+CSS.escape(f.name)+'"]');
-      if (!el) return;
-      el.focus({preventScroll:true});
-      try{
-        if (f.selStart!=null && "setSelectionRange" in el) el.setSelectionRange(f.selStart, f.selEnd ?? f.selStart);
-      }catch(_){}
     }
 
     // ---------- Policy + State ----------
@@ -802,8 +780,8 @@
               <input id="buyoutMonth" type="number" min="0" max="${p.term}" step="1" value="${escapeHtml(d.buyoutMonth)}" />
             </div>
             <div class="field">
-              <label>Buyout amount at month ${escapeHtml(d.buyoutMonth)}</label>
-              <input value="${escapeHtml(fmtUSD(d.buyout))}" disabled />
+              <label>Buyout amount at month <span id="buyoutLabelMonth">${escapeHtml(d.buyoutMonth)}</span></label>
+              <input id="buyoutAmt" value="${escapeHtml(fmtUSD(d.buyout))}" disabled />
             </div>
           </div>
 
@@ -961,7 +939,7 @@
         "Lessor: ____________________   Date: ________",
         "Lessee: ____________________   Date: ________",
         ""
-      ].join("\\n");
+      ].join("\n");
     }
 
     function buildExhibitCText(d, dateStr){
@@ -999,7 +977,7 @@
         "- No credit pulls performed in demo.",
         "- No funding or payments performed in demo.",
         ""
-      ].join("\\n");
+      ].join("\n");
     }
 
     function viewContract(d){
@@ -1396,7 +1374,6 @@ Residual floor (demo): ${fmtUSD(pol.residualFloor)}`
   });
 }
 
-
     // ---------- Rendering + Wiring ----------
     function setKpis(d){
       $("#scoreKpi").textContent=String(state.score);
@@ -1416,8 +1393,24 @@ Residual floor (demo): ${fmtUSD(pol.residualFloor)}`
       }
     }
 
+    // Gold-standard: recompute + paint without rebuilding #view (prevents caret reset)
+    function recalcAndPaint(){
+      const d = computeAll();
+      setKpis(d);
+
+      // If we are on Offer tab, update buyout label + disabled value live without re-rendering
+      if (state.tab === "offer") {
+        const monthEl = $("#buyoutLabelMonth");
+        const amtEl = $("#buyoutAmt");
+        if (monthEl) monthEl.textContent = String(d.buyoutMonth);
+        if (amtEl) amtEl.value = fmtUSD(d.buyout);
+      }
+
+      // For other tabs, we intentionally do not patch the DOM here.
+      // They will refresh on tab switch/navigation via render().
+    }
+
     function render(){
-      const focus=captureFocus();
       const d=computeAll();
 
       setKpis(d);
@@ -1433,8 +1426,7 @@ Residual floor (demo): ${fmtUSD(pol.residualFloor)}`
       else if(state.tab==="exhibitC") html=viewExhibitC(d);
       view.innerHTML=html;
 
-      wireViewEvents(d);
-      restoreFocus(focus);
+      wireViewEvents();
     }
 
     // Count required fields that are “completed”
@@ -1475,26 +1467,32 @@ Residual floor (demo): ${fmtUSD(pol.residualFloor)}`
       jumpTo(target.id);
     }
 
-    function wireViewEvents(d){
+    function wireViewEvents(){
       // Tabs
       $$(".tab").forEach(t=>t.onclick=()=>{state.tab=t.dataset.tab;render();});
 
-      // Application
+      // Application (NO render on keystroke; just recalcAndPaint)
       const personaSel=$("#persona");
-      if (personaSel) personaSel.onchange=(e)=>{state.persona=e.target.value;render();};
+      if (personaSel) personaSel.onchange=(e)=>{state.persona=e.target.value;recalcAndPaint();};
+
       const score=$("#score");
-      if (score) score.oninput=(e)=>{state.score=clamp(parseInt(e.target.value||0,10)||0,300,850);render();};
+      if (score) score.oninput=(e)=>{state.score=clamp(parseInt(e.target.value||0,10)||0,300,850);recalcAndPaint();};
+
       const ticket=$("#ticket");
-      if (ticket) ticket.oninput=(e)=>{state.ticket=Math.max(0,Number(e.target.value||0));render();};
+      if (ticket) ticket.oninput=(e)=>{state.ticket=Math.max(0,Number(e.target.value||0));recalcAndPaint();};
+
       const acq=$("#acq");
-      if (acq) acq.oninput=(e)=>{state.acquisitionFee=Math.max(0,Number(e.target.value||0));render();};
+      if (acq) acq.oninput=(e)=>{state.acquisitionFee=Math.max(0,Number(e.target.value||0));recalcAndPaint();};
+
       const tax=$("#tax");
-      if (tax) tax.oninput=(e)=>{state.tax=Math.max(0,Number(e.target.value||0));render();};
+      if (tax) tax.oninput=(e)=>{state.tax=Math.max(0,Number(e.target.value||0));recalcAndPaint();};
+
       const proc=$("#proc");
-      if (proc) proc.oninput=(e)=>{state.processingFee=Math.max(0,Number(e.target.value||0));render();};
+      if (proc) proc.oninput=(e)=>{state.processingFee=Math.max(0,Number(e.target.value||0));recalcAndPaint();};
 
       const goOffer=$("#goOffer");
       if (goOffer) goOffer.onclick=()=>{state.tab="offer";render();};
+
       const resetInputs=$("#resetInputs");
       if (resetInputs) resetInputs.onclick=()=>{
         state.persona="Prime Applicant";
@@ -1513,53 +1511,73 @@ Residual floor (demo): ${fmtUSD(pol.residualFloor)}`
         render();
       };
 
-      // Offer
+      // Offer (NO render on buyoutMonth typing; just recalcAndPaint)
       const buyoutMonth=$("#buyoutMonth");
-      if (buyoutMonth) buyoutMonth.oninput=(e)=>{state.buyoutMonth=e.target.value;render();};
+      if (buyoutMonth) buyoutMonth.oninput=(e)=>{state.buyoutMonth=e.target.value;recalcAndPaint();};
+
       const exportScheduleCsv=$("#exportScheduleCsv");
       if (exportScheduleCsv) exportScheduleCsv.onclick=()=>{
+        const d = computeAll();
         const rows=buyoutScheduleRows(d.pricing.costBasis,d.pricing.residual,d.pricing.term);
         const csv=[["Month","BuyoutAmountUSD"]].concat(rows.map(r=>[r.month,r.buyout]));
         downloadCSV("buyout_schedule_demo.csv",csv);
       };
 
-      // Dashboard
+      // Dashboard (fresh compute on click)
       const exportPolicyJson=$("#exportPolicyJson");
-      if (exportPolicyJson) exportPolicyJson.onclick=()=>downloadJSON("policy_demo.json", d.policy);
+      if (exportPolicyJson) exportPolicyJson.onclick=()=>{
+        const d = computeAll();
+        downloadJSON("policy_demo.json", d.policy);
+      };
+
       const exportExhibitBJson=$("#exportExhibitBJson");
-      if (exportExhibitBJson) exportExhibitBJson.onclick=()=>downloadJSON("exhibit_b_pricing_policy_demo.json", buildExhibitBObject(d));
+      if (exportExhibitBJson) exportExhibitBJson.onclick=()=>{
+        const d = computeAll();
+        downloadJSON("exhibit_b_pricing_policy_demo.json", buildExhibitBObject(d));
+      };
 
       // Disclosures nav
       const goContract=$("#goContract");
       if (goContract) goContract.onclick=()=>{state.tab="contract";render();};
+
       const goOffer2=$("#goOffer2");
       if (goOffer2) goOffer2.onclick=()=>{state.tab="offer";render();};
 
-      // Contract downloads
+      // Contract downloads (fresh compute on click)
       const dlContract=$("#dlContract");
       if (dlContract) dlContract.onclick=()=>{
+        const d = computeAll();
         const today=new Date();
         const dateStr=(today.getMonth()+1)+"/"+today.getDate()+"/"+today.getFullYear();
         downloadText("consumer_lease_agreement_demo.txt", buildContractText(d,dateStr));
       };
+
       const dlExhibitC=$("#dlExhibitC");
       if (dlExhibitC) dlExhibitC.onclick=()=>{
+        const d = computeAll();
         const today=new Date();
         const dateStr=(today.getMonth()+1)+"/"+today.getDate()+"/"+today.getFullYear();
         downloadText("exhibit_c_credit_box_demo.txt", buildExhibitCText(d,dateStr));
       };
+
       const dlExhibitB=$("#dlExhibitB");
-      if (dlExhibitB) dlExhibitB.onclick=()=>downloadJSON("exhibit_b_pricing_policy_demo.json", buildExhibitBObject(d));
+      if (dlExhibitB) dlExhibitB.onclick=()=>{
+        const d = computeAll();
+        downloadJSON("exhibit_b_pricing_policy_demo.json", buildExhibitBObject(d));
+      };
+
       const backOffer=$("#backOffer");
       if (backOffer) backOffer.onclick=()=>{state.tab="offer";render();};
 
       // Exhibit C
       const dlExhibitC2=$("#dlExhibitC2");
       if (dlExhibitC2) dlExhibitC2.onclick=()=>{
+        const d = computeAll();
         const today=new Date();
         const dateStr=(today.getMonth()+1)+"/"+today.getDate()+"/"+today.getFullYear();
         downloadText("exhibit_c_credit_box_demo.txt", buildExhibitCText(d,dateStr));
       };
+
       const goContract2=$("#goContract2");
       if (goContract2) goContract2.onclick=()=>{state.tab="contract";render();};
 
