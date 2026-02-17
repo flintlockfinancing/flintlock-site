@@ -4,19 +4,22 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Flintlock Financing</title>
-  <meta name="description" content="Flintlock Financing — policy-driven consumer leasing (demo)."/>
+  <meta name="description" content="Institutional-grade demo environment for policy-driven consumer leasing."/>
   <style>
     :root{
       --bg0:#050F1B; --bg1:#061424; --bg2:#071726;
       --panel: rgba(255,255,255,0.06);
-      --line: rgba(255,255,255,0.12);
+      --panel2: rgba(255,255,255,0.04);
       --text: rgba(255,255,255,0.92);
       --muted: rgba(255,255,255,0.70);
-      --accent:#C57B2A; --accent2:#E2A45D;
-      --radius:18px; --max:1080px;
+      --muted2: rgba(255,255,255,0.55);
+      --line: rgba(255,255,255,0.12);
+      --accent:#C57B2A;
       --shadow: 0 18px 40px rgba(0,0,0,0.40);
+      --radius:18px; --max:1080px;
       --serif: ui-serif, Georgia, "Times New Roman", Times, serif;
       --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
     }
     *{box-sizing:border-box}
     body{
@@ -28,129 +31,144 @@
       line-height:1.45;
     }
     a{color:inherit; text-decoration:none}
-    .container{max-width:var(--max); margin:0 auto; padding: 26px 18px}
-    .top{
-      display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;
-      padding: 14px 0 24px;
+    .container{max-width:var(--max); margin:0 auto; padding:0 18px}
+    header{
+      position:sticky; top:0; z-index:20;
+      backdrop-filter: blur(10px);
+      background: rgba(5,16,28,0.62);
+      border-bottom:1px solid var(--line);
     }
+    .hdr{display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap; padding:14px 0}
     .brand{display:flex; align-items:center; gap:10px}
     .mark{
-      width: 34px; height: 34px; border-radius: 12px;
+      width:32px; height:32px; border-radius:10px;
       background:
         radial-gradient(10px 10px at 70% 30%, rgba(255,255,255,0.9), transparent 55%),
         radial-gradient(18px 18px at 65% 35%, rgba(226,164,93,0.65), transparent 60%),
         linear-gradient(180deg, rgba(197,123,42,0.95), rgba(197,123,42,0.35));
-      box-shadow: 0 10px 22px rgba(197,123,42,0.25);
-      border: 1px solid rgba(255,255,255,0.15);
+      box-shadow:0 10px 22px rgba(197,123,42,0.25);
+      border:1px solid rgba(255,255,255,0.15);
     }
     .brand-text{display:flex; flex-direction:column; line-height:1.1}
     .brand-text strong{
-      font-family: var(--serif);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      font-size: 12px;
+      font-family:var(--serif);
+      letter-spacing:0.08em;
+      text-transform:uppercase;
+      font-size:12px;
     }
-    .brand-text span{font-size:12px; color: rgba(255,255,255,0.60)}
-    .hero{
-      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 22px;
+    .brand-text span{font-size:12px; color:rgba(255,255,255,0.55)}
+    .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+    .pill{
+      display:inline-flex; gap:10px; align-items:center;
+      padding:7px 10px; border-radius:999px;
+      border:1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.04);
+      color: rgba(255,255,255,0.74);
+      font-size:12px;
     }
-    h1{
-      font-family: var(--serif);
-      font-size: clamp(24px, 3.6vw, 40px);
-      margin: 0 0 10px;
-      letter-spacing: 0.02em;
-    }
-    p{margin: 0 0 12px; color: var(--muted)}
-    .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-top: 12px}
+    .spark{width:8px; height:8px; border-radius:999px; background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(226,164,93,0.95) 35%, rgba(197,123,42,0.5) 65%, transparent 70%); box-shadow:0 0 22px rgba(226,164,93,0.50)}
     .btn{
       display:inline-flex; align-items:center; justify-content:center;
-      padding: 12px 14px; border-radius: 12px;
-      border: 1px solid rgba(255,255,255,0.16);
+      padding:10px 13px; border-radius:12px;
+      border:1px solid rgba(255,255,255,0.16);
       background: rgba(255,255,255,0.06);
       color: rgba(255,255,255,0.92);
-      font-size: 13px;
-      cursor:pointer;
-      user-select:none;
+      font-size:13px; cursor:pointer; user-select:none; white-space:nowrap;
+      transition: transform 0.06s ease, background 0.2s ease, border-color 0.2s ease;
     }
+    .btn:hover{background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.20)}
+    .btn:active{transform: translateY(1px)}
     .btn.primary{
       border-color: rgba(197,123,42,0.55);
       background: linear-gradient(180deg, rgba(197,123,42,0.95), rgba(197,123,42,0.55));
-      color: #0b1016;
-      font-weight: 900;
+      box-shadow: 0 16px 34px rgba(197,123,42,0.18);
+      color:#0b1016; font-weight:900;
     }
-    .grid2{display:grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 16px}
+    .hero{padding:28px 0 10px}
+    h1{font-family:var(--serif); font-size: clamp(28px, 3.8vw, 44px); margin:18px 0 8px}
+    .sub{color:var(--muted); font-size:15px; margin:0 0 18px; max-width: 72ch}
+    .grid{display:grid; grid-template-columns: 1.2fr .8fr; gap:14px; margin-top:14px}
     .card{
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.10);
-      border-radius: 16px;
-      padding: 14px;
+      background: linear-gradient(180deg, var(--panel) 0%, var(--panel2) 100%);
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding:16px;
     }
-    .card h3{
-      margin: 0 0 6px;
-      font-size: 12px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.86);
-    }
+    h2{font-family:var(--serif); margin:0 0 8px; font-size:20px}
+    p{margin:0 0 10px; color:var(--muted)}
+    .k{font-family:var(--mono); color:rgba(255,255,255,0.88)}
+    ul{margin:10px 0 0; padding-left:18px; color:var(--muted)}
+    li{margin:6px 0}
     .note{
-      margin-top: 14px;
-      padding: 12px 14px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,0.12);
+      margin-top:12px;
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,0.12);
       background: rgba(255,255,255,0.03);
       color: rgba(255,255,255,0.62);
-      font-size: 12px;
+      font-size:12px;
     }
-    @media (max-width: 980px){ .grid2{grid-template-columns:1fr} }
+    footer{padding:22px 0 30px; color:rgba(255,255,255,0.52); font-size:12px}
+    @media(max-width:980px){ .grid{grid-template-columns:1fr} }
   </style>
 </head>
 <body>
+<header>
   <div class="container">
-    <div class="top">
-      <div class="brand">
+    <div class="hdr">
+      <a class="brand" href="/">
         <div class="mark"></div>
         <div class="brand-text">
           <strong>Flintlock Financing</strong>
           <span>Institutional-grade demo environment</span>
         </div>
-      </div>
+      </a>
       <div class="row">
+        <span class="pill"><span class="spark"></span><span>SYNTHETIC DEMO / NO CREDIT PULLS</span></span>
         <a class="btn" href="/app/">Open app demo</a>
         <a class="btn" href="/admin/">Admin console</a>
         <a class="btn primary" href="/app/#/application">Start application</a>
       </div>
     </div>
+  </div>
+</header>
 
-    <div class="hero">
-      <h1>Policy-driven consumer leasing, built for auditability</h1>
-      <p>
-        Flintlock Financing is a synthetic demonstration environment used to illustrate credit policy controls,
-        pricing governance, disclosures, and contract artifact generation.
-      </p>
-      <p>
-        <strong>Important:</strong> This website is for demos and testing only. No identity verification, credit pulls,
-        funding, or payments occur here.
-      </p>
+<main class="container hero">
+  <h1>Policy-driven consumer leasing, built for auditability</h1>
+  <p class="sub">
+    Flintlock Financing is a synthetic demonstration environment used to illustrate credit policy controls,
+    pricing governance, disclosures, and contract artifact generation.
+  </p>
 
-      <div class="grid2">
-        <div class="card">
-          <h3>Demo app</h3>
-          <p>Simulate applications, generate an illustrative offer, and export schedules.</p>
-        </div>
-        <div class="card">
-          <h3>Admin console</h3>
-          <p>Adjust credit box, pricing policy, and residual settings (demo controls only).</p>
-        </div>
-      </div>
-
+  <div class="grid">
+    <div class="card">
+      <h2>What this demo shows</h2>
+      <ul>
+        <li><span class="k">Policy controls</span> that gate approvals (credit box, caps, term rules).</li>
+        <li><span class="k">Pricing controls</span> using simple storyboard math (money factor + residual).</li>
+        <li><span class="k">Disclosures & artifacts</span> (Reg M-style box + contract preview + exhibits).</li>
+        <li><span class="k">Exports</span> (CSV/JSON schedules for integration demos).</li>
+      </ul>
       <div class="note">
-        Synthetic environment. Any figures shown are illustrative storyboard math and not a quote or contract.
+        <strong>Important:</strong> This website is for demos and testing only. No identity verification,
+        credit pulls, funding, or payments occur here.
       </div>
     </div>
+
+    <div class="card">
+      <h2>Quick links</h2>
+      <p><a class="btn primary" href="/app/">Open /app</a></p>
+      <p><a class="btn" href="/admin/">Open /admin</a></p>
+      <p class="note">
+        Tip: Use <span class="k">/admin</span> to adjust policy and then refresh <span class="k">/app</span>.
+      </p>
+    </div>
   </div>
+
+  <footer>
+    Synthetic environment. Any figures shown are illustrative storyboard math and not a quote or contract.
+  </footer>
+</main>
 </body>
 </html>
