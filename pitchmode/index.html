@@ -1,1 +1,440 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Flintlock Financing | Pitch Mode</title>
+  <meta name="robots" content="noindex,nofollow"/>
+  <style>
+    :root{
+      --bg0:#050F1B; --bg1:#061424; --bg2:#071726;
+      --panel: rgba(255,255,255,0.06);
+      --panel2: rgba(255,255,255,0.04);
+      --text: rgba(255,255,255,0.92);
+      --muted: rgba(255,255,255,0.70);
+      --muted2: rgba(255,255,255,0.55);
+      --line: rgba(255,255,255,0.12);
+      --accent:#C57B2A; --accent2:#E2A45D;
+      --shadow: 0 18px 40px rgba(0,0,0,0.40);
+      --radius:18px; --max:1080px;
+      --serif: ui-serif, Georgia, "Times New Roman", Times, serif;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --focus: rgba(226,164,93,0.45);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; font-family:var(--sans); color:var(--text);
+      background:
+        radial-gradient(900px 420px at 18% 0%, rgba(197,123,42,0.18), transparent 55%),
+        radial-gradient(720px 380px at 92% 8%, rgba(226,164,93,0.12), transparent 55%),
+        linear-gradient(180deg, var(--bg1) 0%, var(--bg2) 55%, var(--bg0) 100%);
+      line-height:1.45;
+    }
+    .container{max-width:var(--max); margin:0 auto; padding: 18px}
+    .top{
+      display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap;
+      border-bottom:1px solid var(--line);
+      padding-bottom: 14px;
+      margin-bottom: 14px;
+    }
+    .brand{display:flex; align-items:center; gap:10px}
+    .mark{
+      width:32px; height:32px; border-radius:10px;
+      background: linear-gradient(180deg, rgba(197,123,42,0.95), rgba(197,123,42,0.35));
+      border:1px solid rgba(255,255,255,0.15);
+      box-shadow:0 10px 22px rgba(197,123,42,0.25);
+    }
+    .brand-text{display:flex; flex-direction:column; line-height:1.1}
+    .brand-text strong{font-family:var(--serif); letter-spacing:0.08em; text-transform:uppercase; font-size:12px}
+    .brand-text span{font-size:12px; color:rgba(255,255,255,0.55)}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:10px 13px; border-radius:12px;
+      border:1px solid rgba(255,255,255,0.16);
+      background: rgba(255,255,255,0.06);
+      color: rgba(255,255,255,0.92);
+      font-size:13px; cursor:pointer; user-select:none; text-decoration:none;
+    }
+    .btn.primary{
+      border-color: rgba(197,123,42,0.55);
+      background: linear-gradient(180deg, rgba(197,123,42,0.95), rgba(197,123,42,0.55));
+      color:#0b1016; font-weight:900;
+    }
+    .btn.danger{border-color: rgba(255,107,107,0.40); background: rgba(255,107,107,0.10)}
+    .card{
+      background: linear-gradient(180deg, var(--panel) 0%, var(--panel2) 100%);
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding:16px;
+      margin: 14px 0;
+    }
+    h1{font-family:var(--serif); margin: 6px 0 4px; font-size: 24px}
+    h2{font-family:var(--serif); margin: 0 0 8px; font-size: 20px}
+    h3{margin:0 0 8px; font-size:13px; letter-spacing:0.10em; text-transform:uppercase; color:rgba(255,255,255,0.86); font-weight:800}
+    .sub{color:var(--muted); margin:0 0 10px}
+    .grid2{display:grid; grid-template-columns: 1fr 1fr; gap:12px}
+    .field{display:flex; flex-direction:column; gap:6px}
+    label{font-size:12px; color:var(--muted2)}
+    input, textarea{
+      padding:10px 12px; border-radius:12px;
+      border:1px solid rgba(255,255,255,0.14);
+      background: rgba(0,0,0,0.18);
+      color: rgba(255,255,255,0.92);
+      outline:none;
+      font-size:14px;
+      font-family: var(--mono);
+    }
+    textarea{min-height: 140px; resize: vertical}
+    input:focus, textarea:focus{border-color: rgba(226,164,93,0.42); box-shadow: 0 0 0 3px var(--focus)}
+    .mono{font-family: var(--mono)}
+    .note{
+      margin-top: 10px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.03);
+      color: rgba(255,255,255,0.62);
+      font-size: 12px;
+    }
+
+    /* Print packet */
+    .paper{
+      background: rgba(255,255,255,0.96);
+      color: rgba(0,0,0,0.88);
+      border-radius: 14px;
+      padding: 18px;
+      border: 1px solid rgba(0,0,0,0.10);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.30);
+    }
+    .paper h2, .paper h3{
+      color: rgba(0,0,0,0.88);
+      font-family: var(--serif);
+      letter-spacing: 0.02em;
+      text-transform:none;
+    }
+    .paper p{margin: 8px 0; font-size: 12.5px}
+    .k{
+      font-family: var(--mono);
+      font-size: 12.5px;
+      background: rgba(0,0,0,0.06);
+      padding: 2px 6px;
+      border-radius: 8px;
+      border: 1px solid rgba(0,0,0,0.10);
+      white-space: nowrap;
+    }
+    .onepage{
+      border: 1px solid rgba(0,0,0,0.14);
+      border-radius: 12px;
+      padding: 12px;
+      background: rgba(255,255,255,0.88);
+    }
+    .onepage .cols{display:grid; grid-template-columns: 1fr 1fr; gap:10px}
+    .blk{border: 1px solid rgba(0,0,0,0.12); border-radius:10px; padding:10px; background: rgba(255,255,255,0.78)}
+    .blk .t{font-size:11px; color: rgba(0,0,0,0.60); margin-bottom:6px}
+    .blk .v{font-family: var(--mono); font-size: 12px; color: rgba(0,0,0,0.85); white-space: pre-wrap; line-height:1.35}
+    @media(max-width:980px){ .grid2{grid-template-columns:1fr} .onepage .cols{grid-template-columns:1fr} }
+
+    @media print{
+      body{ background:#fff !important; }
+      .top, .card.controls, .card.importer, .note, .btn{ display:none !important; }
+      .paper{ box-shadow:none !important; border:none !important; border-radius:0 !important; padding:0 !important; }
+      .container{ padding:0 !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="top">
+      <div class="brand">
+        <div class="mark"></div>
+        <div class="brand-text">
+          <strong>Flintlock Financing</strong>
+          <span>Pitch Mode (protected)</span>
+        </div>
+      </div>
+      <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn" id="btnPrint">Print / Save PDF</button>
+        <button class="btn" id="btnLock">Lock</button>
+      </div>
+    </div>
+
+    <div class="card controls">
+      <h1>Pitch controls & demo script</h1>
+      <p class="sub">This page is intended for internal use only. It should be protected by access control.</p>
+      <div class="grid2">
+        <div class="field">
+          <label>Passcode</label>
+          <input id="pass" type="password" placeholder="Enter passcode to unlock" />
+        </div>
+        <div class="field">
+          <label>Unlock</label>
+          <button class="btn primary" id="btnUnlock">Unlock</button>
+        </div>
+      </div>
+      <div class="note">
+        Passcode gating is not real security by itself. Use Cloudflare Access (recommended) to actually protect /pitchmode.
+      </div>
+    </div>
+
+    <div class="card importer" id="importCard" style="display:none;">
+      <h2>Load an offer snapshot</h2>
+      <p class="sub">Paste the JSON downloaded from <span class="mono">/app</span> (“Download offer snapshot”).</p>
+      <div class="field">
+        <label>Offer snapshot JSON</label>
+        <textarea id="jsonIn" placeholder='{ "demo": true, "policy": {...}, "decision": {...} }'></textarea>
+      </div>
+      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
+        <button class="btn primary" id="btnLoad">Load snapshot</button>
+        <button class="btn" id="btnLoadLocal">Load last offer from this browser</button>
+        <button class="btn" id="btnClear">Clear</button>
+      </div>
+      <div class="note">
+        If you’re in the same browser you used for /app, “Load last offer” will often work without pasting.
+      </div>
+    </div>
+
+    <div class="card" id="packetCard" style="display:none;">
+      <h2>Pitch Packet (printable)</h2>
+      <p class="sub">Investor-facing script + Exhibit C generated from the loaded snapshot.</p>
+
+      <div class="paper" id="paper">
+        <!-- Filled by JS -->
+      </div>
+    </div>
+  </div>
+
+<script>
+(() => {
+  const PASSCODE = "1337";
+  const UNLOCK_KEY = "flintlock_pitchmode_unlocked_v1";
+  const LAST_OFFER_KEY = "flintlock_demo_last_offer_v1";
+
+  const $ = (id) => document.getElementById(id);
+  const escapeHtml = (s) => String(s??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
+  const fmtUSD = (n) => new Intl.NumberFormat("en-US",{style:"currency",currency:"USD"}).format(Number(n||0));
+  const approxAPRFromMF = (mf) => Math.round((Number(mf||0)*2400)*100)/100;
+
+  function isUnlocked(){
+    try{ return sessionStorage.getItem(UNLOCK_KEY)==="true"; }catch(e){ return false; }
+  }
+  function setUnlocked(v){
+    try{ sessionStorage.setItem(UNLOCK_KEY, v?"true":"false"); }catch(e){}
+  }
+
+  function showUnlockedUI(){
+    $("importCard").style.display = "block";
+    $("packetCard").style.display = "block";
+    $("pass").value = "";
+    $("pass").placeholder = "Unlocked (session)";
+  }
+
+  function hideUnlockedUI(){
+    $("importCard").style.display = "none";
+    $("packetCard").style.display = "none";
+  }
+
+  function unlock(){
+    const v = String($("pass").value||"").trim();
+    if(v === PASSCODE){
+      setUnlocked(true);
+      showUnlockedUI();
+      alert("Unlocked for this tab session.");
+      return true;
+    }
+    alert("Incorrect passcode.");
+    return false;
+  }
+
+  function lock(){
+    setUnlocked(false);
+    hideUnlockedUI();
+    $("paper").innerHTML = "";
+    $("jsonIn").value = "";
+  }
+
+  function readLastOffer(){
+    try{
+      const raw = localStorage.getItem(LAST_OFFER_KEY);
+      return raw ? JSON.parse(raw) : null;
+    }catch(e){ return null; }
+  }
+
+  function parseSnapshot(text){
+    const obj = JSON.parse(text);
+    if(!obj || !obj.decision || !obj.policy) throw new Error("Invalid snapshot. Expected { policy, decision }");
+    return obj;
+  }
+
+  function buildScript(snapshot){
+    const p = snapshot.policy;
+    const d = snapshot.decision;
+
+    const creditBox = [
+      `Min score: ${p.minScore}`,
+      `Max ticket (item price): ${fmtUSD(p.maxTicket)}`,
+      `Term caps: ${p.termCaps.map(c => (c.max===Infinity ? "> $2,500" : "<= $" + c.max) + " → " + c.term + " mo").join(" | ")}`,
+      `Fraud handling: route to manual review (demo)`,
+      `ID mismatch: decline (demo)`
+    ].join("\n");
+
+    const pricing = [
+      `Money factor: ${p.moneyFactor} (≈ ${approxAPRFromMF(p.moneyFactor)}% APR eq; demo only)`,
+      `Residual: ${Math.round(p.residualPct*100)}% of basis (floor ${fmtUSD(p.residualFloor)})`,
+      `Basis: ticket + acquisition fee + tax + processing`,
+      `Early purchase: straight-line to residual over term`
+    ].join("\n");
+
+    const decisionTrace = [
+      `Persona: ${d.personaName} (${d.personaId})`,
+      `Score: ${d.score}`,
+      `Flags: fraud=${d.flags?.fraud?"true":"false"}, idMismatch=${d.flags?.idMismatch?"true":"false"}`,
+      `Outcome: ${d.outcome}`,
+      `Summary: ${d.summary}`,
+      ...(d.reasons?.length ? [`Reasons: ${d.reasons.join(" | ")}`] : [])
+    ].join("\n");
+
+    const talkTrack = [
+      "DEMO SCRIPT (10–12 minutes)",
+      "",
+      "1) Positioning (30s)",
+      "   “Flintlock is a policy-driven leasing engine. The demo illustrates how policy controls, pricing controls, and audit artifacts work together.”",
+      "",
+      "2) Show consumer flow (2–3m)",
+      "   • Open /app and run an application persona",
+      "   • Generate an illustrative offer",
+      "   • Export schedules + offer snapshot",
+      "",
+      "3) Governance (2m)",
+      "   • Policy lives in /admin (min score, max ticket, term caps, money factor, residual policy)",
+      "   • The app consumes policy at runtime (demo); in production this becomes governed config with RBAC + audit.",
+      "",
+      "4) Economics & disclosures (2–3m)",
+      "   • Cost basis composition is explicit (ticket + acquisition fee + tax + processing)",
+      "   • Payment uses storyboard math (depreciation + rent charge)",
+      "   • Early purchase schedule is straight-line to residual (illustrative)",
+      "",
+      "5) Audit artifacts (2–3m)",
+      "   • Exhibit C: Credit Box Summary (1-page)",
+      "   • Decision trace shows why an outcome occurred",
+      "",
+      "6) Close (30s)",
+      "   “Next steps: connect real KYC/ID/fraud, bureau pull mapping, ledger settlement + investor reporting.”"
+    ].join("\n");
+
+    return { creditBox, pricing, decisionTrace, talkTrack, d, p };
+  }
+
+  function renderPacket(snapshot){
+    const { creditBox, pricing, decisionTrace, talkTrack, d, p } = buildScript(snapshot);
+    const now = new Date().toISOString();
+
+    $("paper").innerHTML = `
+      <h2>Flintlock Financing — Pitch Packet</h2>
+      <p>
+        <span class="k">Generated</span> ${escapeHtml(now)}
+        &nbsp;•&nbsp;
+        <span class="k">Snapshot</span> ${escapeHtml(d.evaluatedAt || "n/a")}
+      </p>
+
+      <h3>Overview</h3>
+      <p>
+        This packet summarizes the current policy controls and the offer snapshot generated in the demo environment.
+        All values are synthetic and illustrative.
+      </p>
+
+      <h3>Offer Snapshot</h3>
+      <p>
+        Ticket <span class="k">${escapeHtml(fmtUSD(d.ticket))}</span>
+        &nbsp;•&nbsp; Basis <span class="k">${escapeHtml(fmtUSD(d.costBasis))}</span>
+        &nbsp;•&nbsp; Term <span class="k">${escapeHtml(String(d.term))} mo</span>
+        &nbsp;•&nbsp; Payment <span class="k">${escapeHtml(fmtUSD(d.payment))}</span>
+        &nbsp;•&nbsp; Residual <span class="k">${escapeHtml(fmtUSD(d.residual))}</span>
+      </p>
+
+      <h3>Exhibit C — Credit Box Summary (1-page)</h3>
+      <div class="onepage">
+        <div class="cols">
+          <div class="blk">
+            <div class="t">Credit Box</div>
+            <div class="v">${escapeHtml(creditBox)}</div>
+          </div>
+          <div class="blk">
+            <div class="t">Pricing Controls</div>
+            <div class="v">${escapeHtml(pricing)}</div>
+          </div>
+          <div class="blk" style="grid-column: 1 / -1;">
+            <div class="t">Decision Trace</div>
+            <div class="v">${escapeHtml(decisionTrace)}</div>
+          </div>
+        </div>
+      </div>
+
+      <h3>Demo Script</h3>
+      <div class="blk">
+        <div class="t">Talk Track</div>
+        <div class="v">${escapeHtml(talkTrack)}</div>
+      </div>
+
+      <p style="margin-top:12px; font-size:11px; color: rgba(0,0,0,0.60);">
+        Demo-only artifact. Not legal advice. Not a quote. Not a commitment.
+      </p>
+    `;
+  }
+
+  function loadSnapshotFromTextarea(){
+    try{
+      const snap = parseSnapshot($("jsonIn").value);
+      renderPacket(snap);
+      $("packetCard").style.display = "block";
+      return;
+    }catch(e){
+      alert("Could not load snapshot: " + e.message);
+    }
+  }
+
+  function loadSnapshotFromLocal(){
+    const d = readLastOffer();
+    if(!d){
+      alert("No last offer found in this browser. Generate an offer in /app first, then try again.");
+      return;
+    }
+    // Build a compatible snapshot wrapper
+    const policyRaw = localStorage.getItem("flintlock_demo_policy_v1");
+    const policy = policyRaw ? JSON.parse(policyRaw) : null;
+    if(!policy){
+      alert("No policy found in this browser. Open /admin once or paste a snapshot JSON.");
+      return;
+    }
+    renderPacket({ policy, decision: d });
+    $("packetCard").style.display = "block";
+  }
+
+  function clearAll(){
+    $("jsonIn").value = "";
+    $("paper").innerHTML = "";
+  }
+
+  $("btnUnlock").addEventListener("click", unlock);
+  $("btnLock").addEventListener("click", lock);
+  $("btnPrint").addEventListener("click", () => window.print());
+
+  $("btnLoad").addEventListener("click", () => {
+    if(!isUnlocked()) { alert("Locked. Unlock first."); return; }
+    loadSnapshotFromTextarea();
+  });
+  $("btnLoadLocal").addEventListener("click", () => {
+    if(!isUnlocked()) { alert("Locked. Unlock first."); return; }
+    loadSnapshotFromLocal();
+  });
+  $("btnClear").addEventListener("click", clearAll);
+
+  // Init
+  if(isUnlocked()) showUnlockedUI();
+  else hideUnlockedUI();
+})();
+</script>
+</body>
+</html>
 
