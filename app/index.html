@@ -1180,34 +1180,222 @@
       });
     }
 
-    function viewExhibitC(d){
-      const today=new Date();
-      const dateStr=(today.getMonth()+1)+"/"+today.getDate()+"/"+today.getFullYear();
-      const txt=buildExhibitCText(d,dateStr);
+function viewExhibitC(d){
+  const today=new Date();
+  const dateStr=(today.getMonth()+1)+"/"+today.getDate()+"/"+today.getFullYear();
 
-      const page = docPage({
-        headerTitle:"Exhibit C — Credit Box Summary (Demo)",
-        headerMeta:`Date: <span class="mono">${escapeHtml(dateStr)}</span>`,
-        bodyHtml: `
-          <p style="margin-top:0;color:var(--paperMuted)">One-page credit box summary for pitch packets. Demo only.</p>
-          <div style="border:1px solid var(--paperStroke);background:#fff;border-radius:12px;padding:12px">
-            <pre style="margin:0;white-space:pre-wrap;font-family:var(--mono);font-size:12.5px;line-height:1.45">${escapeHtml(txt)}</pre>
-          </div>
-          <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap">
-            <button class="btn" id="dlExhibitC2">Download Exhibit C (.txt)</button>
-            <button class="btn primary" id="goContract2">Back to contract</button>
-          </div>
-        `
-      });
+  const p=d.pricing, pol=d.policy;
+  const synth=buildSyntheticPartyData();
 
-      return docShell({
-        title:"Exhibit C",
-        subtitle:"Credit box summary (one-page)",
-        leftMeta:"Demo exhibit",
-        buttonsHtml:"",
-        innerHtml:`<div class="docWrap" style="grid-template-columns:1fr"><div class="docCanvas">${page}</div></div>`
-      });
-    }
+  // Use same blanking toggles (optional)
+  // If you want these to be always filled in Exhibit C, set these to false below.
+  const blanks = {
+    programName: false,
+    purpose: false,
+    minScore: false,
+    maxTicket: false,
+    termCaps: false,
+    moneyFactor: false,
+    residualPercent: false,
+    residualFloor: false,
+    // signatures on Exhibit C (often not required, but can be made required for docusign-y feel)
+    sigLessor: false,
+    sigLessee: false,
+    dateLessor: false,
+    dateLessee: false
+  };
+
+  // Required fields list used by rail
+  const requiredFields = [
+    { id:"exC_program", label:"Program name", desc:"One-page program identifier", required:true },
+    { id:"exC_purpose", label:"Purpose", desc:"Narrative summary for pitch packet", required:true },
+    { id:"exC_minScore", label:"Minimum credit score", desc:"Credit box floor", required:true },
+    { id:"exC_maxTicket", label:"Max ticket", desc:"Item price cap", required:true },
+    { id:"exC_termCaps", label:"Term caps", desc:"Tiered term governance", required:true },
+    { id:"exC_pricing", label:"Pricing controls", desc:"Money factor + residual governance", required:true }
+  ];
+
+  const body = `
+    <p style="margin-top:0;color:var(--paperMuted)">
+      One-page credit box summary for pitch packets. Demo only — values reflect current <span class="mono">/admin</span> policy and current scenario pricing inputs.
+    </p>
+
+    <h4>Exhibit C — Credit box summary</h4>
+
+    ${docFields([
+      {
+        id:"exC_program",
+        label:"Program name",
+        value:"Flintlock Financing (Synthetic Demo)",
+        required:true,
+        blank: blanks.programName,
+        blankLen: 30,
+        hint:"Used in investor/bank pitch materials."
+      },
+      {
+        id:"exC_date",
+        label:"As-of date",
+        value:dateStr,
+        mono:true,
+        required:false,
+        blank:false,
+        hint:"Generated client-side for the demo."
+      }
+    ])}
+
+    ${docFields([
+      {
+        id:"exC_purpose",
+        label:"Purpose",
+        value:"Demonstrate policy gating, auditability, and controlled pricing.",
+        required:true,
+        blank: blanks.purpose,
+        blankLen: 42,
+        hint:"Short narrative for the one-pager."
+      },
+      {
+        id:"exC_recipient",
+        label:"Recipient (for routing)",
+        value:synth.name + " (Demo Lessee)",
+        required:false,
+        blank:false,
+        hint:"For DocuSign-style feel only."
+      }
+    ])}
+
+    <h4>Eligibility (illustrative)</h4>
+    ${docFields([
+      {
+        id:"exC_minScore",
+        label:"Minimum credit score",
+        value:String(pol.minScore),
+        mono:true,
+        required:true,
+        blank: blanks.minScore,
+        blankLen: 6
+      },
+      {
+        id:"exC_maxTicket",
+        label:"Maximum ticket (item price)",
+        value:fmtUSD(pol.maxTicket),
+        mono:true,
+        required:true,
+        blank: blanks.maxTicket,
+        blankLen: 14
+      }
+    ])}
+
+    <h4>Term caps (illustrative)</h4>
+    <div class="docField reqField" data-req="1" id="exC_termCaps" style="margin:10px 0 12px">
+      <div class="tag req">REQUIRED</div>
+      <div class="lbl">Term governance</div>
+      <div class="val mono" style="white-space:pre-wrap;line-height:1.45;background:#f5f9ff">
+        ${blanks.termCaps ? blankLine(46) : escapeHtml(
+`Ticket ≤ $1,500: ${pol.termCap1500} months max
+Ticket ≤ $2,500: ${pol.termCap2500} months max
+Ticket > $2,500: ${pol.termCapOver2500} months max`
+        )}
+      </div>
+      <div class="hint">Tiered term control aligns underwriting and pricing governance.</div>
+    </div>
+
+    <h4>Pricing controls (illustrative)</h4>
+    <div class="docField reqField" data-req="1" id="exC_pricing" style="margin:10px 0 12px">
+      <div class="tag req">REQUIRED</div>
+      <div class="lbl">Pricing governance</div>
+      <div class="val mono" style="white-space:pre-wrap;line-height:1.45;background:#f5f9ff">
+        ${
+          blanks.moneyFactor || blanks.residualPercent || blanks.residualFloor
+            ? blankLine(46)
+            : escapeHtml(
+`Money factor (demo): ${pol.moneyFactor}
+Residual percent (demo): ${pol.residualPercent} (e.g., 0.20 = 20%)
+Residual floor (demo): ${fmtUSD(pol.residualFloor)}`
+              )
+        }
+      </div>
+      <div class="hint">Illustrative only — not counsel-reviewed Reg M disclosures.</div>
+    </div>
+
+    <h4>Verification (demo disclaimer)</h4>
+    <ul style="margin:8px 0 0;padding-left:18px">
+      <li>No identity verification performed in demo.</li>
+      <li>No credit pulls performed in demo.</li>
+      <li>No funding or payments performed in demo.</li>
+    </ul>
+
+    <div style="margin-top:14px;padding:10px 12px;border:1px solid var(--paperStroke);border-radius:12px;background:#fbfdff;color:var(--paperMuted);font-size:12px">
+      <strong>Integration note:</strong> In production, this Exhibit C would be a PDF exhibit with version control and signatures if required.
+    </div>
+
+    <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap">
+      <button class="btn" id="dlExhibitC2">Download Exhibit C (.txt)</button>
+      <button class="btn primary" id="goContract2">Back to contract</button>
+    </div>
+  `;
+
+  const page = docPage({
+    headerTitle:"Exhibit C — Credit Box Summary (DEMO)",
+    headerMeta:`As of: <span class="mono">${escapeHtml(dateStr)}</span>`,
+    bodyHtml: body
+  });
+
+  const rail = `
+    <aside class="rail">
+      <h4>Recipients</h4>
+      <div class="small">DocuSign-style rail for Exhibit C (demo). No real signing occurs.</div>
+
+      <div class="box">
+        <div class="row"><strong>Recipient</strong><span class="mono">${escapeHtml(synth.name)}</span></div>
+        <div class="row" style="margin-top:6px"><strong>Required</strong><span class="mono" id="reqCount">—</span></div>
+        <div class="row" style="margin-top:6px"><strong>Completed</strong><span class="mono" id="doneCount">—</span></div>
+        <div style="margin-top:10px; display:flex; gap:10px; flex-wrap:wrap">
+          <button class="btn small primary" id="nextReq">Next required</button>
+          <button class="btn small" id="goContractFromRail">Contract</button>
+        </div>
+      </div>
+
+      <div class="box">
+        <div class="small"><strong>Required fields</strong> (click to jump)</div>
+        <ul id="reqList">
+          ${requiredFields.map(f=>`
+            <li data-jump="${escapeHtml(f.id)}">
+              <div class="t"><span>${escapeHtml(f.label)}</span><em>REQ</em></div>
+              <div class="d">${escapeHtml(f.desc)}</div>
+            </li>
+          `).join("")}
+        </ul>
+      </div>
+
+      <div class="box">
+        <div class="small">
+          <strong>Demo note:</strong> This exhibit is formatted to feel like an e-sign packet page.
+        </div>
+      </div>
+    </aside>
+  `;
+
+  const buttons = `
+    <button class="btn" id="dlExhibitC_top">Download Exhibit C (.txt)</button>
+    <button class="btn primary" id="goContract_top">Back to contract</button>
+  `;
+
+  const inner = `
+    <div class="docWrap">
+      <div class="docCanvas" id="docCanvas">${page}</div>
+      ${rail}
+    </div>
+  `;
+
+  return docShell({
+    title:"Exhibit C",
+    subtitle:"Credit box summary (DocuSign-y demo)",
+    leftMeta:"One-page exhibit",
+    buttonsHtml: buttons,
+    innerHtml: inner
+  });
+}
+
 
     // ---------- Rendering + Wiring ----------
     function setKpis(d){
