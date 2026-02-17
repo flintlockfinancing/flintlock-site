@@ -15,11 +15,20 @@
       --muted2: rgba(255,255,255,0.55);
       --line: rgba(255,255,255,0.12);
       --accent:#C57B2A;
-      --radius:18px; --max:980px;
       --shadow: 0 18px 40px rgba(0,0,0,0.40);
+      --radius:18px; --max:980px;
       --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      --serif: ui-serif, Georgia, "Times New Roman", Times, serif;
       --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
       --focus: rgba(197,123,42,0.35);
+
+      /* Print paper */
+      --paper-bg: rgba(255,255,255,0.98);
+      --paper-text: rgba(0,0,0,0.88);
+      --paper-muted: rgba(0,0,0,0.62);
+      --paper-line: rgba(0,0,0,0.16);
+      --paper-chip-bg: rgba(0,0,0,0.06);
+      --paper-chip-line: rgba(0,0,0,0.12);
     }
     *{box-sizing:border-box}
     body{
@@ -27,14 +36,36 @@
       background:
         radial-gradient(900px 420px at 18% 0%, rgba(197,123,42,0.18), transparent 55%),
         linear-gradient(180deg, var(--bg1) 0%, var(--bg2) 55%, var(--bg0) 100%);
+      line-height:1.45;
     }
+    a{color:inherit; text-decoration:none}
     .container{max-width:var(--max); margin:0 auto; padding: 22px 18px}
-    .top{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap}
+    .top{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:12px; flex-wrap:wrap;
+      position:sticky; top:0; z-index:10;
+      backdrop-filter: blur(10px);
+      background: rgba(5,16,28,0.62);
+      border-bottom:1px solid var(--line);
+      padding: 14px 18px;
+      margin: -22px -18px 16px;
+    }
     .brand{display:flex; align-items:center; gap:10px}
-    .mark{width:32px;height:32px;border-radius:10px;background:linear-gradient(180deg, rgba(197,123,42,0.95), rgba(197,123,42,0.35));border:1px solid rgba(255,255,255,0.15); box-shadow:0 10px 22px rgba(197,123,42,0.25)}
+    .mark{
+      width:32px;height:32px;border-radius:10px;
+      background: linear-gradient(180deg, rgba(197,123,42,0.95), rgba(197,123,42,0.35));
+      border:1px solid rgba(255,255,255,0.15);
+      box-shadow:0 10px 22px rgba(197,123,42,0.25)
+    }
     .title{display:flex; flex-direction:column; line-height:1.1}
-    .title strong{letter-spacing:0.08em; text-transform:uppercase; font-size:12px}
+    .title strong{
+      font-family: var(--serif);
+      letter-spacing:0.08em;
+      text-transform:uppercase;
+      font-size:12px
+    }
     .title span{font-size:12px; color:rgba(255,255,255,0.55)}
+    .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
     .btn{
       display:inline-flex; align-items:center; justify-content:center;
       padding:10px 13px; border-radius:12px;
@@ -42,10 +73,25 @@
       background: rgba(255,255,255,0.06);
       color: rgba(255,255,255,0.92);
       font-size:13px; cursor:pointer; user-select:none; text-decoration:none;
+      transition: transform 0.06s ease, background 0.2s ease, border-color 0.2s ease;
+      white-space:nowrap;
     }
-    .btn.primary{border-color: rgba(197,123,42,0.55); background: linear-gradient(180deg, rgba(197,123,42,0.95), rgba(197,123,42,0.55)); color:#0b1016; font-weight:900}
-    .card{margin-top:16px; background: linear-gradient(180deg, var(--panel) 0%, var(--panel2) 100%); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:16px}
-    h1{margin:14px 0 6px; font-size:20px}
+    .btn:hover{background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.20)}
+    .btn:active{transform: translateY(1px)}
+    .btn.primary{
+      border-color: rgba(197,123,42,0.55);
+      background: linear-gradient(180deg, rgba(197,123,42,0.95), rgba(197,123,42,0.55));
+      color:#0b1016; font-weight:900
+    }
+    .card{
+      margin-top:16px;
+      background: linear-gradient(180deg, var(--panel) 0%, var(--panel2) 100%);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:16px
+    }
+    h1{margin:0 0 6px; font-family: var(--serif); font-size:22px}
     p{margin:0 0 12px; color:var(--muted)}
     .grid2{display:grid; grid-template-columns: 1fr 1fr; gap:12px}
     label{font-size:12px; color:var(--muted2)}
@@ -69,7 +115,76 @@
       color: rgba(255,255,255,0.62);
       font-size: 12px;
     }
-    @media(max-width:900px){ .grid2{grid-template-columns:1fr} }
+    .tabs{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px}
+    .tab{
+      padding:9px 12px; border-radius:12px;
+      border:1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.03);
+      font-size:13px;
+    }
+    .tab.active{border-color: rgba(197,123,42,0.40); background: rgba(197,123,42,0.10)}
+    .hr{height:1px; background: rgba(255,255,255,0.08); margin: 12px 0}
+
+    /* Printable Summary */
+    .paper{
+      background: var(--paper-bg);
+      color: var(--paper-text);
+      border-radius: 14px;
+      padding: 22px;
+      border: 1px solid var(--paper-line);
+    }
+    .paper h2, .paper h3{
+      color: var(--paper-text);
+      font-family: var(--serif);
+      text-transform:none;
+      letter-spacing:0.02em;
+      margin: 14px 0 8px;
+    }
+    .paper p{color: var(--paper-text); margin: 8px 0; font-size: 12.5px}
+    .paper .muted{color: var(--paper-muted)}
+    .chip{
+      display:inline-block;
+      font-family: var(--mono);
+      background: var(--paper-chip-bg);
+      border: 1px solid var(--paper-chip-line);
+      border-radius: 9px;
+      padding: 2px 7px;
+      font-size: 12px;
+      color: var(--paper-text);
+      white-space:nowrap;
+    }
+    .paper hr{
+      border:none;
+      height:1px;
+      background: var(--paper-line);
+      margin: 14px 0;
+    }
+    .box{
+      border:1px solid rgba(0,0,0,0.14);
+      border-radius: 12px;
+      padding: 12px;
+      background: rgba(255,255,255,0.75);
+    }
+    .twoCol{display:grid; grid-template-columns: 1fr 1fr; gap: 10px}
+    .k{font-family: var(--mono)}
+    table{width:100%; border-collapse:collapse; font-size:12.5px}
+    th,td{padding:10px; border-bottom:1px solid rgba(0,0,0,0.12)}
+    th{background: rgba(0,0,0,0.04); text-align:left}
+    .right{text-align:right}
+    .footerSmall{margin-top:16px; font-size:11px; color: var(--paper-muted)}
+
+    @media(max-width:900px){ .grid2,.twoCol{grid-template-columns:1fr} }
+
+    @media print{
+      body{ background:#fff !important; }
+      .top, .note, .tabs, .btn, .card:not(.printable){ display:none !important; }
+      .container{ padding: 0 !important; }
+      .card.printable{
+        border:none !important; box-shadow:none !important;
+        margin:0 !important; padding:0 !important; background: transparent !important;
+      }
+      .paper{ border:none !important; border-radius:0 !important; padding:0 !important; }
+    }
   </style>
 </head>
 <body>
@@ -82,69 +197,21 @@
           <span>Admin console (demo)</span>
         </div>
       </div>
-      <div style="display:flex; gap:10px; flex-wrap:wrap;">
+
+      <div class="row">
         <a class="btn" href="/app/">Open app</a>
         <a class="btn" href="/">Home</a>
+        <a class="btn" href="#/summary">Policy Summary</a>
       </div>
     </div>
 
-    <div class="card">
-      <h1>Policy controls</h1>
-      <p>Edits are stored in your browser (localStorage) for demo/testing. Not production controls.</p>
-
-      <div class="grid2">
-        <div class="field">
-          <label>Minimum score</label>
-          <input id="minScore" type="number" min="300" max="850" step="1"/>
-        </div>
-        <div class="field">
-          <label>Max ticket (item price)</label>
-          <input id="maxTicket" type="number" min="0" step="1"/>
-        </div>
-
-        <div class="field">
-          <label>Term cap ≤ $1,500 (months)</label>
-          <input id="term1" type="number" min="1" max="84" step="1"/>
-        </div>
-        <div class="field">
-          <label>Term cap ≤ $2,500 (months)</label>
-          <input id="term2" type="number" min="1" max="84" step="1"/>
-        </div>
-
-        <div class="field">
-          <label>Term cap > $2,500 (months)</label>
-          <input id="term3" type="number" min="1" max="84" step="1"/>
-        </div>
-        <div class="field">
-          <label>Money factor (illustrative)</label>
-          <input id="moneyFactor" type="number" step="0.0001"/>
-        </div>
-
-        <div class="field">
-          <label>Residual percent (e.g., 0.20 = 20%)</label>
-          <input id="residualPct" type="number" step="0.01"/>
-        </div>
-        <div class="field">
-          <label>Residual floor ($)</label>
-          <input id="residualFloor" type="number" min="0" step="1"/>
-        </div>
-      </div>
-
-      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;">
-        <button class="btn primary" id="btnSave">Save policy</button>
-        <button class="btn" id="btnReset">Reset to defaults</button>
-        <button class="btn" id="btnExport">Export policy (JSON)</button>
-      </div>
-
-      <div class="note">
-        <strong>Tip:</strong> After saving, open /app and refresh to pick up the updated policy values.
-      </div>
-    </div>
+    <div class="card" id="view"></div>
   </div>
 
 <script>
 (() => {
   const ADMIN_POLICY_KEY = "flintlock_demo_policy_v1";
+
   const DEFAULT_POLICY = {
     minScore: 620,
     maxTicket: 12000,
@@ -158,15 +225,30 @@
     moneyFactor: 0.0030
   };
 
+  const el = document.getElementById("view");
+  const fmtUSD = (n) => new Intl.NumberFormat("en-US",{style:"currency",currency:"USD"}).format(Number(n||0));
+  const escapeHtml = (s) => String(s??"")
+    .replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;").replaceAll("'","&#039;");
+  const round2 = (n)=>Math.round(Number(n||0)*100)/100;
+  const approxAPRFromMF = (mf)=> round2(Number(mf||0)*2400);
+
   function loadPolicy(){
     try{
       const raw = localStorage.getItem(ADMIN_POLICY_KEY);
       if(!raw) return JSON.parse(JSON.stringify(DEFAULT_POLICY));
       const p = JSON.parse(raw);
+      const termCaps = Array.isArray(p.termCaps) && p.termCaps.length>=3
+        ? [
+          { max: 1500, term: Number(p.termCaps[0].term ?? 24) },
+          { max: 2500, term: Number(p.termCaps[1].term ?? 36) },
+          { max: Infinity, term: Number(p.termCaps[2].term ?? 48) }
+        ]
+        : JSON.parse(JSON.stringify(DEFAULT_POLICY.termCaps));
       return {
         minScore: Number(p.minScore ?? DEFAULT_POLICY.minScore),
         maxTicket: Number(p.maxTicket ?? DEFAULT_POLICY.maxTicket),
-        termCaps: Array.isArray(p.termCaps) ? p.termCaps : JSON.parse(JSON.stringify(DEFAULT_POLICY.termCaps)),
+        termCaps,
         residualPct: Number(p.residualPct ?? DEFAULT_POLICY.residualPct),
         residualFloor: Number(p.residualFloor ?? DEFAULT_POLICY.residualFloor),
         moneyFactor: Number(p.moneyFactor ?? DEFAULT_POLICY.moneyFactor)
@@ -176,33 +258,220 @@
     }
   }
 
-  function setInputs(p){
-    document.getElementById("minScore").value = p.minScore;
-    document.getElementById("maxTicket").value = p.maxTicket;
-    document.getElementById("term1").value = Number(p.termCaps?.[0]?.term ?? 24);
-    document.getElementById("term2").value = Number(p.termCaps?.[1]?.term ?? 36);
-    document.getElementById("term3").value = Number(p.termCaps?.[2]?.term ?? 48);
-    document.getElementById("moneyFactor").value = p.moneyFactor;
-    document.getElementById("residualPct").value = p.residualPct;
-    document.getElementById("residualFloor").value = p.residualFloor;
+  function savePolicy(p){
+    localStorage.setItem(ADMIN_POLICY_KEY, JSON.stringify(p));
   }
 
-  function readInputs(){
-    const t1 = Number(document.getElementById("term1").value || 24);
-    const t2 = Number(document.getElementById("term2").value || 36);
-    const t3 = Number(document.getElementById("term3").value || 48);
-    return {
-      minScore: Number(document.getElementById("minScore").value || 620),
-      maxTicket: Number(document.getElementById("maxTicket").value || 12000),
-      termCaps: [
-        { max: 1500, term: t1 },
-        { max: 2500, term: t2 },
-        { max: Infinity, term: t3 }
-      ],
-      moneyFactor: Number(document.getElementById("moneyFactor").value || 0.0030),
-      residualPct: Number(document.getElementById("residualPct").value || 0.20),
-      residualFloor: Number(document.getElementById("residualFloor").value || 200)
-    };
+  function route(){
+    const h = location.hash || "#/policy";
+    if(h.startsWith("#/summary")) return "summary";
+    return "policy";
+  }
+
+  function renderTabs(active){
+    return `
+      <div class="tabs">
+        <a class="tab ${active==="policy"?"active":""}" href="#/policy">Policy Editor</a>
+        <a class="tab ${active==="summary"?"active":""}" href="#/summary">Policy Summary</a>
+      </div>
+    `;
+  }
+
+  function renderPolicyEditor(){
+    const p = loadPolicy();
+    el.innerHTML = `
+      <h1>Policy controls</h1>
+      <p>Edits are stored in your browser (localStorage) for demo/testing. Not production controls.</p>
+
+      <div class="grid2">
+        <div class="field">
+          <label>Minimum score</label>
+          <input id="minScore" type="number" min="300" max="850" step="1" value="${escapeHtml(String(p.minScore))}"/>
+        </div>
+        <div class="field">
+          <label>Max ticket (item price)</label>
+          <input id="maxTicket" type="number" min="0" step="1" value="${escapeHtml(String(p.maxTicket))}"/>
+        </div>
+
+        <div class="field">
+          <label>Term cap ≤ $1,500 (months)</label>
+          <input id="term1" type="number" min="1" max="84" step="1" value="${escapeHtml(String(p.termCaps[0].term))}"/>
+        </div>
+        <div class="field">
+          <label>Term cap ≤ $2,500 (months)</label>
+          <input id="term2" type="number" min="1" max="84" step="1" value="${escapeHtml(String(p.termCaps[1].term))}"/>
+        </div>
+
+        <div class="field">
+          <label>Term cap > $2,500 (months)</label>
+          <input id="term3" type="number" min="1" max="84" step="1" value="${escapeHtml(String(p.termCaps[2].term))}"/>
+        </div>
+        <div class="field">
+          <label>Money factor (illustrative)</label>
+          <input id="moneyFactor" type="number" step="0.0001" value="${escapeHtml(String(p.moneyFactor))}"/>
+        </div>
+
+        <div class="field">
+          <label>Residual percent (e.g., 0.20 = 20%)</label>
+          <input id="residualPct" type="number" step="0.01" value="${escapeHtml(String(p.residualPct))}"/>
+        </div>
+        <div class="field">
+          <label>Residual floor ($)</label>
+          <input id="residualFloor" type="number" min="0" step="1" value="${escapeHtml(String(p.residualFloor))}"/>
+        </div>
+      </div>
+
+      <div class="row" style="margin-top:12px;">
+        <button class="btn primary" id="btnSave">Save policy</button>
+        <button class="btn" id="btnReset">Reset defaults</button>
+        <button class="btn" id="btnExport">Export policy (JSON)</button>
+        <a class="btn" href="#/summary">View printable summary</a>
+      </div>
+
+      <div class="note">
+        <strong>Tip:</strong> After saving, open <span class="k">/app</span> and refresh to pick up updated policy values.
+      </div>
+
+      ${renderTabs("policy")}
+    `;
+
+    document.getElementById("btnSave").addEventListener("click", () => {
+      const t1 = Number(document.getElementById("term1").value || 24);
+      const t2 = Number(document.getElementById("term2").value || 36);
+      const t3 = Number(document.getElementById("term3").value || 48);
+
+      const next = {
+        minScore: Number(document.getElementById("minScore").value || 620),
+        maxTicket: Number(document.getElementById("maxTicket").value || 12000),
+        termCaps: [
+          { max: 1500, term: t1 },
+          { max: 2500, term: t2 },
+          { max: Infinity, term: t3 }
+        ],
+        moneyFactor: Number(document.getElementById("moneyFactor").value || 0.0030),
+        residualPct: Number(document.getElementById("residualPct").value || 0.20),
+        residualFloor: Number(document.getElementById("residualFloor").value || 200)
+      };
+
+      savePolicy(next);
+      alert("Saved. Open /app and refresh to apply.");
+    });
+
+    document.getElementById("btnReset").addEventListener("click", () => {
+      savePolicy(DEFAULT_POLICY);
+      location.hash = "#/policy";
+      render();
+      alert("Reset to defaults.");
+    });
+
+    document.getElementById("btnExport").addEventListener("click", () => {
+      const p2 = loadPolicy();
+      download("flintlock_policy.json", JSON.stringify(p2, null, 2), "application/json");
+    });
+  }
+
+  function renderSummary(){
+    const p = loadPolicy();
+    const created = new Date().toISOString();
+
+    const termText = [
+      `≤ $1,500 → ${p.termCaps[0].term} months`,
+      `≤ $2,500 → ${p.termCaps[1].term} months`,
+      `> $2,500 → ${p.termCaps[2].term} months`
+    ].join("  |  ");
+
+    const pricingNotes = [
+      "Money factor is demo-only and used for storyboard math in /app.",
+      "Residual policy is applied to full cost basis in /app (ticket + acquisition fee + tax + processing).",
+      "Any real program requires counsel-reviewed Reg M disclosures and governed configuration controls."
+    ];
+
+    el.innerHTML = `
+      <div class="row" style="justify-content:space-between; align-items:flex-start;">
+        <div>
+          <h1>Policy Summary (Demo)</h1>
+          <p style="margin:0;">Investor-friendly one-pager for demos/testing (not pitch mode).</p>
+        </div>
+        <div class="row">
+          <button class="btn primary" id="btnPrint">Print / Save PDF</button>
+          <a class="btn" href="#/policy">Back to editor</a>
+        </div>
+      </div>
+
+      <div class="hr"></div>
+
+      <div class="card printable" style="padding:0; background: transparent; border:none; box-shadow:none;">
+        <div class="paper">
+          <h2 style="margin-top:0;">Flintlock Financing — Credit & Pricing Policy Snapshot</h2>
+          <p class="muted">
+            Generated <span class="chip">${escapeHtml(created)}</span> • Synthetic demo configuration • Not legal advice
+          </p>
+
+          <hr/>
+
+          <div class="box">
+            <div class="twoCol">
+              <div>
+                <h3 style="margin:0 0 6px;">Credit Box</h3>
+                <p><strong>Minimum score:</strong> <span class="chip">${escapeHtml(String(p.minScore))}</span></p>
+                <p><strong>Maximum ticket:</strong> <span class="chip">${escapeHtml(fmtUSD(p.maxTicket))}</span></p>
+                <p><strong>Term caps:</strong> <span class="chip">${escapeHtml(termText)}</span></p>
+              </div>
+              <div>
+                <h3 style="margin:0 0 6px;">Pricing Controls</h3>
+                <p><strong>Money factor (demo):</strong> <span class="chip">${escapeHtml(String(p.moneyFactor))}</span> <span class="chip">≈ ${escapeHtml(String(approxAPRFromMF(p.moneyFactor)))}% APR eq</span></p>
+                <p><strong>Residual %:</strong> <span class="chip">${escapeHtml(String(Math.round(p.residualPct*100)))}%</span></p>
+                <p><strong>Residual floor:</strong> <span class="chip">${escapeHtml(fmtUSD(p.residualFloor))}</span></p>
+              </div>
+            </div>
+          </div>
+
+          <div style="height:10px;"></div>
+
+          <div class="box">
+            <h3 style="margin:0 0 6px;">Basis Definition (Demo)</h3>
+            <p class="muted" style="margin-top:6px;">
+              In /app, cost basis is computed as:
+              <span class="chip">ticket + acquisition fee + tax + processing</span>
+              and the buyout schedule is straight-line to residual over the term.
+            </p>
+          </div>
+
+          <div style="height:10px;"></div>
+
+          <div class="box">
+            <h3 style="margin:0 0 6px;">Disclosure / Governance Notes</h3>
+            <table>
+              <thead>
+                <tr><th>Topic</th><th>Position (Demo)</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Reg M Disclosures</td>
+                  <td>Demo includes a disclosure “box” layout for illustration only; production requires counsel-reviewed format and state-specific requirements.</td>
+                </tr>
+                <tr>
+                  <td>Configuration Governance</td>
+                  <td>Demo uses localStorage; production should use RBAC, audit logs, approvals, and immutable versioning.</td>
+                </tr>
+                <tr>
+                  <td>Data & Identity</td>
+                  <td>No credit pulls, no KYC/ID, no payments in demo. All personas and values are synthetic.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="footerSmall">
+            Flintlock Financing (Demo) — Policy Summary — Synthetic environment — Not a commitment to lend or lease.
+          </div>
+        </div>
+      </div>
+
+      ${renderTabs("summary")}
+    `;
+
+    document.getElementById("btnPrint").addEventListener("click", () => window.print());
   }
 
   function download(filename, text, mime){
@@ -214,24 +483,15 @@
     URL.revokeObjectURL(url);
   }
 
-  setInputs(loadPolicy());
+  function render(){
+    const r = route();
+    if(r==="summary") return renderSummary();
+    return renderPolicyEditor();
+  }
 
-  document.getElementById("btnSave").addEventListener("click", () => {
-    const p = readInputs();
-    localStorage.setItem(ADMIN_POLICY_KEY, JSON.stringify(p));
-    alert("Saved. Open /app and refresh to apply.");
-  });
-
-  document.getElementById("btnReset").addEventListener("click", () => {
-    localStorage.setItem(ADMIN_POLICY_KEY, JSON.stringify(DEFAULT_POLICY));
-    setInputs(DEFAULT_POLICY);
-    alert("Reset to defaults.");
-  });
-
-  document.getElementById("btnExport").addEventListener("click", () => {
-    const p = readInputs();
-    download("flintlock_policy.json", JSON.stringify(p, null, 2), "application/json");
-  });
+  window.addEventListener("hashchange", render);
+  if(!location.hash) location.hash = "#/policy";
+  render();
 })();
 </script>
 </body>
