@@ -4,275 +4,522 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Flintlock Financing — App Demo</title>
-  <meta name="robots" content="noindex,nofollow" />
   <style>
     :root{
-      --bg0:#06111f;
-      --bg1:#071a2b;
-      --card:#0b2136;
-      --card2:#0a1d30;
-      --line: rgba(255,255,255,.10);
-      --line2: rgba(255,255,255,.14);
-      --text:#eaf2ff;
-      --muted: rgba(234,242,255,.72);
-      --muted2: rgba(234,242,255,.55);
-      --gold:#b8792a;
-      --gold2:#d7a35a;
-      --btn:#0d2a45;
-      --btn2:#0b2238;
-      --ok:#1fbf75;
-      --bad:#ff5f6d;
-      --warn:#ffcc66;
-      --shadow: 0 20px 60px rgba(0,0,0,.35);
-      --radius: 18px;
-      --radius2: 14px;
+      --bg0:#06111e;
+      --bg1:#081a2c;
+      --card:#0b2136cc;
+      --card2:#0a1d30e6;
+      --stroke:#ffffff1a;
+      --stroke2:#ffffff22;
+      --text:#e9f1ff;
+      --muted:#bcd0ea;
+      --muted2:#9eb6d6;
+      --accent:#c98a2a;
+      --accent2:#f3b14a;
+      --good:#3ddc97;
+      --bad:#ff6b6b;
+
+      /* "DocuSign-style paper" */
+      --paper:#f7f9fc;
+      --paperText:#0e1b2b;
+      --paperMuted:#4a607a;
+      --paperStroke:#d8e2f0;
+      --tabYellow:#ffe07a;
+      --tabStroke:#e1c25a;
+      --shadow: 0 18px 60px rgba(0,0,0,.45);
+      --shadowSoft: 0 10px 35px rgba(0,0,0,.30);
+      --radius:18px;
+      --radius2:14px;
       --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      --serif: ui-serif, Georgia, "Times New Roman", Times, serif;
-      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      --serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
     }
 
-    html,body{height:100%;}
+    *{box-sizing:border-box}
+    html,body{height:100%}
     body{
       margin:0;
+      font-family: var(--sans);
       color:var(--text);
-      font-family:var(--sans);
       background:
-        radial-gradient(1200px 700px at 20% 10%, rgba(184,121,42,.14), transparent 55%),
-        radial-gradient(900px 600px at 85% 18%, rgba(140,200,255,.12), transparent 60%),
-        linear-gradient(180deg, var(--bg0), var(--bg1));
+        radial-gradient(1200px 600px at 15% 10%, rgba(201,138,42,.15), transparent 60%),
+        radial-gradient(900px 500px at 80% 0%, rgba(61,220,151,.10), transparent 55%),
+        radial-gradient(900px 900px at 55% 50%, rgba(110,150,255,.10), transparent 55%),
+        linear-gradient(180deg, var(--bg0), var(--bg1) 60%, #050b13 120%);
+      overflow-x:hidden;
     }
 
-    a{color:inherit}
-    .topbar{
-      position:sticky; top:0; z-index:50;
-      background: rgba(7,20,35,.78);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--line);
+    a{color:inherit; text-decoration:none}
+    .mono{font-family:var(--mono)}
+    .container{
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 26px 18px 60px;
     }
-    .topbar .inner{
-      max-width:1100px; margin:0 auto;
-      display:flex; align-items:center; gap:14px;
-      padding:14px 16px;
+
+    /* Topbar */
+    .topbar{
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      background: linear-gradient(180deg, rgba(5,10,18,.92), rgba(5,10,18,.65));
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--stroke);
+    }
+    .topbar-inner{
+      max-width:1180px;
+      margin:0 auto;
+      padding: 14px 18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
     }
     .brand{
-      display:flex; align-items:center; gap:10px;
-      text-decoration:none;
-      min-width: 240px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width: 260px;
     }
     .mark{
-      width:36px; height:36px; border-radius:10px;
-      background: radial-gradient(circle at 30% 30%, rgba(215,163,90,.85), rgba(184,121,42,.35));
+      width:34px;height:34px;border-radius:10px;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.25), transparent 60%),
+                  linear-gradient(135deg, rgba(201,138,42,.95), rgba(255,213,120,.35));
       border: 1px solid rgba(255,255,255,.18);
-      box-shadow: 0 10px 25px rgba(0,0,0,.28);
+      box-shadow: 0 12px 22px rgba(0,0,0,.35);
     }
-    .brand .t1{font-weight:800; letter-spacing:.08em; font-size:12px; text-transform:uppercase; line-height:1;}
-    .brand .t2{font-size:12px; color:var(--muted); line-height:1.25; margin-top:3px;}
+    .brand-text strong{
+      display:block;
+      letter-spacing:.4px;
+      font-weight:800;
+      font-size: 13px;
+      line-height: 1.1;
+    }
+    .brand-text span{
+      display:block;
+      color:var(--muted2);
+      font-size: 12px;
+      margin-top: 2px;
+    }
+
     .pill{
-      display:inline-flex; align-items:center; gap:8px;
-      padding:8px 10px;
-      border-radius:999px;
-      border: 1px solid var(--line);
-      background: rgba(10,30,50,.40);
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 8px 12px;
+      border: 1px solid var(--stroke);
+      border-radius: 999px;
       color: var(--muted);
-      font-size:12px;
-      white-space:nowrap;
+      background: rgba(255,255,255,.06);
+      font-size: 12px;
+      white-space: nowrap;
     }
-    .dot{width:7px;height:7px;border-radius:99px;background:var(--gold2); box-shadow:0 0 0 3px rgba(215,163,90,.15);}
+    .pill .dot{
+      width:8px;height:8px;border-radius:99px;
+      background: rgba(201,138,42,.95);
+      box-shadow: 0 0 0 3px rgba(201,138,42,.20);
+    }
+
     .nav{
-      margin-left:auto;
-      display:flex; gap:10px; align-items:center;
+      display:flex;
+      align-items:center;
+      gap:10px;
       flex-wrap:wrap;
       justify-content:flex-end;
     }
     .btn{
-      display:inline-flex; align-items:center; justify-content:center;
-      gap:8px;
-      padding:10px 12px;
-      border-radius:12px;
-      border:1px solid var(--line);
-      background: linear-gradient(180deg, rgba(13,42,69,.9), rgba(10,30,50,.7));
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding: 10px 14px;
+      border: 1px solid var(--stroke);
+      border-radius: 999px;
+      background: rgba(255,255,255,.06);
       color: var(--text);
-      text-decoration:none;
-      font-weight:650;
-      font-size:13px;
+      font-weight: 650;
+      font-size: 13px;
       cursor:pointer;
+      transition: transform .12s ease, background .12s ease, border-color .12s ease;
       user-select:none;
     }
-    .btn:hover{border-color: rgba(255,255,255,.18);}
+    .btn:hover{transform: translateY(-1px); background: rgba(255,255,255,.09); border-color: var(--stroke2)}
     .btn.primary{
-      border-color: rgba(215,163,90,.55);
-      background: linear-gradient(180deg, rgba(184,121,42,.95), rgba(120,75,18,.92));
-      color: #0b0f14;
-      font-weight:800;
+      background: linear-gradient(180deg, rgba(201,138,42,.98), rgba(160,100,18,.92));
+      border-color: rgba(255,214,140,.35);
+      color:#0b1422;
     }
+    .btn.primary:hover{background: linear-gradient(180deg, rgba(230,170,70,.98), rgba(160,100,18,.92))}
     .btn.ghost{
-      background: rgba(10,30,50,.35);
-      color: var(--text);
+      background: transparent;
     }
-    .btn.small{padding:8px 10px; font-size:12px; border-radius:11px;}
-    .container{max-width:1100px; margin:0 auto; padding:26px 16px 60px;}
+
+    /* Headings */
     h1{
       font-family: var(--serif);
-      font-weight: 800;
-      letter-spacing:-.02em;
-      font-size: 46px;
-      margin: 18px 0 8px;
+      letter-spacing: .2px;
+      font-size: 50px;
+      margin: 26px 0 6px;
     }
-    .sub{color:var(--muted); margin:0 0 18px; max-width:860px; line-height:1.45}
-    .note{
-      border:1px solid var(--line);
-      background: rgba(10,30,50,.35);
-      padding:12px 14px;
-      border-radius: 14px;
+    .sub{
       color: var(--muted);
-      line-height:1.4;
-      font-size:13px;
+      margin: 0 0 18px;
+      max-width: 900px;
+      line-height: 1.45;
     }
-    .hr{height:1px;background:var(--line); margin:18px 0;}
-    .card{
-      border: 1px solid var(--line);
-      background: linear-gradient(180deg, rgba(11,33,54,.72), rgba(10,29,48,.52));
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding:18px;
-    }
-    .grid2{display:grid; grid-template-columns: 1fr 1fr; gap:14px;}
-    .grid3{display:grid; grid-template-columns: 1fr 1fr 1fr; gap:12px;}
-    @media (max-width: 900px){ .grid2,.grid3{grid-template-columns:1fr;} h1{font-size:38px;} .brand{min-width:auto;} }
 
+    .note{
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,.05);
+      border-radius: var(--radius2);
+      padding: 14px 14px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .card{
+      margin-top: 16px;
+      border: 1px solid var(--stroke);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border-radius: var(--radius);
+      box-shadow: var(--shadowSoft);
+      overflow:hidden;
+    }
+    .card-inner{ padding: 18px; }
+    .hr{ height:1px; background: var(--stroke); margin: 16px 0; }
+
+    /* Tabs */
     .tabs{
-      display:flex; gap:10px; flex-wrap:wrap;
-      margin:10px 0 0;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin: 12px 0 0;
     }
     .tab{
-      border:1px solid var(--line);
-      background: rgba(10,30,50,.25);
-      color: var(--text);
-      padding:10px 12px;
+      padding: 10px 12px;
+      border: 1px solid var(--stroke);
       border-radius: 999px;
+      background: rgba(255,255,255,.05);
       cursor:pointer;
-      font-weight:700;
-      font-size:12px;
+      font-weight: 650;
+      font-size: 13px;
+      color: var(--text);
+      user-select:none;
     }
     .tab.active{
-      border-color: rgba(215,163,90,.55);
-      box-shadow: 0 0 0 4px rgba(215,163,90,.12);
+      border-color: rgba(201,138,42,.45);
+      box-shadow: 0 0 0 4px rgba(201,138,42,.14);
+    }
+
+    /* Form grid */
+    .grid2{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    @media (max-width: 900px){
+      h1{font-size: 40px}
+      .grid2{grid-template-columns: 1fr}
+      .brand{min-width:auto}
     }
 
     .field{
-      border:1px solid var(--line);
-      border-radius: 14px;
-      background: rgba(5,18,31,.35);
-      padding:12px;
-    }
-    .field label{
-      display:block;
-      color: var(--muted2);
-      font-size:12px;
-      margin-bottom:6px;
-    }
-    input, select, textarea{
-      width:100%;
-      box-sizing:border-box;
-      border:1px solid rgba(255,255,255,.10);
+      border: 1px solid var(--stroke);
+      border-radius: var(--radius2);
+      padding: 12px;
       background: rgba(0,0,0,.18);
-      color: var(--text);
+    }
+    label{
+      display:block;
+      font-size: 12px;
+      color: var(--muted2);
+      margin-bottom: 6px;
+    }
+    input, select{
+      width: 100%;
       border-radius: 12px;
-      padding:11px 10px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      padding: 11px 12px;
       outline:none;
-      font-size:14px;
+      font-size: 14px;
     }
-    input:focus, select:focus, textarea:focus{
-      border-color: rgba(215,163,90,.55);
-      box-shadow: 0 0 0 4px rgba(215,163,90,.10);
+    input:focus, select:focus{
+      border-color: rgba(201,138,42,.55);
+      box-shadow: 0 0 0 4px rgba(201,138,42,.15);
     }
-    input[disabled], textarea[disabled]{opacity:.85}
-    .mono{font-family:var(--mono);}
-    .row{display:flex; gap:10px; align-items:center; flex-wrap:wrap;}
-    .right{margin-left:auto;}
+    input[disabled]{
+      opacity:.85;
+      background: rgba(255,255,255,.04);
+    }
+
+    /* KPI grid */
+    .kpis{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 12px;
+    }
+    @media (max-width: 980px){ .kpis{grid-template-columns: 1fr 1fr} }
+    @media (max-width: 640px){ .kpis{grid-template-columns: 1fr} }
+    .kpi{
+      border: 1px solid var(--stroke);
+      border-radius: var(--radius2);
+      background: rgba(0,0,0,.18);
+      padding: 12px 12px;
+    }
+    .kpi .k{color:var(--muted2); font-size:12px}
+    .kpi .v{margin-top:6px; font-weight:800; font-size: 16px}
+
+    .status{
+      display:flex; align-items:center; gap:10px;
+      margin-top: 8px;
+    }
     .badge{
       display:inline-flex; align-items:center; gap:8px;
+      padding: 8px 12px;
       border-radius: 999px;
-      padding:8px 10px;
-      border:1px solid var(--line);
-      background: rgba(10,30,50,.25);
-      font-size:12px;
-      font-weight:800;
+      font-weight: 800;
+      letter-spacing:.2px;
+      font-size: 12px;
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,.05);
     }
-    .badge.ok{border-color: rgba(31,191,117,.35); color:#d9ffe9;}
-    .badge.bad{border-color: rgba(255,95,109,.35); color:#ffe3e6;}
-    .kpi{
-      border:1px solid var(--line);
-      background: rgba(10,30,50,.25);
-      border-radius: 14px;
-      padding:12px;
-      min-height:72px;
-    }
-    .kpi .k{color:var(--muted2); font-size:12px;}
-    .kpi .v{margin-top:6px; font-weight:900; font-size:18px;}
+    .badge.good{border-color: rgba(61,220,151,.35); box-shadow: 0 0 0 4px rgba(61,220,151,.12)}
+    .badge.bad{border-color: rgba(255,107,107,.40); box-shadow: 0 0 0 4px rgba(255,107,107,.12)}
+    .badge .dot{width:8px;height:8px;border-radius:99px;background:rgba(255,255,255,.6)}
+    .badge.good .dot{background: var(--good)}
+    .badge.bad .dot{background: var(--bad)}
+
+    /* Table */
     table{
       width:100%;
-      border-collapse: collapse;
+      border-collapse: separate;
+      border-spacing: 0;
       overflow:hidden;
-      border-radius: 14px;
-      border:1px solid var(--line);
-      background: rgba(5,18,31,.28);
+      border: 1px solid var(--stroke);
+      border-radius: var(--radius2);
+      background: rgba(0,0,0,.16);
     }
     th, td{
-      padding:10px 10px;
-      border-bottom:1px solid rgba(255,255,255,.08);
-      text-align:left;
-      font-size:13px;
-      color: var(--text);
+      padding: 10px 10px;
+      border-bottom: 1px solid var(--stroke);
+      font-size: 13px;
     }
-    th{color: var(--muted); font-weight:800; font-size:12px; letter-spacing:.04em; text-transform:uppercase;}
-    tr:last-child td{border-bottom:none;}
-    .pre{
-      white-space:pre-wrap;
+    th{
+      text-align:left;
+      color: var(--muted2);
+      background: rgba(255,255,255,.05);
+      font-weight: 800;
+      letter-spacing:.2px;
+    }
+    tr:last-child td{border-bottom:none}
+    td.r{text-align:right; font-variant-numeric: tabular-nums}
+    td.mono{font-family: var(--mono)}
+
+    /* ===== DocuSign-style document rendering (paper inside dark app) ===== */
+    .docShell{
+      border: 1px solid var(--stroke);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      box-shadow: var(--shadowSoft);
+      overflow:hidden;
+    }
+    .docToolbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--stroke);
+      background: rgba(0,0,0,.18);
+    }
+    .docToolbar .left{
+      display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .docToolbar .right{
+      display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+    }
+    .docCanvas{
+      padding: 16px;
+      background:
+        radial-gradient(800px 300px at 20% 0%, rgba(201,138,42,.08), transparent 65%),
+        radial-gradient(900px 350px at 90% 10%, rgba(61,220,151,.06), transparent 60%),
+        rgba(0,0,0,.10);
+    }
+    .docPage{
+      max-width: 920px;
+      margin: 0 auto 16px;
+      background: var(--paper);
+      color: var(--paperText);
+      border: 1px solid var(--paperStroke);
+      border-radius: 14px;
+      box-shadow: 0 16px 50px rgba(0,0,0,.25);
+      overflow:hidden;
+    }
+    .docHeader{
+      padding: 16px 18px 12px;
+      border-bottom: 1px solid var(--paperStroke);
+      background: linear-gradient(180deg, #ffffff, #f2f6ff);
+      display:flex;
+      justify-content:space-between;
+      gap: 14px;
+      flex-wrap:wrap;
+      align-items:flex-end;
+    }
+    .docHeader h3{
+      margin:0;
+      font-size: 16px;
+      letter-spacing:.2px;
+    }
+    .docMeta{
+      color: var(--paperMuted);
+      font-size: 12px;
+    }
+    .docBody{
+      padding: 18px;
+      line-height: 1.45;
+      font-size: 13.5px;
+    }
+    .docBody h4{
+      margin: 14px 0 8px;
+      font-size: 13px;
+      letter-spacing:.25px;
+      text-transform: uppercase;
+      color: #223a58;
+    }
+    .docBody p{margin: 8px 0}
+    .docGrid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 10px 0 12px;
+    }
+    @media (max-width: 850px){ .docGrid{grid-template-columns:1fr} }
+
+    .docBox{
+      border: 1px solid var(--paperStroke);
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 12px;
+    }
+    .docBox .k{color: var(--paperMuted); font-size: 12px}
+    .docBox .v{margin-top:6px; font-weight: 800; font-variant-numeric: tabular-nums}
+    .docTable{
+      width:100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      border: 1px solid var(--paperStroke);
+      border-radius: 12px;
+      overflow:hidden;
+      background:#fff;
+      margin: 10px 0 12px;
+    }
+    .docTable th, .docTable td{
+      border-bottom: 1px solid var(--paperStroke);
+      padding: 10px 10px;
+      font-size: 13px;
+    }
+    .docTable th{
+      background: #f2f6ff;
+      color: #223a58;
+      font-weight: 900;
+    }
+    .docTable tr:last-child td{border-bottom:none}
+    .docTable td.r{text-align:right; font-variant-numeric: tabular-nums}
+
+    .sigRow{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 12px;
+    }
+    @media (max-width: 850px){ .sigRow{grid-template-columns:1fr} }
+    .sig{
+      border: 1px dashed #93abc6;
+      border-radius: 12px;
+      padding: 12px;
+      background: #fbfdff;
+      position: relative;
+      min-height: 86px;
+    }
+    .sig .tab{
+      position:absolute;
+      top: 10px;
+      right: 10px;
+      background: var(--tabYellow);
+      border: 1px solid var(--tabStroke);
+      color: #2a2a2a;
+      font-weight: 900;
+      padding: 6px 10px;
+      border-radius: 10px;
+      font-size: 12px;
+      box-shadow: 0 10px 18px rgba(0,0,0,.12);
+      cursor: default;
+    }
+    .sig .line{
+      margin-top: 40px;
+      border-bottom: 2px solid #d0dceb;
+      height: 1px;
+    }
+    .sig .label{
+      margin-top: 8px;
+      color: var(--paperMuted);
+      font-size: 12px;
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .rawJson{
       font-family: var(--mono);
+      background: #0b1422;
+      color: #eaf2ff;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.14);
+      padding: 12px;
+      overflow:auto;
       font-size: 12px;
       line-height: 1.45;
-      color: #eaf2ff;
-      background: rgba(0,0,0,.18);
-      border:1px solid rgba(255,255,255,.10);
-      border-radius: 14px;
+    }
+
+    .footer-disclaimer{
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: 12px;
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,.04);
+      border-radius: var(--radius2);
       padding: 12px;
-      max-height: 520px;
-      overflow:auto;
-    }
-    .footerNote{
-      margin-top:18px;
-      color: var(--muted2);
-      border: 1px solid var(--line);
-      background: rgba(10,30,50,.18);
-      padding: 12px 14px;
-      border-radius: 14px;
-      font-size:12px;
-      line-height:1.4;
-    }
-    .err{
-      border-color: rgba(255,95,109,.40) !important;
-      background: rgba(255,95,109,.10) !important;
-      color: #ffe3e6 !important;
     }
   </style>
 </head>
+
 <body>
   <header class="topbar">
-    <div class="inner">
-      <a class="brand" href="/" aria-label="Flintlock Financing Home">
+    <div class="topbar-inner">
+      <a class="brand" href="/index.html" aria-label="Flintlock Financing Home">
         <div class="mark" aria-hidden="true"></div>
-        <div>
-          <div class="t1">FLINTLOCK FINANCING</div>
-          <div class="t2">App demo (synthetic)</div>
+        <div class="brand-text">
+          <strong>FLINTLOCK FINANCING</strong>
+          <span>App demo</span>
         </div>
       </a>
 
-      <span class="pill"><span class="dot"></span> SYNTHETIC DEMO / NO CREDIT PULLS</span>
+      <div class="pill" title="Demo environment status">
+        <span class="dot"></span>
+        <span class="mono">SYNTHETIC DEMO / NO CREDIT PULLS</span>
+      </div>
 
       <nav class="nav" aria-label="Primary navigation">
-        <a class="btn ghost" href="/admin" rel="noopener">Admin console</a>
-        <a class="btn primary" href="#app" id="startBtn">Start application</a>
+        <a class="btn" href="/admin/" rel="noopener">Admin console</a>
+        <a class="btn primary" href="#application">Start application</a>
       </nav>
     </div>
   </header>
@@ -280,928 +527,959 @@
   <main class="container">
     <h1>Consumer leasing demo</h1>
     <p class="sub">
-      Illustrative terms only. Not a quote or contract. This environment is designed for bank/investor storyboarding and integration demos.
+      Illustrative terms only. Not a quote or contract. This demo uses synthetic inputs and storyboard math to show:
+      <span class="mono">policy gating</span>, <span class="mono">pricing controls</span>, <span class="mono">disclosures</span>, and <span class="mono">contract/exhibits</span>.
     </p>
 
     <div class="note">
-      <strong>Disclaimer:</strong> Synthetic demo. No funding, no payments, no identity verification, and no credit pulls occur here.
-      Any personal data shown is synthetic.
+      <strong>Disclaimer:</strong> Synthetic demo. No funding, no payments, no identity verification, no credit pulls.
     </div>
 
-    <div class="hr"></div>
-
     <section class="card" id="app">
-      <div class="row">
-        <div class="badge" id="decisionBadge">Decision: —</div>
-        <div class="right row">
-          <button class="btn small" id="exportOfferJson">Export offer (JSON)</button>
-          <button class="btn small" id="exportBuyoutCsv">Export buyout (CSV)</button>
+      <div class="card-inner">
+        <div class="status">
+          <span id="decisionBadge" class="badge good"><span class="dot"></span><span id="decisionText">Approved</span></span>
+          <span class="pill"><span class="dot" style="background:#6ea0ff; box-shadow:0 0 0 3px rgba(110,160,255,.18)"></span><span id="personaText" class="mono">Prime Applicant</span></span>
         </div>
-      </div>
 
-      <div class="tabs" role="tablist" aria-label="Demo tabs">
-        <button class="tab active" data-tab="application" type="button">Application</button>
-        <button class="tab" data-tab="offer" type="button">Offer</button>
-        <button class="tab" data-tab="dashboard" type="button">Dashboard</button>
-        <button class="tab" data-tab="disclosures" type="button">Disclosures</button>
-        <button class="tab" data-tab="contract" type="button">Contract</button>
-        <button class="tab" data-tab="exhibitC" type="button">Exhibit C</button>
-      </div>
+        <div class="kpis">
+          <div class="kpi"><div class="k">Score</div><div class="v mono" id="scoreKpi">720</div></div>
+          <div class="kpi"><div class="k">Ticket</div><div class="v mono" id="ticketKpi">$4,500.00</div></div>
+          <div class="kpi"><div class="k">Term cap</div><div class="v mono" id="termCapKpi">48 mo</div></div>
+          <div class="kpi"><div class="k">Min score</div><div class="v mono" id="minScoreKpi">620</div></div>
+          <div class="kpi"><div class="k">Max ticket</div><div class="v mono" id="maxTicketKpi">$12,000.00</div></div>
+          <div class="kpi"><div class="k">Residual</div><div class="v mono" id="residualKpi">$1,029.00</div></div>
+        </div>
 
-      <div class="hr"></div>
+        <div class="tabs" style="margin-top:16px">
+          <div class="tab active" data-tab="application">Application</div>
+          <div class="tab" data-tab="offer">Offer</div>
+          <div class="tab" data-tab="dashboard">Dashboard</div>
+          <div class="tab" data-tab="disclosures">Disclosures</div>
+          <div class="tab" data-tab="contract">Contract</div>
+          <div class="tab" data-tab="exhibitC">Exhibit C</div>
+        </div>
 
-      <div id="view"></div>
+        <div class="hr"></div>
+        <div id="view"></div>
 
-      <div class="footerNote">
-        <strong>Implementation note:</strong> Policy inputs are read from your browser (<span class="mono">localStorage</span>).
-        Use <span class="mono">/admin</span> to update policy, then come back here—this page will pick up changes automatically (no refresh required).
-      </div>
-
-      <div class="footerNote">
-        <strong>Math note (demo):</strong> Payment uses straight-line depreciation on full cost basis plus an illustrative rent charge using a money factor.
-        Buyout uses straight-line from cost basis down to residual.
-      </div>
-
-      <div class="footerNote">
-        <strong>Compliance note:</strong> Labels and disclosures here are storyboard placeholders.
-        Final Reg M and state disclosure language must be counsel-reviewed.
+        <div class="footer-disclaimer">
+          <strong>Reminder:</strong> This is storyboard math only. Any “policy,” “pricing,” “disclosure,” or “contract” language shown here is for demo/testing and must be reviewed by counsel for Reg M compliance before production use.
+        </div>
       </div>
     </section>
   </main>
 
   <script>
-    (function(){
-      // ---------- Storage keys ----------
-      const KEY_POLICY = "flintlock_policy_v1";
-      const KEY_APPDATA = "flintlock_appdata_v1";
+    // ---------- Utilities ----------
+    const $ = (sel, root=document) => root.querySelector(sel);
+    const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
 
-      // ---------- Defaults ----------
-      const defaultPolicy = {
-        minScore: 620,
-        maxTicket: 12000,
-        termCap1500: 24,
-        termCap2500: 36,
-        termCapOver2500: 48,
-        moneyFactor: 0.003,
-        residualPercent: 0.20,
-        residualFloor: 200
+    const fmtUSD = (n) => {
+      const x = Number(n || 0);
+      return x.toLocaleString(undefined, { style: "currency", currency: "USD" });
+    };
+    const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+    const round2 = (n) => Math.round((Number(n)||0) * 100) / 100;
+    const escapeHtml = (s) => String(s)
+      .replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;").replaceAll("'","&#039;");
+
+    function downloadText(filename, text){
+      const blob = new Blob([text], {type:"text/plain;charset=utf-8"});
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(()=>URL.revokeObjectURL(a.href), 1500);
+    }
+
+    function downloadJSON(filename, obj){
+      const text = JSON.stringify(obj, null, 2);
+      const blob = new Blob([text], {type:"application/json;charset=utf-8"});
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(()=>URL.revokeObjectURL(a.href), 1500);
+    }
+
+    function downloadCSV(filename, rows){
+      const esc = (v) => {
+        const s = String(v ?? "");
+        if (/[",\\n]/.test(s)) return '"' + s.replaceAll('"','""') + '"';
+        return s;
       };
+      const csv = rows.map(r => r.map(esc).join(",")).join("\\n");
+      const blob = new Blob([csv], {type:"text/csv;charset=utf-8"});
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(()=>URL.revokeObjectURL(a.href), 1500);
+    }
 
-      const defaultApp = {
-        persona: "Prime Applicant",
-        score: 720,
-        ticket: 4500,
-        acquisitionFee: 250,
-        tax: 360,
-        processingFee: 35,
-        term: 48,
-        buyoutMonth: 12
+    // Preserve focus + cursor across re-renders (fixes "type 1 char then click again" bug)
+    function captureFocus(){
+      const el = document.activeElement;
+      if (!el) return null;
+      const id = el.id || null;
+      const name = el.getAttribute?.("name") || null;
+      const selStart = ("selectionStart" in el) ? el.selectionStart : null;
+      const selEnd = ("selectionEnd" in el) ? el.selectionEnd : null;
+      return { id, name, selStart, selEnd };
+    }
+    function restoreFocus(f){
+      if (!f) return;
+      let el = null;
+      if (f.id) el = document.getElementById(f.id);
+      if (!el && f.name) el = document.querySelector('[name="'+CSS.escape(f.name)+'"]');
+      if (!el) return;
+      el.focus({preventScroll:true});
+      try{
+        if (f.selStart != null && "setSelectionRange" in el){
+          el.setSelectionRange(f.selStart, f.selEnd ?? f.selStart);
+        }
+      }catch(_){}
+    }
+
+    // ---------- Policy + State ----------
+    const POLICY_KEY = "flintlock_policy_v1";
+    const DEFAULT_POLICY = {
+      minScore: 620,
+      maxTicket: 12000,
+      termCap1500: 24,
+      termCap2500: 36,
+      termCapOver2500: 48,
+      moneyFactor: 0.003,
+      residualPercent: 0.20,
+      residualFloor: 200
+    };
+
+    function loadPolicy(){
+      try{
+        const raw = localStorage.getItem(POLICY_KEY);
+        if (!raw) return {...DEFAULT_POLICY};
+        const obj = JSON.parse(raw);
+        return {...DEFAULT_POLICY, ...obj};
+      }catch(_){
+        return {...DEFAULT_POLICY};
+      }
+    }
+
+    // Demo input state (synthetic)
+    const state = {
+      tab: "application",
+      policy: loadPolicy(),
+
+      // "persona"
+      persona: "Prime Applicant",
+      score: 720,
+
+      // Pricing inputs (ticket + acquisition + tax + processing = full cost basis)
+      ticket: 4500,
+      acquisitionFee: 250,
+      tax: 360,
+      processingFee: 35,
+
+      // buyout month selector
+      buyoutMonth: 12,
+
+      // optional raw JSON view toggle on Exhibit B
+      showRawExhibitB: false
+    };
+
+    function computeTermCap(policy, ticket){
+      if (ticket <= 1500) return policy.termCap1500;
+      if (ticket <= 2500) return policy.termCap2500;
+      return policy.termCapOver2500;
+    }
+
+    function computeAll(){
+      const p = state.policy;
+
+      const ticket = Number(state.ticket)||0;
+      const acquisitionFee = Number(state.acquisitionFee)||0;
+      const tax = Number(state.tax)||0;
+      const processingFee = Number(state.processingFee)||0;
+
+      const costBasis = round2(ticket + acquisitionFee + tax + processingFee);
+
+      const termCap = computeTermCap(p, ticket);
+      const term = termCap; // demo uses cap as offered term
+      const residual = round2(Math.max(p.residualFloor, costBasis * (Number(p.residualPercent)||0)));
+
+      // storyboard payment: straight-line depreciation + rent charge (money factor)
+      const depreciation = (costBasis - residual) / Math.max(1, term);
+      const rent = (costBasis + residual) * (Number(p.moneyFactor)||0);
+      const payment = round2(depreciation + rent);
+
+      // decision gating
+      const flags = [];
+      let approved = true;
+
+      if (state.score < p.minScore){ approved = false; flags.push("Score below minimum"); }
+      if (ticket > p.maxTicket){ approved = false; flags.push("Ticket exceeds policy maximum"); }
+
+      // buyout schedule (straight-line from cost basis to residual)
+      const buyoutMonth = clamp(parseInt(state.buyoutMonth ?? 0, 10) || 0, 0, term);
+      const slope = (costBasis - residual) / Math.max(1, term);
+      const buyout = round2(costBasis - slope * buyoutMonth);
+
+      // total of payments (approx) for disclosure panel
+      const totalPayments = round2(payment * term);
+
+      return {
+        policy: p,
+        pricing: { ticket, acquisitionFee, tax, processingFee, costBasis, residual, term, payment, totalPayments },
+        decision: { approved, flags, termCap, term },
+        buyoutMonth,
+        buyout
       };
+    }
 
-      // ---------- Helpers ----------
-      const $ = (sel) => document.querySelector(sel);
-      const $$ = (sel) => Array.from(document.querySelectorAll(sel));
-
-      function safeJsonParse(str, fallback){
-        try{
-          const v = JSON.parse(str);
-          return (v && typeof v === "object") ? v : fallback;
-        }catch(e){ return fallback; }
+    function buyoutScheduleRows(costBasis, residual, term){
+      const rows = [];
+      const slope = (costBasis - residual) / Math.max(1, term);
+      for (let m=0; m<=term; m++){
+        const amt = round2(costBasis - slope * m);
+        rows.push({ month: m, buyout: amt });
       }
+      return rows;
+    }
 
-      function clamp(n, lo, hi){
-        n = Number(n);
-        if (Number.isNaN(n)) return lo;
-        return Math.max(lo, Math.min(hi, n));
-      }
+    function renderBuyoutTable(d){
+      const rows = buyoutScheduleRows(d.pricing.costBasis, d.pricing.residual, d.pricing.term);
+      const head = `
+        <table>
+          <thead>
+            <tr>
+              <th style="width:120px">Month</th>
+              <th class="r">Buyout amount</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+      const body = rows.map(r => `
+        <tr>
+          <td class="mono">${r.month}</td>
+          <td class="r mono">${escapeHtml(fmtUSD(r.buyout))}</td>
+        </tr>
+      `).join("");
+      return head + body + "</tbody></table>";
+    }
 
-      function fmtUSD(n){
-        const x = Number(n) || 0;
-        return x.toLocaleString("en-US", { style:"currency", currency:"USD" });
-      }
-      function fmtNum(n, d=2){
-        const x = Number(n);
-        if (Number.isNaN(x)) return "—";
-        return x.toFixed(d);
-      }
-
-      function downloadText(filename, text){
-        const blob = new Blob([text], {type:"text/plain;charset=utf-8"});
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = filename;
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        URL.revokeObjectURL(url);
-      }
-
-      function downloadCsv(filename, rows){
-        const esc = (v) => {
-          const s = String(v ?? "");
-          if (s.includes(",") || s.includes('"') || s.includes("\n")) return `"${s.replaceAll('"','""')}"`;
-          return s;
-        };
-        const csv = rows.map(r => r.map(esc).join(",")).join("\n");
-        downloadText(filename, csv);
-      }
-
-      function computeCostBasis(d){
-        return (Number(d.ticket)||0) + (Number(d.acquisitionFee)||0) + (Number(d.tax)||0) + (Number(d.processingFee)||0);
-      }
-
-      function computeResidual(costBasis, policy){
-        const pct = Number(policy.residualPercent) || 0;
-        const floor = Number(policy.residualFloor) || 0;
-        return Math.max(costBasis * pct, floor);
-      }
-
-      function computeTermCap(ticket, policy){
-        const t = Number(ticket)||0;
-        if (t <= 1500) return Number(policy.termCap1500)||24;
-        if (t <= 2500) return Number(policy.termCap2500)||36;
-        return Number(policy.termCapOver2500)||48;
-      }
-
-      function decide(d, policy){
-        const flags = [];
-        const minScore = Number(policy.minScore)||0;
-        const maxTicket = Number(policy.maxTicket)||0;
-
-        if ((Number(d.score)||0) < minScore) flags.push("CREDIT_SCORE_BELOW_MIN");
-        if ((Number(d.ticket)||0) > maxTicket) flags.push("TICKET_ABOVE_MAX");
-
-        // Term cap based on ticket
-        const cap = computeTermCap(d.ticket, policy);
-        const term = clamp(d.term, 1, cap);
-        if (Number(d.term) > cap) flags.push("TERM_CAPPED_BY_POLICY");
-
-        const approved = (flags.filter(f => f !== "TERM_CAPPED_BY_POLICY").length === 0);
-        return { approved, flags, termCap: cap, term };
-      }
-
-      function computePayment(costBasis, residual, term, moneyFactor){
-        // Demo-only: straight-line depreciation + money-factor rent charge on (cost + residual) / 2
-        term = Math.max(1, Number(term)||1);
-        const dep = (costBasis - residual) / term;
-        const mf = Number(moneyFactor)||0;
-        const avgBase = (costBasis + residual) / 2;
-        const rent = avgBase * mf;
-        return Math.max(0, dep + rent);
-      }
-
-      function buyoutAtMonth(costBasis, residual, term, m){
-        term = Math.max(1, Number(term)||1);
-        m = clamp(m, 0, term);
-        const slope = (costBasis - residual) / term;
-        const amt = costBasis - slope * m;
-        return Math.max(residual, amt);
-      }
-
-      function buildBuyoutSchedule(costBasis, residual, term){
-        const rows = [];
-        for (let m=0; m<=term; m++){
-          rows.push([m, buyoutAtMonth(costBasis, residual, term, m)]);
-        }
-        return rows;
-      }
-
-      // ---------- State ----------
-      let policy = loadPolicy();
-      let app = loadApp();
-      let activeTab = "application";
-
-      function loadPolicy(){
-        const v = safeJsonParse(localStorage.getItem(KEY_POLICY), null);
-        return Object.assign({}, defaultPolicy, v || {});
-      }
-      function savePolicy(p){
-        localStorage.setItem(KEY_POLICY, JSON.stringify(p));
-      }
-
-      function loadApp(){
-        const v = safeJsonParse(localStorage.getItem(KEY_APPDATA), null);
-        return Object.assign({}, defaultApp, v || {});
-      }
-      function saveApp(a){
-        localStorage.setItem(KEY_APPDATA, JSON.stringify(a));
-      }
-
-      // ---------- Rendering ----------
-      function setDecisionBadge(decision){
-        const el = $("#decisionBadge");
-        if (!el) return;
-        el.classList.remove("ok","bad");
-        if (decision.approved){
-          el.textContent = "Approved";
-          el.classList.add("ok");
-        } else {
-          el.textContent = "Declined (demo)";
-          el.classList.add("bad");
-        }
-      }
-
-      function render(){
-        // Always re-load policy in case /admin changed it
-        policy = loadPolicy();
-
-        // sanitize + recompute derived
-        const costBasis = computeCostBasis(app);
-        const decision = decide(app, policy);
-        app.term = decision.term; // apply cap
-        const residual = computeResidual(costBasis, policy);
-        const payment = computePayment(costBasis, residual, app.term, policy.moneyFactor);
-        const buyout = buyoutAtMonth(costBasis, residual, app.term, app.buyoutMonth);
-
-        setDecisionBadge(decision);
-
-        const view = $("#view");
-        if (!view) return;
-
-        // Tab content
-        const html = (() => {
-          switch(activeTab){
-            case "application": return renderApplication(app, policy, decision, costBasis, residual, payment, buyout);
-            case "offer": return renderOffer(app, policy, decision, costBasis, residual, payment, buyout);
-            case "dashboard": return renderDashboard(app, policy, decision, costBasis, residual, payment, buyout);
-            case "disclosures": return renderDisclosures(app, policy, decision, costBasis, residual, payment);
-            case "contract": return renderContract(app, policy, decision, costBasis, residual, payment);
-            case "exhibitC": return renderExhibitC(app, policy);
-            default: return renderApplication(app, policy, decision, costBasis, residual, payment, buyout);
-          }
-        })();
-
-        view.innerHTML = html;
-        wireTabSpecificHandlers(costBasis, residual, payment);
-      }
-
-      function renderApplication(d, p, decision, costBasis, residual, payment, buyout){
-        return `
-          <div class="grid2">
-            <div class="field">
-              <label>Applicant persona (synthetic)</label>
-              <input id="persona" value="${escape(d.persona)}" placeholder="Prime Applicant" />
+    // ---------- Doc rendering helpers ----------
+    function docShell({title, subtitle, leftMeta, buttonsHtml, pagesHtml}){
+      return `
+        <div class="docShell">
+          <div class="docToolbar">
+            <div class="left">
+              <strong>${escapeHtml(title)}</strong>
+              <span style="opacity:.65">•</span>
+              <span>${escapeHtml(subtitle || "")}</span>
+              ${leftMeta ? `<span style="opacity:.65">•</span><span class="mono">${escapeHtml(leftMeta)}</span>` : ""}
             </div>
-            <div class="field">
-              <label>Credit score (synthetic)</label>
-              <input id="score" type="number" min="300" max="850" step="1" value="${Number(d.score)||0}" />
+            <div class="right">
+              ${buttonsHtml || ""}
             </div>
           </div>
+          <div class="docCanvas">
+            ${pagesHtml || ""}
+          </div>
+        </div>
+      `;
+    }
 
-          <div class="hr"></div>
+    function docPage({headerTitle, headerMeta, bodyHtml}){
+      return `
+        <div class="docPage">
+          <div class="docHeader">
+            <div>
+              <h3>${escapeHtml(headerTitle)}</h3>
+              ${headerMeta ? `<div class="docMeta">${headerMeta}</div>` : ""}
+            </div>
+            <div class="docMeta">Synthetic demo / storyboard only</div>
+          </div>
+          <div class="docBody">
+            ${bodyHtml || ""}
+          </div>
+        </div>
+      `;
+    }
 
+    function kvTable(rows){
+      return `
+        <table class="docTable">
+          <thead><tr><th>Field</th><th class="r">Value</th></tr></thead>
+          <tbody>
+            ${rows.map(r => `<tr><td>${escapeHtml(r.k)}</td><td class="r mono">${escapeHtml(r.v)}</td></tr>`).join("")}
+          </tbody>
+        </table>
+      `;
+    }
+
+    // ---------- Views ----------
+    function viewApplication(d){
+      return `
+        <div id="application">
           <div class="grid2">
+            <div class="field">
+              <label>Persona (synthetic)</label>
+              <select id="persona">
+                ${["Prime Applicant","Near-Prime Applicant","Thin File","Decline Persona"].map(x =>
+                  `<option ${state.persona===x?"selected":""}>${escapeHtml(x)}</option>`).join("")}
+              </select>
+            </div>
+            <div class="field">
+              <label>Score (synthetic)</label>
+              <input id="score" type="number" min="300" max="850" step="1" value="${escapeHtml(state.score)}" />
+            </div>
+
             <div class="field">
               <label>Ticket (item price)</label>
-              <input id="ticket" type="number" min="0" step="1" value="${Number(d.ticket)||0}" />
+              <input id="ticket" type="number" min="0" step="1" value="${escapeHtml(state.ticket)}" />
             </div>
-            <div class="field">
-              <label>Lease term (months)</label>
-              <input id="term" type="number" min="1" step="1" value="${Number(d.term)||0}" />
-            </div>
-          </div>
-
-          <div class="hr"></div>
-
-          <div class="grid2">
             <div class="field">
               <label>Acquisition fee (capitalized)</label>
-              <input id="acquisitionFee" type="number" min="0" step="1" value="${Number(d.acquisitionFee)||0}" />
+              <input id="acq" type="number" min="0" step="1" value="${escapeHtml(state.acquisitionFee)}" />
             </div>
+
             <div class="field">
               <label>Sales tax (capitalized)</label>
-              <input id="tax" type="number" min="0" step="1" value="${Number(d.tax)||0}" />
+              <input id="tax" type="number" min="0" step="1" value="${escapeHtml(state.tax)}" />
             </div>
-          </div>
-
-          <div class="grid2" style="margin-top:14px;">
             <div class="field">
               <label>Processing (capitalized)</label>
-              <input id="processingFee" type="number" min="0" step="1" value="${Number(d.processingFee)||0}" />
-            </div>
-            <div class="field">
-              <label>Cost basis (computed)</label>
-              <div class="mono" style="font-size:16px; margin-top:6px;">${fmtUSD(costBasis)}</div>
-              <div style="margin-top:6px; color: var(--muted2); font-size:12px;">
-                Ticket + acquisition fee + tax + processing
-              </div>
-            </div>
-          </div>
-
-          <div class="hr"></div>
-
-          <div class="grid3">
-            <div class="kpi">
-              <div class="k">Min score</div>
-              <div class="v mono">${Number(p.minScore)||0}</div>
-            </div>
-            <div class="kpi">
-              <div class="k">Term cap (by ticket)</div>
-              <div class="v mono">${decision.termCap} mo</div>
-            </div>
-            <div class="kpi">
-              <div class="k">Residual (purchase option)</div>
-              <div class="v mono">${fmtUSD(residual)}</div>
+              <input id="proc" type="number" min="0" step="1" value="${escapeHtml(state.processingFee)}" />
             </div>
           </div>
 
           <div class="hr"></div>
 
           <div class="note">
-            <strong>Demo status:</strong>
-            ${decision.approved ? `<span class="mono" style="color:#d9ffe9;">APPROVED</span>` : `<span class="mono" style="color:#ffe3e6;">DECLINED</span>`}
-            ${decision.flags && decision.flags.length ? `<br/><span class="mono">Flags:</span> ${decision.flags.map(f=>`<span class="mono">${escape(f)}</span>`).join(", ")}` : ``}
+            <strong>Cost basis definition:</strong>
+            <span class="mono">ticket + acquisition fee + tax + processing</span> (all capitalized) — used for residual and straight-line buyout schedule.
           </div>
 
           <div class="hr"></div>
 
-          <div class="row">
-            <button class="btn primary" id="toOffer" type="button">Continue to offer</button>
-            <button class="btn" id="resetDemo" type="button">Reset demo inputs</button>
-            <span class="right pill"><span class="dot"></span> No credit pulls · no funding · synthetic data</span>
+          <div style="display:flex; gap:10px; flex-wrap:wrap">
+            <button class="btn primary" id="goOffer">Continue to offer</button>
+            <button class="btn" id="resetInputs">Reset inputs</button>
           </div>
-        `;
-      }
+        </div>
+      `;
+    }
 
-      function renderOffer(d, p, decision, costBasis, residual, payment, buyout){
-        const totalPayments = payment * (Number(d.term)||1);
-        return `
-          <div class="grid3">
+    function viewOffer(d){
+      const p = d.pricing;
+      return `
+        <div id="offer">
+          <div class="grid2">
             <div class="kpi">
-              <div class="k">Ticket</div>
-              <div class="v mono">${fmtUSD(d.ticket)}</div>
-            </div>
-            <div class="kpi">
-              <div class="k">Cost basis</div>
-              <div class="v mono">${fmtUSD(costBasis)}</div>
+              <div class="k">Lease term</div>
+              <div class="v mono">${p.term} months</div>
             </div>
             <div class="kpi">
               <div class="k">Monthly payment (illustrative)</div>
-              <div class="v mono">${fmtUSD(payment)}</div>
-            </div>
-          </div>
-
-          <div class="grid3" style="margin-top:12px;">
-            <div class="kpi">
-              <div class="k">Lease term</div>
-              <div class="v mono">${Number(d.term)||0} mo</div>
+              <div class="v mono">${escapeHtml(fmtUSD(p.payment))}</div>
             </div>
             <div class="kpi">
               <div class="k">Total of payments (approx.)</div>
-              <div class="v mono">${fmtUSD(totalPayments)}</div>
-            </div>
-            <div class="kpi">
-              <div class="k">Purchase option (residual)</div>
-              <div class="v mono">${fmtUSD(residual)}</div>
+              <div class="v mono">${escapeHtml(fmtUSD(p.totalPayments))}</div>
             </div>
           </div>
 
           <div class="hr"></div>
 
-          <h2 style="font-family:var(--serif); margin:0 0 6px;">Early buyout (illustrative)</h2>
-          <p class="sub" style="margin:0 0 14px;">
+          <div class="grid2">
+            <div class="field">
+              <label>Cost basis</label>
+              <div class="mono" style="font-size:16px; margin-top:4px;">${escapeHtml(fmtUSD(p.costBasis))}</div>
+            </div>
+            <div class="field">
+              <label>Residual (purchase option)</label>
+              <div class="mono" style="font-size:16px; margin-top:4px;">${escapeHtml(fmtUSD(p.residual))}</div>
+            </div>
+          </div>
+
+          <div class="note" style="margin-top:14px">
+            <strong>Pricing note (demo):</strong>
+            Payment is computed from straight-line depreciation on cost basis plus an illustrative rent charge using a money factor.
+            This is storyboard math only.
+          </div>
+
+          <div class="hr"></div>
+
+          <h2 style="font-family:var(--serif); margin:0 0 8px">Early buyout (illustrative)</h2>
+          <p class="sub" style="margin-top:0">
             Methodology: <span class="mono">Straight-line buyout</span> from full cost basis down to residual over the term.
           </p>
 
           <div class="grid2">
             <div class="field">
               <label>Month elapsed</label>
-              <input id="buyoutMonth" type="number" min="0" max="${Number(d.term)||1}" step="1" value="${Number(d.buyoutMonth)||0}" />
+              <input id="buyoutMonth" type="number" min="0" max="${p.term}" step="1" value="${escapeHtml(d.buyoutMonth)}" />
             </div>
             <div class="field">
-              <label>Buyout amount at month ${Number(d.buyoutMonth)||0}</label>
-              <input value="${fmtUSD(buyout)}" disabled />
+              <label>Buyout amount at month ${escapeHtml(d.buyoutMonth)}</label>
+              <input value="${escapeHtml(fmtUSD(d.buyout))}" disabled />
             </div>
           </div>
 
           <div class="hr"></div>
 
-          <h2 style="font-family:var(--serif); margin:0 0 6px;">Buyout schedule (straight-line)</h2>
-          <p class="sub" style="margin:0 0 14px;">
-            Straight-line from cost basis to residual over ${Number(d.term)||0} months.
+          <h2 style="font-family:var(--serif); margin:0 0 8px">Buyout schedule (straight-line)</h2>
+          <p class="sub" style="margin-top:0">
+            Straight-line from cost basis to residual over ${p.term} months.
           </p>
 
-          ${renderBuyoutTable(costBasis, residual, Number(d.term)||1)}
-
-          <div class="hr"></div>
-
-          <div class="row">
-            <button class="btn" id="backToApp" type="button">Back</button>
-            <button class="btn primary" id="toDisclosures" type="button">View disclosures</button>
-            <button class="btn" id="toContract" type="button">Preview contract</button>
+          <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:12px">
+            <button class="btn" id="exportScheduleCsv">Export schedule (CSV)</button>
           </div>
 
-          <div class="note" style="margin-top:14px;">
-            <strong>Cost basis components (capitalized):</strong><br/>
-            Ticket: <span class="mono">${fmtUSD(d.ticket)}</span> ·
-            Acquisition fee: <span class="mono">${fmtUSD(d.acquisitionFee)}</span> ·
-            Sales tax: <span class="mono">${fmtUSD(d.tax)}</span> ·
-            Processing: <span class="mono">${fmtUSD(d.processingFee)}</span>
-          </div>
-        `;
-      }
+          ${renderBuyoutTable(d)}
+        </div>
+      `;
+    }
 
-      function renderDashboard(d, p, decision, costBasis, residual, payment, buyout){
-        return `
+    function viewDashboard(d){
+      const f = d.decision.flags;
+      return `
+        <div id="dashboard">
           <div class="note">
-            <strong>Demo status snapshot:</strong> This panel is designed to mirror what an “audit log / decision snapshot” card could look like.
+            <strong>Demo status</strong><br/>
+            Snapshot of current scenario and policy defaults (loaded from <span class="mono">/admin</span> via localStorage).
           </div>
 
           <div class="hr"></div>
-
-          <div class="grid3">
-            <div class="kpi"><div class="k">Decision</div><div class="v mono">${decision.approved ? "APPROVED" : "DECLINED"}</div></div>
-            <div class="kpi"><div class="k">Persona</div><div class="v mono">${escape(d.persona)}</div></div>
-            <div class="kpi"><div class="k">Score</div><div class="v mono">${Number(d.score)||0}</div></div>
-          </div>
-
-          <div class="grid3" style="margin-top:12px;">
-            <div class="kpi"><div class="k">Ticket</div><div class="v mono">${fmtUSD(d.ticket)}</div></div>
-            <div class="kpi"><div class="k">Term</div><div class="v mono">${Number(d.term)||0} mo</div></div>
-            <div class="kpi"><div class="k">Max ticket</div><div class="v mono">${fmtUSD(p.maxTicket)}</div></div>
-          </div>
-
-          <div class="grid3" style="margin-top:12px;">
-            <div class="kpi"><div class="k">Cost basis</div><div class="v mono">${fmtUSD(costBasis)}</div></div>
-            <div class="kpi"><div class="k">Residual</div><div class="v mono">${fmtUSD(residual)}</div></div>
-            <div class="kpi"><div class="k">Payment (illustrative)</div><div class="v mono">${fmtUSD(payment)}</div></div>
-          </div>
-
-          <div class="hr"></div>
-
-          <div class="note">
-            <strong>Flags:</strong> ${decision.flags && decision.flags.length ? decision.flags.map(f=>`<span class="mono">${escape(f)}</span>`).join(", ") : "<span class='mono'>NONE</span>"}
-          </div>
-
-          <div class="hr"></div>
-
-          <div class="row">
-            <button class="btn" id="dashToOffer" type="button">Go to offer</button>
-            <button class="btn primary" id="dashToContract" type="button">Contract</button>
-            <button class="btn" id="dashToExhibitC" type="button">Exhibit C</button>
-          </div>
-        `;
-      }
-
-      function renderDisclosures(d, p, decision, costBasis, residual, payment){
-        const totalPayments = payment * (Number(d.term)||1);
-        return `
-          <h2 style="font-family:var(--serif); margin:0 0 6px;">Disclosures (illustrative)</h2>
-          <p class="sub" style="margin:0 0 14px;">
-            Reg M-style summary box for storyboard purposes only.
-          </p>
 
           <div class="grid2">
-            <div class="kpi">
-              <div class="k">Lease term</div>
-              <div class="v mono">${Number(d.term)||0} months</div>
-            </div>
-            <div class="kpi">
-              <div class="k">Monthly payment (illustrative)</div>
-              <div class="v mono">${fmtUSD(payment)}</div>
-            </div>
-          </div>
-
-          <div class="grid2" style="margin-top:12px;">
-            <div class="kpi">
-              <div class="k">Total of payments (approx.)</div>
-              <div class="v mono">${fmtUSD(totalPayments)}</div>
-            </div>
-            <div class="kpi">
-              <div class="k">Purchase option (residual)</div>
-              <div class="v mono">${fmtUSD(residual)}</div>
-            </div>
+            <div class="kpi"><div class="k">Approved</div><div class="v mono">${d.decision.approved ? "true" : "false"}</div></div>
+            <div class="kpi"><div class="k">Flags</div><div class="v mono">${f.length ? escapeHtml(f.join("; ")) : "—"}</div></div>
+            <div class="kpi"><div class="k">Term</div><div class="v mono">${d.pricing.term}</div></div>
+            <div class="kpi"><div class="k">Money factor</div><div class="v mono">${d.policy.moneyFactor}</div></div>
+            <div class="kpi"><div class="k">Residual %</div><div class="v mono">${d.policy.residualPercent}</div></div>
+            <div class="kpi"><div class="k">Residual floor</div><div class="v mono">${fmtUSD(d.policy.residualFloor)}</div></div>
           </div>
 
           <div class="hr"></div>
 
-          <div class="note">
-            <strong>Important:</strong> This disclosure panel is a demo approximation and is not a substitute for counsel-reviewed Reg M disclosures.
-            Values shown are computed using storyboard math and synthetic inputs.
+          <div style="display:flex; gap:10px; flex-wrap:wrap">
+            <button class="btn" id="exportPolicyJson">Export policy (JSON)</button>
+            <button class="btn" id="exportExhibitBJson">Download Exhibit B (JSON)</button>
           </div>
+        </div>
+      `;
+    }
 
-          <div class="hr"></div>
+    function viewDisclosures(d){
+      const p = d.pricing;
+      return `
+        <div id="disclosures">
+          <div class="card" style="margin:0; background:rgba(0,0,0,.14)">
+            <div class="card-inner">
+              <h2 style="font-family:var(--serif); margin:0 0 6px">Disclosures (illustrative)</h2>
+              <p class="sub" style="margin-top:0">Reg M-style summary box for storyboard purposes only.</p>
 
-          <h3 style="font-family:var(--serif); margin:0 0 10px;">Cost basis breakdown</h3>
-
-          <div class="grid2">
-            <div class="kpi"><div class="k">Ticket</div><div class="v mono">${fmtUSD(d.ticket)}</div></div>
-            <div class="kpi"><div class="k">Acquisition fee (capitalized)</div><div class="v mono">${fmtUSD(d.acquisitionFee)}</div></div>
-          </div>
-
-          <div class="grid2" style="margin-top:12px;">
-            <div class="kpi"><div class="k">Sales tax (capitalized)</div><div class="v mono">${fmtUSD(d.tax)}</div></div>
-            <div class="kpi"><div class="k">Processing (capitalized)</div><div class="v mono">${fmtUSD(d.processingFee)}</div></div>
-          </div>
-
-          <div class="grid2" style="margin-top:12px;">
-            <div class="kpi"><div class="k">Total cost basis</div><div class="v mono">${fmtUSD(costBasis)}</div></div>
-            <div class="kpi"><div class="k">Residual (purchase option)</div><div class="v mono">${fmtUSD(residual)}</div></div>
-          </div>
-
-          <div class="hr"></div>
-          <div class="row">
-            <button class="btn" id="discBackOffer" type="button">Back to offer</button>
-            <button class="btn primary" id="discContract" type="button">Preview contract</button>
-          </div>
-        `;
-      }
-
-      function renderContract(d, p, decision, costBasis, residual, payment){
-        const contract = buildContractText(d, p, decision, costBasis, residual, payment);
-        return `
-          <h2 style="font-family:var(--serif); margin:0 0 6px;">Contract preview (demo)</h2>
-          <p class="sub" style="margin:0 0 14px;">
-            Generated example contract text for bank/investor storyboarding and systems integration demos.
-          </p>
-
-          <div class="row">
-            <button class="btn" id="dlContract" type="button">Download contract (.txt)</button>
-            <button class="btn" id="dlExhibitC" type="button">Download Exhibit C (.txt)</button>
-            <button class="btn primary" id="contractBackOffer" type="button">Back to offer</button>
-          </div>
-
-          <div class="hr"></div>
-
-          <div class="pre" id="contractPre">${escape(contract)}</div>
-
-          <div class="hr"></div>
-
-          <h3 style="font-family:var(--serif); margin:0 0 10px;">Exhibit A — Buyout schedule</h3>
-          ${renderBuyoutTable(costBasis, residual, Number(d.term)||1)}
-
-          <div class="hr"></div>
-
-          <h3 style="font-family:var(--serif); margin:0 0 10px;">Exhibit B — Pricing & policy summary</h3>
-          <div class="pre">${escape(JSON.stringify(buildSnapshot(d,p,decision,costBasis,residual,payment), null, 2))}</div>
-
-          <div class="note" style="margin-top:12px;">
-            This preview is intentionally plain-text for maximum portability and easy parsing in demos.
-            You can later format into PDF/Doc with a template engine.
-          </div>
-        `;
-      }
-
-      function renderExhibitC(d, p){
-        const t = buildExhibitCText(p);
-        return `
-          <h2 style="font-family:var(--serif); margin:0 0 6px;">Exhibit C — Credit box summary (one-page)</h2>
-          <p class="sub" style="margin:0 0 14px;">
-            A concise “credit box” exhibit intended for investor/bank review. Demo-only.
-          </p>
-
-          <div class="row">
-            <button class="btn" id="dlExhibitC2" type="button">Download Exhibit C (.txt)</button>
-            <button class="btn primary" id="exBackOffer" type="button">Back to offer</button>
-          </div>
-
-          <div class="hr"></div>
-          <div class="pre">${escape(t)}</div>
-        `;
-      }
-
-      function renderBuyoutTable(costBasis, residual, term){
-        const rows = buildBuyoutSchedule(costBasis, residual, term);
-        const head = `
-          <table>
-            <thead>
-              <tr>
-                <th>Month</th>
-                <th>Buyout amount</th>
-              </tr>
-            </thead>
-            <tbody>
-        `;
-        const body = rows.map(([m, amt]) => `
-          <tr>
-            <td class="mono">${m}</td>
-            <td class="mono">${fmtUSD(amt)}</td>
-          </tr>
-        `).join("");
-        const foot = `</tbody></table>`;
-        return head + body + foot;
-      }
-
-      function escape(s){
-        return String(s ?? "")
-          .replaceAll("&","&amp;")
-          .replaceAll("<","&lt;")
-          .replaceAll(">","&gt;")
-          .replaceAll('"',"&quot;")
-          .replaceAll("'","&#039;");
-      }
-
-      // ---------- Documents ----------
-      function buildSnapshot(d,p,decision,costBasis,residual,payment){
-        return {
-          policy: {
-            minScore: p.minScore,
-            maxTicket: p.maxTicket,
-            termCap1500: p.termCap1500,
-            termCap2500: p.termCap2500,
-            termCapOver2500: p.termCapOver2500,
-            moneyFactor: p.moneyFactor,
-            residualPercent: p.residualPercent,
-            residualFloor: p.residualFloor
-          },
-          decision: {
-            approved: decision.approved,
-            flags: decision.flags,
-            termCap: decision.termCap,
-            term: decision.term
-          },
-          pricing: {
-            ticket: d.ticket,
-            acquisitionFee: d.acquisitionFee,
-            tax: d.tax,
-            processingFee: d.processingFee,
-            costBasis,
-            residual,
-            term: d.term,
-            payment: Number(fmtNum(payment,2))
-          }
-        };
-      }
-
-      function buildExhibitCText(p){
-        return [
-          "EXHIBIT C — CREDIT BOX SUMMARY (DEMO)",
-          "",
-          "Program Name: Flintlock Financing (Synthetic Demo)",
-          "Purpose: Demonstrate policy gating, auditability, and controlled pricing.",
-          "",
-          "ELIGIBILITY (ILLUSTRATIVE)",
-          `- Minimum credit score: ${p.minScore}`,
-          `- Maximum ticket (item price): ${fmtUSD(p.maxTicket)}`,
-          "",
-          "TERM CAPS (ILLUSTRATIVE)",
-          `- Ticket ≤ $1,500: ${p.termCap1500} months max`,
-          `- Ticket ≤ $2,500: ${p.termCap2500} months max`,
-          `- Ticket > $2,500: ${p.termCapOver2500} months max`,
-          "",
-          "PRICING CONTROLS (ILLUSTRATIVE)",
-          `- Money factor (demo): ${p.moneyFactor}`,
-          `- Residual percent (demo): ${p.residualPercent} (e.g., 0.20 = 20%)`,
-          `- Residual floor (demo): ${fmtUSD(p.residualFloor)}`,
-          "",
-          "VERIFICATION (DEMO DISCLAIMER)",
-          "- No identity verification performed in demo.",
-          "- No credit pulls performed in demo.",
-          "- No funding or payments performed in demo."
-        ].join("\n");
-      }
-
-      function buildContractText(d,p,decision,costBasis,residual,payment){
-        const dt = new Date();
-        const dateStr = `${dt.getMonth()+1}/${dt.getDate()}/${dt.getFullYear()}`;
-        const exhibitC = buildExhibitCText(p);
-
-        return [
-          "FLINTLOCK FINANCING — SAMPLE CONSUMER LEASE AGREEMENT (DEMO)",
-          `Date: ${dateStr}`,
-          "",
-          "IMPORTANT DEMO NOTICE:",
-          "This document is a synthetic example generated for demonstrations and integration testing only.",
-          "No financing is offered. No credit pulls occur. Any personal data is synthetic.",
-          "",
-          "PARTIES",
-          "Lessor: Flintlock Financing (Demo Environment)",
-          `Lessee: ${d.persona} (Synthetic)`,
-          "",
-          "ASSET / MERCHANDISE",
-          `Item ticket price: ${fmtUSD(d.ticket)}`,
-          `Acquisition fee (capitalized): ${fmtUSD(d.acquisitionFee)}`,
-          `Sales tax (capitalized): ${fmtUSD(d.tax)}`,
-          `Processing (capitalized): ${fmtUSD(d.processingFee)}`,
-          `Total Cost Basis: ${fmtUSD(costBasis)}`,
-          "",
-          "TERM & PAYMENTS (ILLUSTRATIVE)",
-          `Term: ${d.term} months`,
-          `Estimated Monthly Payment: ${fmtUSD(payment)} (storyboard)`,
-          `Money Factor (illustrative): ${p.moneyFactor}`,
-          "",
-          "PURCHASE OPTION (RESIDUAL)",
-          `Purchase option amount at end of term: ${fmtUSD(residual)}`,
-          "Early buyout amounts are shown in Exhibit A (straight-line schedule).",
-          "",
-          "IMPORTANT DISCLOSURES (DEMO)",
-          "- This is not a quote, offer, or contract for real financing.",
-          "- All calculations are illustrative.",
-          "- Actual disclosure language must be reviewed by counsel for Reg M compliance.",
-          "",
-          "EXHIBITS",
-          "Exhibit A: Buyout Schedule (Straight-Line)",
-          "Exhibit B: Pricing & Policy Summary (Illustrative)",
-          "Exhibit C: Credit Box Summary (One-Page)",
-          "",
-          "SIGNATURES (DEMO ONLY)",
-          "Lessor: ____________________   Date: ________",
-          "Lessee: ____________________   Date: ________",
-          "",
-          "------------------------------",
-          exhibitC
-        ].join("\n");
-      }
-
-      // ---------- Wiring ----------
-      function wireGlobalHandlers(){
-        // Tabs
-        $$(".tab").forEach(btn => {
-          btn.addEventListener("click", () => {
-            const t = btn.getAttribute("data-tab");
-            if (!t) return;
-            activeTab = t;
-            $$(".tab").forEach(b=>b.classList.toggle("active", b === btn));
-            render();
-          });
-        });
-
-        // Exports
-        $("#exportOfferJson").addEventListener("click", () => {
-          policy = loadPolicy();
-          const costBasis = computeCostBasis(app);
-          const decision = decide(app, policy);
-          app.term = decision.term;
-          const residual = computeResidual(costBasis, policy);
-          const payment = computePayment(costBasis, residual, app.term, policy.moneyFactor);
-          const snap = buildSnapshot(app, policy, decision, costBasis, residual, payment);
-          downloadText("flintlock-offer.json", JSON.stringify(snap, null, 2));
-        });
-
-        $("#exportBuyoutCsv").addEventListener("click", () => {
-          policy = loadPolicy();
-          const costBasis = computeCostBasis(app);
-          const decision = decide(app, policy);
-          app.term = decision.term;
-          const residual = computeResidual(costBasis, policy);
-          const schedule = buildBuyoutSchedule(costBasis, residual, app.term);
-          const rows = [["month","buyout_amount_usd"], ...schedule.map(([m,a])=>[m, Number(a).toFixed(2)])];
-          downloadCsv("flintlock-buyout-schedule.csv", rows);
-        });
-
-        // Start button moves to Application tab without rerender-jank
-        $("#startBtn").addEventListener("click", (e) => {
-          e.preventDefault();
-          setTab("application");
-          document.getElementById("app").scrollIntoView({behavior:"smooth", block:"start"});
-        });
-
-        // Auto-update if /admin writes to localStorage
-        window.addEventListener("storage", (ev) => {
-          if (ev.key === KEY_POLICY) {
-            try { render(); } catch(_) {}
-          }
-        });
-      }
-
-      function setTab(tab){
-        activeTab = tab;
-        $$(".tab").forEach(b => b.classList.toggle("active", b.getAttribute("data-tab") === tab));
-        render();
-      }
-
-      // The key fix for your “one character then click again” issue:
-      // We DO NOT re-render on each keystroke. We update state, save, and only re-render on blur/change.
-      function bindInput(id, key, opts={}){
-        const el = document.getElementById(id);
-        if (!el) return;
-
-        const isNumber = !!opts.number;
-
-        const commit = () => {
-          let v = el.value;
-          if (isNumber) v = Number(v);
-          app[key] = v;
-          saveApp(app);
-          render(); // safe to re-render on commit (not every keypress)
-        };
-
-        el.addEventListener("change", commit);
-        el.addEventListener("blur", commit);
-
-        // Enter commits too
-        el.addEventListener("keydown", (e) => {
-          if (e.key === "Enter") {
-            e.preventDefault();
-            el.blur();
-          }
-        });
-      }
-
-      function wireTabSpecificHandlers(costBasis, residual, payment){
-        // Application bindings
-        if (activeTab === "application"){
-          bindInput("persona", "persona");
-          bindInput("score", "score", {number:true});
-          bindInput("ticket", "ticket", {number:true});
-          bindInput("term", "term", {number:true});
-          bindInput("acquisitionFee", "acquisitionFee", {number:true});
-          bindInput("tax", "tax", {number:true});
-          bindInput("processingFee", "processingFee", {number:true});
-
-          const toOffer = $("#toOffer");
-          if (toOffer) toOffer.addEventListener("click", () => setTab("offer"));
-
-          const reset = $("#resetDemo");
-          if (reset) reset.addEventListener("click", () => {
-            app = Object.assign({}, defaultApp);
-            saveApp(app);
-            render();
-          });
-        }
-
-        if (activeTab === "offer"){
-          const bm = $("#buyoutMonth");
-          if (bm){
-            bm.addEventListener("change", () => {
-              app.buyoutMonth = clamp(bm.value, 0, Number(app.term)||1);
-              saveApp(app);
-              render();
-            });
-            bm.addEventListener("blur", () => {
-              app.buyoutMonth = clamp(bm.value, 0, Number(app.term)||1);
-              saveApp(app);
-              render();
-            });
-          }
-
-          const back = $("#backToApp");
-          if (back) back.addEventListener("click", () => setTab("application"));
-
-          const toDisc = $("#toDisclosures");
-          if (toDisc) toDisc.addEventListener("click", () => setTab("disclosures"));
-
-          const toContract = $("#toContract");
-          if (toContract) toContract.addEventListener("click", () => setTab("contract"));
-        }
-
-        if (activeTab === "dashboard"){
-          const a = $("#dashToOffer"); if (a) a.addEventListener("click", ()=>setTab("offer"));
-          const b = $("#dashToContract"); if (b) b.addEventListener("click", ()=>setTab("contract"));
-          const c = $("#dashToExhibitC"); if (c) c.addEventListener("click", ()=>setTab("exhibitC"));
-        }
-
-        if (activeTab === "disclosures"){
-          const a = $("#discBackOffer"); if (a) a.addEventListener("click", ()=>setTab("offer"));
-          const b = $("#discContract"); if (b) b.addEventListener("click", ()=>setTab("contract"));
-        }
-
-        if (activeTab === "contract"){
-          const dl = $("#dlContract");
-          if (dl) dl.addEventListener("click", () => {
-            policy = loadPolicy();
-            const cb = computeCostBasis(app);
-            const decision = decide(app, policy);
-            app.term = decision.term;
-            const res = computeResidual(cb, policy);
-            const pay = computePayment(cb, res, app.term, policy.moneyFactor);
-            downloadText("flintlock-contract-demo.txt", buildContractText(app, policy, decision, cb, res, pay));
-          });
-
-          const dlC = $("#dlExhibitC");
-          if (dlC) dlC.addEventListener("click", () => {
-            policy = loadPolicy();
-            downloadText("flintlock-exhibit-c.txt", buildExhibitCText(policy));
-          });
-
-          const back = $("#contractBackOffer");
-          if (back) back.addEventListener("click", ()=>setTab("offer"));
-        }
-
-        if (activeTab === "exhibitC"){
-          const dl = $("#dlExhibitC2");
-          if (dl) dl.addEventListener("click", () => {
-            policy = loadPolicy();
-            downloadText("flintlock-exhibit-c.txt", buildExhibitCText(policy));
-          });
-          const back = $("#exBackOffer");
-          if (back) back.addEventListener("click", ()=>setTab("offer"));
-        }
-      }
-
-      // ---------- Boot ----------
-      function boot(){
-        try{
-          wireGlobalHandlers();
-          render();
-        }catch(err){
-          const v = $("#view");
-          if (v){
-            v.innerHTML = `
-              <div class="note err">
-                <strong>App render failed.</strong><br/>
-                Open DevTools Console to see the error. Quick details:<br/>
-                <span class="mono">${escape(err && (err.stack || err.message || String(err)))}</span>
+              <div class="grid2">
+                <div class="kpi"><div class="k">Lease term</div><div class="v mono">${p.term} months</div></div>
+                <div class="kpi"><div class="k">Monthly payment (illustrative)</div><div class="v mono">${fmtUSD(p.payment)}</div></div>
+                <div class="kpi"><div class="k">Total of payments (approx.)</div><div class="v mono">${fmtUSD(p.totalPayments)}</div></div>
+                <div class="kpi"><div class="k">Purchase option (residual)</div><div class="v mono">${fmtUSD(p.residual)}</div></div>
               </div>
-            `;
-          }
-          console.error(err);
+
+              <div class="note" style="margin-top:14px">
+                <strong>Important:</strong> This disclosure panel is a demo approximation and is not a substitute for counsel-reviewed Reg M disclosures.
+                Values shown are computed using storyboard math and synthetic inputs.
+              </div>
+
+              <div class="hr"></div>
+
+              <h3 style="margin:0 0 8px; font-family:var(--serif)">Cost basis breakdown</h3>
+              <div class="grid2">
+                <div class="kpi"><div class="k">Ticket</div><div class="v mono">${fmtUSD(p.ticket)}</div></div>
+                <div class="kpi"><div class="k">Acquisition fee (capitalized)</div><div class="v mono">${fmtUSD(p.acquisitionFee)}</div></div>
+                <div class="kpi"><div class="k">Sales tax (capitalized)</div><div class="v mono">${fmtUSD(p.tax)}</div></div>
+                <div class="kpi"><div class="k">Processing (capitalized)</div><div class="v mono">${fmtUSD(p.processingFee)}</div></div>
+                <div class="kpi"><div class="k">Total cost basis</div><div class="v mono">${fmtUSD(p.costBasis)}</div></div>
+                <div class="kpi"><div class="k">Residual (purchase option)</div><div class="v mono">${fmtUSD(p.residual)}</div></div>
+              </div>
+
+              <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:14px">
+                <button class="btn" id="goContract">Preview contract</button>
+                <button class="btn" id="goOffer2">Back to offer</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function buildExhibitBObject(d){
+      return {
+        policy: {
+          minScore: d.policy.minScore,
+          maxTicket: d.policy.maxTicket,
+          termCap1500: d.policy.termCap1500,
+          termCap2500: d.policy.termCap2500,
+          termCapOver2500: d.policy.termCapOver2500,
+          moneyFactor: d.policy.moneyFactor,
+          residualPercent: d.policy.residualPercent,
+          residualFloor: d.policy.residualFloor
+        },
+        decision: {
+          approved: d.decision.approved,
+          flags: d.decision.flags,
+          termCap: d.decision.termCap,
+          term: d.decision.term
+        },
+        pricing: {
+          ticket: d.pricing.ticket,
+          acquisitionFee: d.pricing.acquisitionFee,
+          tax: d.pricing.tax,
+          processingFee: d.pricing.processingFee,
+          costBasis: d.pricing.costBasis,
+          residual: d.pricing.residual,
+          term: d.pricing.term,
+          payment: d.pricing.payment
         }
+      };
+    }
+
+    function viewContract(d){
+      const p = d.pricing;
+      const today = new Date();
+      const dateStr = (today.getMonth()+1)+"/"+today.getDate()+"/"+today.getFullYear();
+
+      const exhibitB = buildExhibitBObject(d);
+
+      // Document-style contract body (clean e-sign look)
+      const contractBody = `
+        <p><strong>IMPORTANT DEMO NOTICE:</strong><br/>
+          This document is a synthetic example generated for demonstrations and integration testing only. No financing is offered.
+          No credit pulls occur. Any personal data is synthetic.
+        </p>
+
+        <h4>1. Parties</h4>
+        <div class="docGrid">
+          <div class="docBox"><div class="k">Lessor</div><div class="v">Flintlock Financing (Demo Environment)</div></div>
+          <div class="docBox"><div class="k">Lessee</div><div class="v">${escapeHtml(state.persona)} (Synthetic)</div></div>
+        </div>
+
+        <h4>2. Asset / Merchandise</h4>
+        ${kvTable([
+          {k:"Item ticket price", v: fmtUSD(p.ticket)},
+          {k:"Acquisition fee (capitalized)", v: fmtUSD(p.acquisitionFee)},
+          {k:"Sales tax (capitalized)", v: fmtUSD(p.tax)},
+          {k:"Processing (capitalized)", v: fmtUSD(p.processingFee)},
+          {k:"Total cost basis", v: fmtUSD(p.costBasis)}
+        ])}
+
+        <h4>3. Term & Payments (Illustrative)</h4>
+        ${kvTable([
+          {k:"Lease term", v: p.term + " months"},
+          {k:"Estimated monthly payment (storyboard)", v: fmtUSD(p.payment)},
+          {k:"Money factor (illustrative)", v: String(d.policy.moneyFactor)}
+        ])}
+
+        <h4>4. Purchase Option (Residual)</h4>
+        <p>
+          At the end of the lease term, Lessee may have a purchase option equal to the residual amount shown below (illustrative).
+          Early buyout amounts are shown in <strong>Exhibit A</strong> (straight-line schedule).
+        </p>
+        ${kvTable([
+          {k:"Purchase option amount (end of term)", v: fmtUSD(p.residual)}
+        ])}
+
+        <h4>5. Disclosures (Demo)</h4>
+        <ul style="margin:8px 0 0; padding-left:18px">
+          <li>This is not a quote, offer, or contract for real financing.</li>
+          <li>All calculations are illustrative storyboard math.</li>
+          <li>Actual disclosure language must be reviewed by counsel for Reg M compliance.</li>
+        </ul>
+
+        <h4>6. Exhibits</h4>
+        <p style="margin-top:8px">
+          <strong>Exhibit A:</strong> Buyout schedule (Straight-Line)<br/>
+          <strong>Exhibit B:</strong> Pricing & Policy Summary (Illustrative)<br/>
+          <strong>Exhibit C:</strong> Credit Box Summary (One-Page)
+        </p>
+
+        <h4>7. Signatures (Demo Only)</h4>
+        <div class="sigRow">
+          <div class="sig">
+            <div class="tab">SIGN HERE</div>
+            <div class="line"></div>
+            <div class="label"><span>Lessor (Demo)</span><span>Date: __________</span></div>
+          </div>
+          <div class="sig">
+            <div class="tab">SIGN HERE</div>
+            <div class="line"></div>
+            <div class="label"><span>Lessee (Demo)</span><span>Date: __________</span></div>
+          </div>
+        </div>
+
+        <div style="margin-top:14px; padding:10px 12px; border:1px solid var(--paperStroke); border-radius:12px; background:#fbfdff; color:var(--paperMuted); font-size:12px">
+          <strong>Integration note:</strong> In production, this “paper” view would be generated from a template engine into PDF and sent to an e-signature provider.
+          For this demo, we keep it as HTML for portability and easy pitch walkthrough.
+        </div>
+
+        <h4 style="margin-top:18px">Exhibit A — Buyout schedule</h4>
+        <p style="margin-top:6px; color:var(--paperMuted)">
+          Straight-line from cost basis to residual over term.
+        </p>
+        <div style="overflow:auto">${renderBuyoutTable(d).replace("<table", "<table class='docTable'").replaceAll("class=\"r\"", "class=\"r\"")}</div>
+
+        <h4 style="margin-top:18px">Exhibit B — Pricing & policy summary</h4>
+        <p style="margin-top:6px; color:var(--paperMuted)">
+          Document view (investor-friendly). Raw JSON available via download.
+        </p>
+
+        ${kvTable([
+          {k:"Minimum credit score", v: String(d.policy.minScore)},
+          {k:"Max ticket (item price)", v: fmtUSD(d.policy.maxTicket)},
+          {k:"Term cap ≤ $1,500", v: d.policy.termCap1500 + " months"},
+          {k:"Term cap ≤ $2,500", v: d.policy.termCap2500 + " months"},
+          {k:"Term cap > $2,500", v: d.policy.termCapOver2500 + " months"},
+          {k:"Money factor (demo)", v: String(d.policy.moneyFactor)},
+          {k:"Residual percent (demo)", v: String(d.policy.residualPercent)},
+          {k:"Residual floor (demo)", v: fmtUSD(d.policy.residualFloor)}
+        ])}
+
+        ${kvTable([
+          {k:"Ticket", v: fmtUSD(p.ticket)},
+          {k:"Acquisition fee (capitalized)", v: fmtUSD(p.acquisitionFee)},
+          {k:"Sales tax (capitalized)", v: fmtUSD(p.tax)},
+          {k:"Processing (capitalized)", v: fmtUSD(p.processingFee)},
+          {k:"Total cost basis", v: fmtUSD(p.costBasis)},
+          {k:"Residual (purchase option)", v: fmtUSD(p.residual)},
+          {k:"Lease term", v: p.term + " months"},
+          {k:"Monthly payment (illustrative)", v: fmtUSD(p.payment)}
+        ])}
+
+        <div style="margin-top:10px; color:var(--paperMuted); font-size:12px">
+          This exhibit is intentionally plain and structured for pitch clarity. In production, you’d generate a PDF exhibit packet.
+        </div>
+      `;
+
+      const contractTxt = buildContractText(d, dateStr);
+      const exhibitCTxt = buildExhibitCText(d, dateStr);
+
+      const pages = [
+        docPage({
+          headerTitle: "FLINTLOCK FINANCING — SAMPLE CONSUMER LEASE AGREEMENT (DEMO)",
+          headerMeta: `Date: <span class="mono">${escapeHtml(dateStr)}</span>`,
+          bodyHtml: contractBody
+        })
+      ].join("");
+
+      const buttons = `
+        <button class="btn" id="dlContract">Download contract (.txt)</button>
+        <button class="btn" id="dlExhibitC">Download Exhibit C (.txt)</button>
+        <button class="btn" id="dlExhibitB">Download Exhibit B (.json)</button>
+        <button class="btn primary" id="backOffer">Back to offer</button>
+      `;
+
+      return docShell({
+        title: "Contract preview (demo)",
+        subtitle: "Doc-style rendering (pitch-friendly)",
+        leftMeta: "HTML “paper” view",
+        buttonsHtml: buttons,
+        pagesHtml: pages
+      });
+    }
+
+    function buildContractText(d, dateStr){
+      const p = d.pricing;
+      return [
+        "FLINTLOCK FINANCING — SAMPLE CONSUMER LEASE AGREEMENT (DEMO)",
+        "Date: " + dateStr,
+        "",
+        "IMPORTANT DEMO NOTICE:",
+        "This document is a synthetic example generated for demonstrations and integration testing only.",
+        "No financing is offered. No credit pulls occur. Any personal data is synthetic.",
+        "",
+        "PARTIES",
+        "Lessor: Flintlock Financing (Demo Environment)",
+        "Lessee: " + state.persona + " (Synthetic)",
+        "",
+        "ASSET / MERCHANDISE",
+        "Item ticket price: " + fmtUSD(p.ticket),
+        "Acquisition fee (capitalized): " + fmtUSD(p.acquisitionFee),
+        "Sales tax (capitalized): " + fmtUSD(p.tax),
+        "Processing (capitalized): " + fmtUSD(p.processingFee),
+        "Total Cost Basis: " + fmtUSD(p.costBasis),
+        "",
+        "TERM & PAYMENTS (ILLUSTRATIVE)",
+        "Term: " + p.term + " months",
+        "Estimated Monthly Payment: " + fmtUSD(p.payment) + " (storyboard)",
+        "Money Factor (illustrative): " + d.policy.moneyFactor,
+        "",
+        "PURCHASE OPTION (RESIDUAL)",
+        "Purchase option amount at end of term: " + fmtUSD(p.residual),
+        "Early buyout amounts are shown in Exhibit A (straight-line schedule).",
+        "",
+        "IMPORTANT DISCLOSURES (DEMO)",
+        "- This is not a quote, offer, or contract for real financing.",
+        "- All calculations are illustrative.",
+        "- Actual disclosure language must be reviewed by counsel for Reg M compliance.",
+        "",
+        "EXHIBITS",
+        "Exhibit A: Buyout Schedule (Straight-Line)",
+        "Exhibit B: Pricing & Policy Summary (Illustrative)",
+        "Exhibit C: Credit Box Summary (One-Page)",
+        "",
+        "SIGNATURES (DEMO ONLY)",
+        "Lessor: ____________________   Date: ________",
+        "Lessee: ____________________   Date: ________",
+        ""
+      ].join("\\n");
+    }
+
+    function buildExhibitCText(d, dateStr){
+      const p = d.pricing;
+      const pol = d.policy;
+      return [
+        "EXHIBIT C — CREDIT BOX SUMMARY (DEMO)",
+        "Date: " + dateStr,
+        "",
+        "Program Name: Flintlock Financing (Synthetic Demo)",
+        "Purpose: Demonstrate policy gating, auditability, and controlled pricing.",
+        "",
+        "ELIGIBILITY (ILLUSTRATIVE)",
+        "- Minimum credit score: " + pol.minScore,
+        "- Maximum ticket (item price): " + fmtUSD(pol.maxTicket),
+        "",
+        "TERM CAPS (ILLUSTRATIVE)",
+        "- Ticket ≤ $1,500: " + pol.termCap1500 + " months max",
+        "- Ticket ≤ $2,500: " + pol.termCap2500 + " months max",
+        "- Ticket > $2,500: " + pol.termCapOver2500 + " months max",
+        "",
+        "PRICING CONTROLS (ILLUSTRATIVE)",
+        "- Money factor (demo): " + pol.moneyFactor,
+        "- Residual percent (demo): " + pol.residualPercent + " (e.g., 0.20 = 20%)",
+        "- Residual floor (demo): " + fmtUSD(pol.residualFloor),
+        "",
+        "COST BASIS (CAPITALIZED COMPONENTS)",
+        "- Ticket: " + fmtUSD(p.ticket),
+        "- Acquisition fee: " + fmtUSD(p.acquisitionFee),
+        "- Sales tax: " + fmtUSD(p.tax),
+        "- Processing: " + fmtUSD(p.processingFee),
+        "- Total cost basis: " + fmtUSD(p.costBasis),
+        "",
+        "VERIFICATION (DEMO DISCLAIMER)",
+        "- No identity verification performed in demo.",
+        "- No credit pulls performed in demo.",
+        "- No funding or payments performed in demo.",
+        ""
+      ].join("\\n");
+    }
+
+    function viewExhibitC(d){
+      const today = new Date();
+      const dateStr = (today.getMonth()+1)+"/"+today.getDate()+"/"+today.getFullYear();
+      const txt = buildExhibitCText(d, dateStr);
+
+      const page = docPage({
+        headerTitle: "Exhibit C — Credit Box Summary (Demo)",
+        headerMeta: `Date: <span class="mono">${escapeHtml(dateStr)}</span>`,
+        bodyHtml: `
+          <p style="margin-top:0;color:var(--paperMuted)">
+            One-page credit box summary for pitch packets. Demo only.
+          </p>
+          <div class="docBox">
+            <pre style="margin:0; white-space:pre-wrap; font-family:var(--mono); font-size:12.5px; line-height:1.45">${escapeHtml(txt)}</pre>
+          </div>
+
+          <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap">
+            <button class="btn" id="dlExhibitC2">Download Exhibit C (.txt)</button>
+            <button class="btn primary" id="goContract2">Back to contract</button>
+          </div>
+        `
+      });
+
+      return docShell({
+        title: "Exhibit C",
+        subtitle: "Credit box summary (one-page)",
+        leftMeta: "Demo exhibit",
+        buttonsHtml: "",
+        pagesHtml: page
+      });
+    }
+
+    // ---------- Rendering + Events ----------
+    function setKpis(d){
+      $("#scoreKpi").textContent = String(state.score);
+      $("#ticketKpi").textContent = fmtUSD(d.pricing.ticket);
+      $("#termCapKpi").textContent = d.decision.termCap + " mo";
+      $("#minScoreKpi").textContent = String(d.policy.minScore);
+      $("#maxTicketKpi").textContent = fmtUSD(d.policy.maxTicket);
+      $("#residualKpi").textContent = fmtUSD(d.pricing.residual);
+
+      $("#personaText").textContent = state.persona;
+
+      const badge = $("#decisionBadge");
+      const text = $("#decisionText");
+      if (d.decision.approved){
+        badge.classList.remove("bad");
+        badge.classList.add("good");
+        text.textContent = "Approved";
+      }else{
+        badge.classList.remove("good");
+        badge.classList.add("bad");
+        text.textContent = "Declined";
+      }
+    }
+
+    function render(){
+      const focus = captureFocus();
+      const d = computeAll();
+
+      setKpis(d);
+
+      // tabs
+      $$(".tab").forEach(t => t.classList.toggle("active", t.dataset.tab === state.tab));
+
+      // view
+      const view = $("#view");
+      let html = "";
+      if (state.tab === "application") html = viewApplication(d);
+      else if (state.tab === "offer") html = viewOffer(d);
+      else if (state.tab === "dashboard") html = viewDashboard(d);
+      else if (state.tab === "disclosures") html = viewDisclosures(d);
+      else if (state.tab === "contract") html = viewContract(d);
+      else if (state.tab === "exhibitC") html = viewExhibitC(d);
+      view.innerHTML = html;
+
+      wireViewEvents(d);
+
+      restoreFocus(focus);
+    }
+
+    function wireViewEvents(d){
+      // tab buttons (static)
+      $$(".tab").forEach(t => {
+        t.onclick = () => { state.tab = t.dataset.tab; render(); };
+      });
+
+      // Application
+      const personaSel = $("#persona");
+      if (personaSel){
+        personaSel.onchange = (e) => { state.persona = e.target.value; render(); };
+      }
+      const score = $("#score");
+      if (score){
+        score.oninput = (e) => { state.score = clamp(parseInt(e.target.value||0,10)||0, 300, 850); render(); };
+      }
+      const ticket = $("#ticket");
+      if (ticket){
+        ticket.oninput = (e) => { state.ticket = Math.max(0, Number(e.target.value||0)); render(); };
+      }
+      const acq = $("#acq");
+      if (acq){
+        acq.oninput = (e) => { state.acquisitionFee = Math.max(0, Number(e.target.value||0)); render(); };
+      }
+      const tax = $("#tax");
+      if (tax){
+        tax.oninput = (e) => { state.tax = Math.max(0, Number(e.target.value||0)); render(); };
+      }
+      const proc = $("#proc");
+      if (proc){
+        proc.oninput = (e) => { state.processingFee = Math.max(0, Number(e.target.value||0)); render(); };
       }
 
-      document.addEventListener("DOMContentLoaded", boot);
-    })();
+      const goOffer = $("#goOffer");
+      if (goOffer) goOffer.onclick = () => { state.tab = "offer"; render(); };
+
+      const resetInputs = $("#resetInputs");
+      if (resetInputs) resetInputs.onclick = () => {
+        state.persona = "Prime Applicant";
+        state.score = 720;
+        state.ticket = 4500;
+        state.acquisitionFee = 250;
+        state.tax = 360;
+        state.processingFee = 35;
+        state.buyoutMonth = 12;
+        render();
+      };
+
+      // Offer
+      const buyoutMonth = $("#buyoutMonth");
+      if (buyoutMonth){
+        buyoutMonth.oninput = (e) => { state.buyoutMonth = e.target.value; render(); };
+      }
+      const exportScheduleCsv = $("#exportScheduleCsv");
+      if (exportScheduleCsv){
+        exportScheduleCsv.onclick = () => {
+          const rows = buyoutScheduleRows(d.pricing.costBasis, d.pricing.residual, d.pricing.term);
+          const csv = [["Month","BuyoutAmountUSD"]].concat(rows.map(r => [r.month, r.buyout]));
+          downloadCSV("buyout_schedule_demo.csv", csv);
+        };
+      }
+
+      // Dashboard exports
+      const exportPolicyJson = $("#exportPolicyJson");
+      if (exportPolicyJson){
+        exportPolicyJson.onclick = () => downloadJSON("policy_demo.json", d.policy);
+      }
+      const exportExhibitBJson = $("#exportExhibitBJson");
+      if (exportExhibitBJson){
+        exportExhibitBJson.onclick = () => downloadJSON("exhibit_b_pricing_policy_demo.json", buildExhibitBObject(d));
+      }
+
+      // Disclosures nav
+      const goContract = $("#goContract");
+      if (goContract) goContract.onclick = () => { state.tab = "contract"; render(); };
+      const goOffer2 = $("#goOffer2");
+      if (goOffer2) goOffer2.onclick = () => { state.tab = "offer"; render(); };
+
+      // Contract downloads
+      const dlContract = $("#dlContract");
+      if (dlContract){
+        dlContract.onclick = () => {
+          const today = new Date();
+          const dateStr = (today.getMonth()+1)+"/"+today.getDate()+"/"+today.getFullYear();
+          downloadText("consumer_lease_agreement_demo.txt", buildContractText(d, dateStr));
+        };
+      }
+      const dlExhibitC = $("#dlExhibitC");
+      if (dlExhibitC){
+        dlExhibitC.onclick = () => {
+          const today = new Date();
+          const dateStr = (today.getMonth()+1)+"/"+today.getDate()+"/"+today.getFullYear();
+          downloadText("exhibit_c_credit_box_demo.txt", buildExhibitCText(d, dateStr));
+        };
+      }
+      const dlExhibitB = $("#dlExhibitB");
+      if (dlExhibitB){
+        dlExhibitB.onclick = () => downloadJSON("exhibit_b_pricing_policy_demo.json", buildExhibitBObject(d));
+      }
+      const backOffer = $("#backOffer");
+      if (backOffer) backOffer.onclick = () => { state.tab = "offer"; render(); };
+
+      // Exhibit C buttons
+      const dlExhibitC2 = $("#dlExhibitC2");
+      if (dlExhibitC2){
+        dlExhibitC2.onclick = () => {
+          const today = new Date();
+          const dateStr = (today.getMonth()+1)+"/"+today.getDate()+"/"+today.getFullYear();
+          downloadText("exhibit_c_credit_box_demo.txt", buildExhibitCText(d, dateStr));
+        };
+      }
+      const goContract2 = $("#goContract2");
+      if (goContract2) goContract2.onclick = () => { state.tab = "contract"; render(); };
+    }
+
+    // Boot
+    render();
   </script>
 </body>
 </html>
