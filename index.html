@@ -1,174 +1,653 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Flintlock Financing</title>
-  <meta name="description" content="Institutional-grade demo environment for policy-driven consumer leasing."/>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Flintlock Financing — Finance Smarter</title>
+  <meta name="description" content="Flintlock Financing provides structured consumer financing with transparent pricing, predictable payments, and clearly defined ownership options." />
   <style>
     :root{
-      --bg0:#050F1B; --bg1:#061424; --bg2:#071726;
-      --panel: rgba(255,255,255,0.06);
-      --panel2: rgba(255,255,255,0.04);
-      --text: rgba(255,255,255,0.92);
-      --muted: rgba(255,255,255,0.70);
-      --muted2: rgba(255,255,255,0.55);
-      --line: rgba(255,255,255,0.12);
-      --accent:#C57B2A;
-      --shadow: 0 18px 40px rgba(0,0,0,0.40);
-      --radius:18px; --max:1080px;
-      --serif: ui-serif, Georgia, "Times New Roman", Times, serif;
-      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
+      --bg0:#050b13;
+      --bg1:#06111e;
+      --bg2:#081a2c;
+
+      --stroke:#ffffff1a;
+      --stroke2:#ffffff22;
+
+      --text:#e9f1ff;
+      --muted:#bcd0ea;
+      --muted2:#9eb6d6;
+
+      /* Bronze “spark” accent */
+      --accent:#c98a2a;
+      --accent2:#e5b35a;
+
+      --good:#3ddc97;
+      --shadowSoft: 0 12px 40px rgba(0,0,0,.35);
+      --radius:18px;
+      --radius2:14px;
+
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
     }
+
     *{box-sizing:border-box}
+    html,body{height:100%}
     body{
-      margin:0; font-family:var(--sans); color:var(--text);
+      margin:0;
+      font-family: var(--sans);
+      color:var(--text);
       background:
-        radial-gradient(900px 420px at 18% 0%, rgba(197,123,42,0.18), transparent 55%),
-        radial-gradient(720px 380px at 92% 8%, rgba(226,164,93,0.12), transparent 55%),
-        linear-gradient(180deg, var(--bg1) 0%, var(--bg2) 55%, var(--bg0) 100%);
+        radial-gradient(1200px 600px at 15% 10%, rgba(201,138,42,.18), transparent 60%),
+        radial-gradient(900px 500px at 82% 6%, rgba(110,150,255,.10), transparent 55%),
+        radial-gradient(900px 900px at 55% 55%, rgba(61,220,151,.08), transparent 55%),
+        linear-gradient(180deg, var(--bg1), var(--bg2) 60%, var(--bg0) 120%);
+      overflow-x:hidden;
+    }
+
+    a{color:inherit;text-decoration:none}
+    .container{max-width:1180px;margin:0 auto;padding:26px 18px 70px}
+
+    /* Topbar */
+    .topbar{
+      position: sticky; top:0; z-index:30;
+      background: linear-gradient(180deg, rgba(5,10,18,.92), rgba(5,10,18,.68));
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--stroke);
+    }
+    .topbar-inner{
+      max-width:1180px;margin:0 auto;padding:14px 18px;
+      display:flex;align-items:center;justify-content:space-between;gap:14px;
+    }
+    .brand{display:flex;align-items:center;gap:12px;min-width:260px}
+    .mark{
+      width:34px;height:34px;border-radius:10px;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(255,255,255,.25), transparent 60%),
+        linear-gradient(135deg, rgba(201,138,42,.95), rgba(255,213,120,.25));
+      border: 1px solid rgba(255,255,255,.18);
+      box-shadow: 0 12px 22px rgba(0,0,0,.35);
+    }
+    .brand-text strong{display:block;letter-spacing:.5px;font-weight:850;font-size:13px;line-height:1.1}
+    .brand-text span{display:block;color:var(--muted2);font-size:12px;margin-top:2px}
+
+    .nav{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:10px;
+      padding:10px 14px;border:1px solid var(--stroke);border-radius:999px;
+      background: rgba(255,255,255,.06);
+      color:var(--text);font-weight:700;font-size:13px;cursor:pointer;
+      transition: transform .12s ease, background .12s ease, border-color .12s ease;
+      user-select:none;
+    }
+    .btn:hover{transform: translateY(-1px); background: rgba(255,255,255,.09); border-color: var(--stroke2)}
+    .btn.primary{
+      background: linear-gradient(180deg, rgba(201,138,42,.98), rgba(160,100,18,.92));
+      border-color: rgba(255,214,140,.35);
+      color:#0b1422;
+    }
+    .btn.primary:hover{background: linear-gradient(180deg, rgba(230,170,70,.98), rgba(160,100,18,.92))}
+    .btn.ghost{background: transparent}
+    .btn.small{padding:8px 11px;font-size:12px}
+
+    .pill{
+      display:inline-flex;align-items:center;gap:8px;padding:8px 12px;
+      border: 1px solid var(--stroke);
+      border-radius:999px;color:var(--muted);
+      background: rgba(255,255,255,.06);
+      font-size:12px;white-space:nowrap;
+    }
+    .pill .dot{
+      width:8px;height:8px;border-radius:99px;
+      background: rgba(201,138,42,.95);
+      box-shadow:0 0 0 3px rgba(201,138,42,.20)
+    }
+
+    /* Hero */
+    .hero{
+      padding: 36px 0 10px;
+      position:relative;
+    }
+    .hero:before{
+      content:"";
+      position:absolute; inset:-120px -140px auto -140px;
+      height:260px;
+      background: radial-gradient(closest-side at 30% 60%, rgba(201,138,42,.20), transparent 65%);
+      pointer-events:none;
+      filter: blur(2px);
+    }
+    h1{
+      position:relative;
+      font-family: var(--serif);
+      letter-spacing:.2px;
+      font-size:54px;
+      margin: 18px 0 8px;
+      line-height:1.03;
+    }
+    .tagline{
+      position:relative;
+      font-family: var(--serif);
+      font-size:22px;
+      color: #d8e6ff;
+      margin: 0 0 14px;
+      letter-spacing:.15px;
+    }
+    .sub{
+      color:var(--muted);
+      margin:0 0 18px;
+      max-width:920px;
+      line-height:1.5;
+      font-size:15px;
+    }
+    .hero-ctas{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px}
+    .hero-grid{
+      display:grid;
+      grid-template-columns: 1.4fr .6fr;
+      gap:16px;
+      align-items:start;
+      margin-top:18px;
+    }
+    @media (max-width: 980px){
+      h1{font-size:44px}
+      .hero-grid{grid-template-columns:1fr}
+      .brand{min-width:auto}
+    }
+
+    /* Cards & sections */
+    .card{
+      border: 1px solid var(--stroke);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border-radius: var(--radius);
+      box-shadow: var(--shadowSoft);
+      overflow:hidden;
+    }
+    .card-inner{padding:18px}
+    .note{
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,.05);
+      border-radius: var(--radius2);
+      padding: 14px 14px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+    .hr{height:1px;background:var(--stroke);margin:16px 0}
+    .section{margin-top:18px}
+    .section h2{
+      font-family: var(--serif);
+      font-size:28px;
+      margin:0 0 8px;
+      letter-spacing:.18px;
+    }
+    .section p.lead{margin:0;color:var(--muted);line-height:1.5;max-width:920px}
+
+    /* Feature row */
+    .kpis{
+      display:grid;grid-template-columns: repeat(3,1fr);
+      gap:12px;margin-top:12px
+    }
+    @media (max-width: 980px){ .kpis{grid-template-columns:1fr 1fr} }
+    @media (max-width: 640px){ .kpis{grid-template-columns:1fr} }
+    .kpi{
+      border:1px solid var(--stroke);
+      border-radius:var(--radius2);
+      background: rgba(0,0,0,.18);
+      padding:12px;
+    }
+    .kpi .k{color:var(--muted2);font-size:12px;letter-spacing:.15px}
+    .kpi .v{margin-top:6px;font-weight:850;font-size:14px;line-height:1.35}
+    .mono{font-family:var(--mono)}
+
+    /* Steps */
+    .steps{
+      margin-top:14px;
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:12px;
+    }
+    @media (max-width: 980px){ .steps{grid-template-columns:1fr 1fr} }
+    @media (max-width: 640px){ .steps{grid-template-columns:1fr} }
+    .step{
+      border:1px solid var(--stroke);
+      border-radius:var(--radius2);
+      background: rgba(0,0,0,.18);
+      padding:14px;
+      position:relative;
+      overflow:hidden;
+    }
+    .step:before{
+      content:"";
+      position:absolute; inset:-1px -1px auto -1px;
+      height:2px;
+      background: linear-gradient(90deg, rgba(201,138,42,.0), rgba(201,138,42,.65), rgba(201,138,42,.0));
+      opacity:.75;
+    }
+    .step .n{
+      display:inline-flex;align-items:center;justify-content:center;
+      width:30px;height:30px;border-radius:10px;
+      background: rgba(201,138,42,.14);
+      border:1px solid rgba(201,138,42,.35);
+      color: #ffd9a0;
+      font-weight:900;
+      font-family: var(--mono);
+      font-size:13px;
+      box-shadow: 0 10px 18px rgba(0,0,0,.18);
+    }
+    .step h3{
+      margin:10px 0 6px;
+      font-size:14px;
+      letter-spacing:.18px;
+    }
+    .step p{
+      margin:0;
+      color:var(--muted);
+      font-size:13px;
       line-height:1.45;
     }
-    a{color:inherit; text-decoration:none}
-    .container{max-width:var(--max); margin:0 auto; padding:0 18px}
-    header{
-      position:sticky; top:0; z-index:20;
-      backdrop-filter: blur(10px);
-      background: rgba(5,16,28,0.62);
-      border-bottom:1px solid var(--line);
+    .step ul{
+      margin:8px 0 0;
+      padding-left:18px;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.45;
     }
-    .hdr{display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap; padding:14px 0}
-    .brand{display:flex; align-items:center; gap:10px}
-    .mark{
-      width:32px; height:32px; border-radius:10px;
+
+    /* Two-column sections */
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+    @media (max-width: 980px){ .grid2{grid-template-columns:1fr} }
+
+    /* Merchant banner panel */
+    .panel{
+      border:1px solid rgba(201,138,42,.25);
       background:
-        radial-gradient(10px 10px at 70% 30%, rgba(255,255,255,0.9), transparent 55%),
-        radial-gradient(18px 18px at 65% 35%, rgba(226,164,93,0.65), transparent 60%),
-        linear-gradient(180deg, rgba(197,123,42,0.95), rgba(197,123,42,0.35));
-      box-shadow:0 10px 22px rgba(197,123,42,0.25);
-      border:1px solid rgba(255,255,255,0.15);
-    }
-    .brand-text{display:flex; flex-direction:column; line-height:1.1}
-    .brand-text strong{
-      font-family:var(--serif);
-      letter-spacing:0.08em;
-      text-transform:uppercase;
-      font-size:12px;
-    }
-    .brand-text span{font-size:12px; color:rgba(255,255,255,0.55)}
-    .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
-    .pill{
-      display:inline-flex; gap:10px; align-items:center;
-      padding:7px 10px; border-radius:999px;
-      border:1px solid rgba(255,255,255,0.14);
-      background: rgba(255,255,255,0.04);
-      color: rgba(255,255,255,0.74);
-      font-size:12px;
-    }
-    .spark{width:8px; height:8px; border-radius:999px; background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(226,164,93,0.95) 35%, rgba(197,123,42,0.5) 65%, transparent 70%); box-shadow:0 0 22px rgba(226,164,93,0.50)}
-    .btn{
-      display:inline-flex; align-items:center; justify-content:center;
-      padding:10px 13px; border-radius:12px;
-      border:1px solid rgba(255,255,255,0.16);
-      background: rgba(255,255,255,0.06);
-      color: rgba(255,255,255,0.92);
-      font-size:13px; cursor:pointer; user-select:none; white-space:nowrap;
-      transition: transform 0.06s ease, background 0.2s ease, border-color 0.2s ease;
-    }
-    .btn:hover{background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.20)}
-    .btn:active{transform: translateY(1px)}
-    .btn.primary{
-      border-color: rgba(197,123,42,0.55);
-      background: linear-gradient(180deg, rgba(197,123,42,0.95), rgba(197,123,42,0.55));
-      box-shadow: 0 16px 34px rgba(197,123,42,0.18);
-      color:#0b1016; font-weight:900;
-    }
-    .hero{padding:28px 0 10px}
-    h1{font-family:var(--serif); font-size: clamp(28px, 3.8vw, 44px); margin:18px 0 8px}
-    .sub{color:var(--muted); font-size:15px; margin:0 0 18px; max-width: 72ch}
-    .grid{display:grid; grid-template-columns: 1.2fr .8fr; gap:14px; margin-top:14px}
-    .card{
-      background: linear-gradient(180deg, var(--panel) 0%, var(--panel2) 100%);
-      border:1px solid var(--line);
+        radial-gradient(900px 350px at 15% 0%, rgba(201,138,42,.10), transparent 65%),
+        rgba(0,0,0,.20);
       border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding:16px;
+      box-shadow: var(--shadowSoft);
+      overflow:hidden;
     }
-    h2{font-family:var(--serif); margin:0 0 8px; font-size:20px}
-    p{margin:0 0 10px; color:var(--muted)}
-    .k{font-family:var(--mono); color:rgba(255,255,255,0.88)}
-    ul{margin:10px 0 0; padding-left:18px; color:var(--muted)}
-    li{margin:6px 0}
-    .note{
-      margin-top:12px;
-      padding:12px 14px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,0.12);
-      background: rgba(255,255,255,0.03);
-      color: rgba(255,255,255,0.62);
+    .panel-inner{padding:18px}
+    .panel h2{margin:0 0 8px}
+    .bullets{margin:10px 0 0;padding-left:18px;color:var(--muted);line-height:1.5}
+    .bullets li{margin:6px 0}
+
+    /* Footer notice */
+    .notice{
+      margin-top:16px;
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.04);
+      border-radius: var(--radius2);
+      padding: 14px;
+      color: var(--muted);
+      font-size: 12.5px;
+      line-height:1.5;
+    }
+    .footer{
+      margin-top:26px;
+      display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between;
+      color: var(--muted2);
       font-size:12px;
+      border-top:1px solid var(--stroke);
+      padding-top:16px;
     }
-    footer{padding:22px 0 30px; color:rgba(255,255,255,0.52); font-size:12px}
-    @media(max-width:980px){ .grid{grid-template-columns:1fr} }
+    .linkish{color:#d8e6ff}
   </style>
 </head>
+
 <body>
-<header>
-  <div class="container">
-    <div class="hdr">
-      <a class="brand" href="/">
-        <div class="mark"></div>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="/index.html" aria-label="Flintlock Financing Home">
+        <div class="mark" aria-hidden="true"></div>
         <div class="brand-text">
-          <strong>Flintlock Financing</strong>
-          <span>Institutional-grade demo environment</span>
+          <strong>FLINTLOCK FINANCING</strong>
+          <span>Finance smarter</span>
         </div>
       </a>
-      <div class="row">
-        <span class="pill"><span class="spark"></span><span>SYNTHETIC DEMO / NO CREDIT PULLS</span></span>
-        <a class="btn" href="/app/">Open app demo</a>
-        <a class="btn" href="/admin/">Admin console</a>
-        <a class="btn primary" href="/app/#/application">Start application</a>
+
+      <div class="pill" title="Synthetic demo environment">
+        <span class="dot"></span>
+        <span class="mono">SYNTHETIC DEMO ENVIRONMENT</span>
+      </div>
+
+      <nav class="nav" aria-label="Primary navigation">
+        <a class="btn ghost" href="/app/" rel="noopener">Application demo</a>
+        <a class="btn" href="/admin/" rel="noopener">Admin console</a>
+        <a class="btn primary" href="/app/" rel="noopener">Start application</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-grid">
+        <div class="card">
+          <div class="card-inner">
+            <h1>Finance smarter.</h1>
+            <div class="tagline">Spark your next purchase with structure and confidence.</div>
+
+            <p class="sub">
+              Flintlock Financing provides structured consumer financing with transparent pricing, predictable payments, and clearly defined ownership options —
+              helping you move forward confidently while giving merchants and capital partners the discipline they expect.
+            </p>
+
+            <div class="hero-ctas">
+              <a class="btn primary" href="/app/">Start application</a>
+              <a class="btn" href="#merchants">For merchants & manufacturers</a>
+              <a class="btn" href="#what-this-shows">What this site demonstrates</a>
+            </div>
+
+            <div class="hr"></div>
+
+            <div class="kpis">
+              <div class="kpi">
+                <div class="k">Transparent pricing</div>
+                <div class="v">Defined cost basis, clear buyout paths, no shifting definitions</div>
+              </div>
+              <div class="kpi">
+                <div class="k">Structured outcomes</div>
+                <div class="v">Policy-driven eligibility and term governance</div>
+              </div>
+              <div class="kpi">
+                <div class="k">Partner-grade controls</div>
+                <div class="v">Pricing discipline, auditability, exportable artifacts</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-inner">
+            <div class="note">
+              <strong>Quick note:</strong> This site illustrates workflow, documentation, and program controls using synthetic data. It does not create a credit offer.
+            </div>
+            <div class="hr"></div>
+            <div class="note" style="border-color: rgba(201,138,42,.22)">
+              <strong>Jump in:</strong><br/>
+              Use the application demo to explore term / payment logic, buyout schedule transparency, and contract preview (with exhibits).
+              <div style="margin-top:10px">
+                <a class="btn primary" href="/app/" style="width:100%">Open application demo</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="section card" id="how">
+      <div class="card-inner">
+        <h2>How it works</h2>
+        <p class="lead">
+          A guided financing experience designed to be clear, structured, and straightforward.
+        </p>
+
+        <div class="steps">
+          <div class="step">
+            <div class="n">1</div>
+            <h3>Choose your equipment</h3>
+            <p>Select the configuration that fits your needs. For example:</p>
+            <ul>
+              <li>A compact carry setup (compact + red dot + mounting)</li>
+              <li>Or a more advanced configuration (SBR + suppressor + red dot)</li>
+            </ul>
+            <p style="margin-top:8px">Your merchant confirms eligibility within program guidelines.</p>
+          </div>
+
+          <div class="step">
+            <div class="n">2</div>
+            <h3>Complete required paperwork</h3>
+            <p>
+              Where required, complete the necessary forms and pass any applicable background checks (e.g., NICS).
+              Financing proceeds only after eligibility requirements are satisfied.
+            </p>
+          </div>
+
+          <div class="step">
+            <div class="n">3</div>
+            <h3>Apply</h3>
+            <p>
+              Enter your basic information and receive an instant, policy-driven outcome.
+            </p>
+          </div>
+
+          <div class="step">
+            <div class="n">4</div>
+            <h3>Review your offer</h3>
+            <p>Your offer clearly outlines:</p>
+            <ul>
+              <li>Financing term</li>
+              <li>Estimated monthly payment</li>
+              <li>Defined purchase option (residual)</li>
+              <li>Early buyout schedule (when eligible)</li>
+            </ul>
+            <p style="margin-top:8px">
+              Your <strong>cost basis</strong> is composed of: <span class="mono">Ticket + Acquisition Fee + Sales Tax + Merchant Processing</span>.
+            </p>
+          </div>
+
+          <div class="step">
+            <div class="n">5</div>
+            <h3>Sign & fulfill</h3>
+            <p>
+              Agreements are delivered through e-signature and tied to item fulfillment.
+              Sign your documents, complete your first payment, and take home your equipment.
+            </p>
+          </div>
+
+          <div class="step">
+            <div class="n">6</div>
+            <h3>Choose your path at end of term</h3>
+            <p>
+              At maturity, you may return, renew, or purchase at the defined residual amount.
+              Eligible accounts may access a transparent early buyout schedule so you’re never left guessing.
+            </p>
+          </div>
+        </div>
+
+        <div class="hr"></div>
+
+        <div class="grid2">
+          <div class="note">
+            <strong>Core principles</strong><br/>
+            Transparent pricing inputs and definitions (no “mystery fees”). Predictable schedule with clear end-of-term options.
+          </div>
+          <div class="note">
+            <strong>About calculations</strong><br/>
+            Values displayed are illustrative and designed to show consistent methodology and governance, not a live credit offer.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY CUSTOMERS -->
+    <section class="section card" id="why">
+      <div class="card-inner">
+        <h2>Why customers choose Flintlock Financing</h2>
+        <p class="lead">
+          Financing should feel structured — not confusing. Flintlock is built around clarity and confidence.
+        </p>
+
+        <div class="grid2">
+          <div class="kpi">
+            <div class="k">Clear pricing</div>
+            <div class="v">
+              See exactly how your cost basis is formed and how your payment is calculated.
+            </div>
+          </div>
+          <div class="kpi">
+            <div class="k">Defined ownership path</div>
+            <div class="v">
+              A clearly stated residual purchase option — with transparent early buyout pricing where available.
+            </div>
+          </div>
+          <div class="kpi">
+            <div class="k">Predictable structure</div>
+            <div class="v">
+              Eligibility rules and term limits follow defined program guidelines, creating consistent outcomes.
+            </div>
+          </div>
+          <div class="kpi">
+            <div class="k">Confidence at every step</div>
+            <div class="v">
+              Structured summaries, standardized documentation, and a straightforward workflow designed to reduce uncertainty.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- UNDERWRITING -->
+    <section class="section card" id="underwriting">
+      <div class="card-inner">
+        <h2>Built for disciplined underwriting</h2>
+        <p class="lead">
+          Behind the customer-friendly experience is a governance framework built for capital partners.
+        </p>
+
+        <div class="grid2">
+          <div class="kpi">
+            <div class="k">Eligibility governance</div>
+            <div class="v">
+              Minimum score thresholds, maximum ticket parameters, and tiered term caps.
+            </div>
+          </div>
+          <div class="kpi">
+            <div class="k">Pricing discipline</div>
+            <div class="v">
+              Standardized money factor, residual controls, and consistent cost basis methodology.
+            </div>
+          </div>
+          <div class="kpi">
+            <div class="k">Auditability</div>
+            <div class="v">
+              Exportable schedules, structured summaries, standardized exhibits, and policy/pricing exports.
+            </div>
+          </div>
+          <div class="kpi">
+            <div class="k">Repeatability at scale</div>
+            <div class="v">
+              Program rules apply consistently — reducing variability and supporting capital alignment.
+            </div>
+          </div>
+        </div>
+
+        <div class="hr"></div>
+        <div class="note">
+          Customer clarity and underwriting discipline operate together — not in conflict.
+        </div>
+      </div>
+    </section>
+
+    <!-- MERCHANTS -->
+    <section class="section panel" id="merchants">
+      <div class="panel-inner">
+        <h2>For merchants & manufacturers</h2>
+        <p class="lead" style="max-width:980px">
+          Close more sales, expand purchasing power, and maintain program discipline — with a professional, brand-aligned financing experience at checkout.
+        </p>
+
+        <div class="grid2">
+          <div class="note" style="background:rgba(0,0,0,.16)">
+            <strong>Why offer Flintlock Financing?</strong>
+            <ul class="bullets">
+              <li>Increase close rates on higher-ticket configurations</li>
+              <li>Expand purchasing power at the point of sale</li>
+              <li>Offer a structured alternative to traditional installment products</li>
+              <li>Standardize approval logic within defined guidelines</li>
+              <li>Deliver a polished documentation experience customers trust</li>
+            </ul>
+          </div>
+
+          <div class="note" style="background:rgba(0,0,0,.16)">
+            <strong>Explore the workflow</strong><br/>
+            Use the application demo to experience:
+            <ul class="bullets">
+              <li>Policy-driven outcomes</li>
+              <li>Pricing governance</li>
+              <li>Buyout schedule transparency</li>
+              <li>Contract preview with exhibits</li>
+            </ul>
+            <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap">
+              <a class="btn primary" href="/app/">Explore the application flow</a>
+              <a class="btn" href="/admin/">View policy controls</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRANSPARENCY -->
+    <section class="section card" id="transparency">
+      <div class="card-inner">
+        <h2>Transparency & structure</h2>
+        <p class="lead">
+          Clarity builds trust. Customers see key terms clearly, and partners can confirm policy and pricing are applied consistently.
+        </p>
+
+        <div class="hr"></div>
+
+        <div class="grid2">
+          <div class="kpi">
+            <div class="k">What customers see</div>
+            <div class="v">
+              Structured summaries, cost basis breakdown, and clear end-of-term options.
+            </div>
+          </div>
+          <div class="kpi">
+            <div class="k">What partners can verify</div>
+            <div class="v">
+              Consistent policy gating, governed pricing inputs, and exportable evidence.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHAT THIS SHOWS -->
+    <section class="section card" id="what-this-shows">
+      <div class="card-inner">
+        <h2>What this site demonstrates</h2>
+        <p class="lead">
+          A consumer-friendly financing workflow with program discipline and exportable documentation artifacts.
+        </p>
+
+        <div class="hr"></div>
+
+        <ul class="bullets">
+          <li>A consumer-friendly financing workflow</li>
+          <li>Policy gating (score thresholds, ticket caps, term governance)</li>
+          <li>Pricing controls (money factor + residual structure)</li>
+          <li>Defined cost basis composition</li>
+          <li>Buyout schedule transparency</li>
+          <li>Structured documentation and export capability</li>
+          <li>Repeatable program logic suitable for partner review</li>
+        </ul>
+
+        <div class="notice">
+          <strong>Important notice:</strong><br/>
+          This site presents a synthetic environment for illustrating workflow and documentation. No credit decisions, funding, or contractual obligations are created through this interface.
+          Any program terms shown are illustrative and subject to formal documentation and review.
+        </div>
+      </div>
+    </section>
+
+    <div class="footer">
+      <div>© <span id="year"></span> Flintlock Financing</div>
+      <div style="display:flex; gap:12px; flex-wrap:wrap">
+        <a class="linkish" href="/app/">Application demo</a>
+        <a class="linkish" href="/admin/">Admin console</a>
+        <a class="linkish" href="#how">How it works</a>
+        <a class="linkish" href="#merchants">Merchants</a>
       </div>
     </div>
-  </div>
-</header>
+  </main>
 
-<main class="container hero">
-  <h1>Policy-driven consumer leasing, built for auditability</h1>
-  <p class="sub">
-    Flintlock Financing is a synthetic demonstration environment used to illustrate credit policy controls,
-    pricing governance, disclosures, and contract artifact generation.
-  </p>
-
-  <div class="grid">
-    <div class="card">
-      <h2>What this demo shows</h2>
-      <ul>
-        <li><span class="k">Policy controls</span> that gate approvals (credit box, caps, term rules).</li>
-        <li><span class="k">Pricing controls</span> using simple storyboard math (money factor + residual).</li>
-        <li><span class="k">Disclosures & artifacts</span> (Reg M-style box + contract preview + exhibits).</li>
-        <li><span class="k">Exports</span> (CSV/JSON schedules for integration demos).</li>
-      </ul>
-      <div class="note">
-        <strong>Important:</strong> This website is for demos and testing only. No identity verification,
-        credit pulls, funding, or payments occur here.
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>Quick links</h2>
-      <p><a class="btn primary" href="/app/">Open /app</a></p>
-      <p><a class="btn" href="/admin/">Open /admin</a></p>
-      <p class="note">
-        Tip: Use <span class="k">/admin</span> to adjust policy and then refresh <span class="k">/app</span>.
-      </p>
-    </div>
-  </div>
-
-  <footer>
-    Synthetic environment. Any figures shown are illustrative storyboard math and not a quote or contract.
-  </footer>
-</main>
+  <script>
+    // small nicety
+    document.getElementById("year").textContent = String(new Date().getFullYear());
+  </script>
 </body>
 </html>
