@@ -3,35 +3,26 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Flintlock Financing — Finance Smarter</title>
-  <meta name="description" content="Flintlock Financing provides structured consumer financing with transparent pricing, predictable payments, and clearly defined ownership options." />
+  <title>Flintlock Financing</title>
+  <meta name="description" content="Structured consumer financing with transparent pricing, predictable payments, and clearly defined ownership options — built for disciplined verification and partner-grade governance." />
   <style>
     :root{
-      --bg0:#050b13;
-      --bg1:#06111e;
-      --bg2:#081a2c;
-
+      --bg0:#06111e;
+      --bg1:#081a2c;
       --stroke:#ffffff1a;
       --stroke2:#ffffff22;
-
       --text:#e9f1ff;
       --muted:#bcd0ea;
       --muted2:#9eb6d6;
-
-      /* Bronze “spark” accent */
       --accent:#c98a2a;
-      --accent2:#e5b35a;
-
       --good:#3ddc97;
-      --shadowSoft: 0 12px 40px rgba(0,0,0,.35);
+      --shadowSoft: 0 10px 35px rgba(0,0,0,.30);
       --radius:18px;
       --radius2:14px;
-
       --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
       --serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
       --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
     }
-
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
@@ -39,20 +30,20 @@
       font-family: var(--sans);
       color:var(--text);
       background:
-        radial-gradient(1200px 600px at 15% 10%, rgba(201,138,42,.18), transparent 60%),
-        radial-gradient(900px 500px at 82% 6%, rgba(110,150,255,.10), transparent 55%),
-        radial-gradient(900px 900px at 55% 55%, rgba(61,220,151,.08), transparent 55%),
-        linear-gradient(180deg, var(--bg1), var(--bg2) 60%, var(--bg0) 120%);
+        radial-gradient(1200px 600px at 15% 10%, rgba(201,138,42,.15), transparent 60%),
+        radial-gradient(900px 500px at 80% 0%, rgba(61,220,151,.10), transparent 55%),
+        radial-gradient(900px 900px at 55% 50%, rgba(110,150,255,.10), transparent 55%),
+        linear-gradient(180deg, var(--bg0), var(--bg1) 60%, #050b13 120%);
       overflow-x:hidden;
     }
-
-    a{color:inherit;text-decoration:none}
-    .container{max-width:1180px;margin:0 auto;padding:26px 18px 70px}
+    a{color:inherit; text-decoration:none}
+    .mono{font-family:var(--mono)}
+    .container{max-width:1180px;margin:0 auto;padding:26px 18px 72px}
 
     /* Topbar */
     .topbar{
       position: sticky; top:0; z-index:30;
-      background: linear-gradient(180deg, rgba(5,10,18,.92), rgba(5,10,18,.68));
+      background: linear-gradient(180deg, rgba(5,10,18,.92), rgba(5,10,18,.65));
       backdrop-filter: blur(10px);
       border-bottom: 1px solid var(--stroke);
     }
@@ -63,21 +54,29 @@
     .brand{display:flex;align-items:center;gap:12px;min-width:260px}
     .mark{
       width:34px;height:34px;border-radius:10px;
-      background:
-        radial-gradient(circle at 30% 30%, rgba(255,255,255,.25), transparent 60%),
-        linear-gradient(135deg, rgba(201,138,42,.95), rgba(255,213,120,.25));
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.25), transparent 60%),
+                  linear-gradient(135deg, rgba(201,138,42,.95), rgba(255,213,120,.35));
       border: 1px solid rgba(255,255,255,.18);
       box-shadow: 0 12px 22px rgba(0,0,0,.35);
     }
-    .brand-text strong{display:block;letter-spacing:.5px;font-weight:850;font-size:13px;line-height:1.1}
+    .brand-text strong{display:block;letter-spacing:.4px;font-weight:800;font-size:13px;line-height:1.1}
     .brand-text span{display:block;color:var(--muted2);font-size:12px;margin-top:2px}
+
+    .pill{
+      display:inline-flex;align-items:center;gap:8px;padding:8px 12px;
+      border: 1px solid var(--stroke);
+      border-radius:999px;color:var(--muted);
+      background: rgba(255,255,255,.06);
+      font-size:12px;white-space:nowrap;
+    }
+    .pill .dot{width:8px;height:8px;border-radius:99px;background: rgba(201,138,42,.95);box-shadow:0 0 0 3px rgba(201,138,42,.20)}
 
     .nav{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}
     .btn{
       display:inline-flex;align-items:center;justify-content:center;gap:10px;
       padding:10px 14px;border:1px solid var(--stroke);border-radius:999px;
       background: rgba(255,255,255,.06);
-      color:var(--text);font-weight:700;font-size:13px;cursor:pointer;
+      color:var(--text);font-weight:650;font-size:13px;cursor:pointer;
       transition: transform .12s ease, background .12s ease, border-color .12s ease;
       user-select:none;
     }
@@ -88,74 +87,16 @@
       color:#0b1422;
     }
     .btn.primary:hover{background: linear-gradient(180deg, rgba(230,170,70,.98), rgba(160,100,18,.92))}
-    .btn.ghost{background: transparent}
     .btn.small{padding:8px 11px;font-size:12px}
-
-    .pill{
-      display:inline-flex;align-items:center;gap:8px;padding:8px 12px;
-      border: 1px solid var(--stroke);
-      border-radius:999px;color:var(--muted);
-      background: rgba(255,255,255,.06);
-      font-size:12px;white-space:nowrap;
-    }
-    .pill .dot{
-      width:8px;height:8px;border-radius:99px;
-      background: rgba(201,138,42,.95);
-      box-shadow:0 0 0 3px rgba(201,138,42,.20)
-    }
+    .btn.ghost{background: transparent}
 
     /* Hero */
-    .hero{
-      padding: 36px 0 10px;
-      position:relative;
-    }
-    .hero:before{
-      content:"";
-      position:absolute; inset:-120px -140px auto -140px;
-      height:260px;
-      background: radial-gradient(closest-side at 30% 60%, rgba(201,138,42,.20), transparent 65%);
-      pointer-events:none;
-      filter: blur(2px);
-    }
-    h1{
-      position:relative;
-      font-family: var(--serif);
-      letter-spacing:.2px;
-      font-size:54px;
-      margin: 18px 0 8px;
-      line-height:1.03;
-    }
-    .tagline{
-      position:relative;
-      font-family: var(--serif);
-      font-size:22px;
-      color: #d8e6ff;
-      margin: 0 0 14px;
-      letter-spacing:.15px;
-    }
-    .sub{
-      color:var(--muted);
-      margin:0 0 18px;
-      max-width:920px;
-      line-height:1.5;
-      font-size:15px;
-    }
-    .hero-ctas{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px}
-    .hero-grid{
-      display:grid;
-      grid-template-columns: 1.4fr .6fr;
-      gap:16px;
-      align-items:start;
-      margin-top:18px;
-    }
-    @media (max-width: 980px){
-      h1{font-size:44px}
-      .hero-grid{grid-template-columns:1fr}
-      .brand{min-width:auto}
-    }
+    h1{font-family: var(--serif); letter-spacing:.2px; font-size:56px; margin:34px 0 6px}
+    .tagline{font-family:var(--serif); font-size:26px; color:var(--text); margin:0 0 14px}
+    .sub{color:var(--muted); margin:0 0 18px; max-width:980px; line-height:1.55; font-size:14.5px}
 
-    /* Cards & sections */
     .card{
+      margin-top: 16px;
       border: 1px solid var(--stroke);
       background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
       border-radius: var(--radius);
@@ -163,6 +104,8 @@
       overflow:hidden;
     }
     .card-inner{padding:18px}
+    .hr{height:1px;background:var(--stroke);margin:16px 0}
+
     .note{
       border: 1px solid var(--stroke);
       background: rgba(255,255,255,.05);
@@ -172,126 +115,79 @@
       font-size: 13px;
       line-height: 1.45;
     }
-    .hr{height:1px;background:var(--stroke);margin:16px 0}
-    .section{margin-top:18px}
-    .section h2{
-      font-family: var(--serif);
-      font-size:28px;
-      margin:0 0 8px;
-      letter-spacing:.18px;
-    }
-    .section p.lead{margin:0;color:var(--muted);line-height:1.5;max-width:920px}
 
-    /* Feature row */
-    .kpis{
-      display:grid;grid-template-columns: repeat(3,1fr);
-      gap:12px;margin-top:12px
+    /* Layout */
+    .heroGrid{display:grid;grid-template-columns: 1.1fr .9fr; gap:14px; align-items:stretch}
+    @media (max-width: 980px){
+      h1{font-size:44px}
+      .tagline{font-size:22px}
+      .heroGrid{grid-template-columns:1fr}
+      .brand{min-width:auto}
     }
-    @media (max-width: 980px){ .kpis{grid-template-columns:1fr 1fr} }
-    @media (max-width: 640px){ .kpis{grid-template-columns:1fr} }
-    .kpi{
+
+    .ctaRow{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0 6px}
+
+    /* Feature / info blocks */
+    .grid3{display:grid;grid-template-columns: repeat(3, 1fr); gap:12px}
+    @media (max-width: 980px){ .grid3{grid-template-columns: 1fr 1fr} }
+    @media (max-width: 640px){ .grid3{grid-template-columns: 1fr} }
+
+    .mini{
       border:1px solid var(--stroke);
-      border-radius:var(--radius2);
+      border-radius: var(--radius2);
       background: rgba(0,0,0,.18);
-      padding:12px;
+      padding: 14px;
     }
-    .kpi .k{color:var(--muted2);font-size:12px;letter-spacing:.15px}
-    .kpi .v{margin-top:6px;font-weight:850;font-size:14px;line-height:1.35}
-    .mono{font-family:var(--mono)}
+    .mini .k{color:var(--muted2);font-size:12px; letter-spacing:.2px; text-transform:none}
+    .mini .v{margin-top:6px;font-weight:850;font-size:14.5px; line-height:1.35}
+    .mini .d{margin-top:8px;color:var(--muted);font-size:13px;line-height:1.45}
 
     /* Steps */
-    .steps{
-      margin-top:14px;
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap:12px;
-    }
-    @media (max-width: 980px){ .steps{grid-template-columns:1fr 1fr} }
-    @media (max-width: 640px){ .steps{grid-template-columns:1fr} }
+    .steps{display:grid;grid-template-columns: 1fr 1fr; gap:12px}
+    @media (max-width: 900px){ .steps{grid-template-columns:1fr} }
     .step{
       border:1px solid var(--stroke);
-      border-radius:var(--radius2);
+      border-radius: var(--radius2);
       background: rgba(0,0,0,.18);
-      padding:14px;
-      position:relative;
-      overflow:hidden;
+      padding: 14px 14px 12px;
     }
-    .step:before{
-      content:"";
-      position:absolute; inset:-1px -1px auto -1px;
-      height:2px;
-      background: linear-gradient(90deg, rgba(201,138,42,.0), rgba(201,138,42,.65), rgba(201,138,42,.0));
-      opacity:.75;
-    }
-    .step .n{
-      display:inline-flex;align-items:center;justify-content:center;
-      width:30px;height:30px;border-radius:10px;
-      background: rgba(201,138,42,.14);
-      border:1px solid rgba(201,138,42,.35);
-      color: #ffd9a0;
+    .stepTop{display:flex;align-items:center;gap:10px}
+    .num{
+      width:28px;height:28px;border-radius:10px;
+      display:flex;align-items:center;justify-content:center;
+      background: rgba(201,138,42,.22);
+      border: 1px solid rgba(201,138,42,.35);
+      color:#ffd79c;
       font-weight:900;
       font-family: var(--mono);
       font-size:13px;
-      box-shadow: 0 10px 18px rgba(0,0,0,.18);
     }
-    .step h3{
-      margin:10px 0 6px;
-      font-size:14px;
-      letter-spacing:.18px;
-    }
-    .step p{
-      margin:0;
-      color:var(--muted);
-      font-size:13px;
-      line-height:1.45;
-    }
-    .step ul{
-      margin:8px 0 0;
-      padding-left:18px;
-      color:var(--muted);
-      font-size:13px;
-      line-height:1.45;
-    }
+    .step h3{margin:0;font-size:14px;letter-spacing:.2px}
+    .step p{margin:8px 0 0;color:var(--muted);font-size:13.2px;line-height:1.5}
 
-    /* Two-column sections */
-    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
-    @media (max-width: 980px){ .grid2{grid-template-columns:1fr} }
+    /* Section headings */
+    h2{font-family:var(--serif); margin:0 0 8px; font-size:26px}
+    h3{font-family:var(--serif); margin:0 0 8px; font-size:20px}
 
-    /* Merchant banner panel */
-    .panel{
-      border:1px solid rgba(201,138,42,.25);
-      background:
-        radial-gradient(900px 350px at 15% 0%, rgba(201,138,42,.10), transparent 65%),
-        rgba(0,0,0,.20);
-      border-radius: var(--radius);
-      box-shadow: var(--shadowSoft);
-      overflow:hidden;
-    }
-    .panel-inner{padding:18px}
-    .panel h2{margin:0 0 8px}
-    .bullets{margin:10px 0 0;padding-left:18px;color:var(--muted);line-height:1.5}
-    .bullets li{margin:6px 0}
+    /* Two-col blocks */
+    .split{display:grid;grid-template-columns: 1fr 1fr; gap:14px}
+    @media (max-width: 900px){ .split{grid-template-columns:1fr} }
 
-    /* Footer notice */
-    .notice{
-      margin-top:16px;
-      border:1px solid var(--stroke);
+    .list{margin:10px 0 0; padding-left:18px; color:var(--muted); font-size:13.2px; line-height:1.55}
+    .list li{margin:6px 0}
+
+    /* Footer note */
+    .footer{
+      margin-top: 18px;
+      border: 1px solid var(--stroke);
       background: rgba(255,255,255,.04);
       border-radius: var(--radius2);
       padding: 14px;
       color: var(--muted);
       font-size: 12.5px;
-      line-height:1.5;
+      line-height: 1.55;
     }
-    .footer{
-      margin-top:26px;
-      display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between;
-      color: var(--muted2);
-      font-size:12px;
-      border-top:1px solid var(--stroke);
-      padding-top:16px;
-    }
-    .linkish{color:#d8e6ff}
+    .footer strong{color:var(--text)}
   </style>
 </head>
 
@@ -302,352 +198,251 @@
         <div class="mark" aria-hidden="true"></div>
         <div class="brand-text">
           <strong>FLINTLOCK FINANCING</strong>
-          <span>Finance smarter</span>
+          <span>Institutional-grade demo environment</span>
         </div>
       </a>
 
-      <div class="pill" title="Synthetic demo environment">
+      <div class="pill" title="Synthetic environment">
         <span class="dot"></span>
-        <span class="mono">SYNTHETIC DEMO ENVIRONMENT</span>
+        <span class="mono">SYNTHETIC DEMO / NO CREDIT PULLS</span>
       </div>
 
       <nav class="nav" aria-label="Primary navigation">
-        <a class="btn ghost" href="/app/" rel="noopener">Application demo</a>
+        <a class="btn" href="/app/" rel="noopener">Open app demo</a>
         <a class="btn" href="/admin/" rel="noopener">Admin console</a>
-        <a class="btn primary" href="/app/" rel="noopener">Start application</a>
+        <a class="btn primary" href="/app/#application">Start application</a>
       </nav>
     </div>
   </header>
 
   <main class="container">
-    <!-- HERO -->
-    <section class="hero">
-      <div class="hero-grid">
-        <div class="card">
-          <div class="card-inner">
+    <section class="card" style="margin-top:22px">
+      <div class="card-inner">
+        <div class="heroGrid">
+          <div>
             <h1>Finance smarter.</h1>
-            <div class="tagline">Spark your next purchase with structure and confidence.</div>
-
+            <p class="tagline">Spark your next purchase with structure and confidence.</p>
             <p class="sub">
-              Flintlock Financing provides structured consumer financing with transparent pricing, predictable payments, and clearly defined ownership options —
-              helping you move forward confidently while giving merchants and capital partners the discipline they expect.
+              Flintlock Financing provides structured consumer financing with transparent pricing, predictable payments,
+              and clearly defined ownership options — helping customers move forward confidently while giving merchants and capital partners
+              the discipline they expect.
             </p>
 
-            <div class="hero-ctas">
-              <a class="btn primary" href="/app/">Start application</a>
-              <a class="btn" href="#merchants">For merchants & manufacturers</a>
-              <a class="btn" href="#what-this-shows">What this site demonstrates</a>
+            <div class="ctaRow">
+              <a class="btn primary" href="/app/#application">Start application</a>
+              <a class="btn" href="#partners">For merchants &amp; manufacturers</a>
+              <a class="btn" href="#how">How it works</a>
             </div>
 
-            <div class="hr"></div>
-
-            <div class="kpis">
-              <div class="kpi">
-                <div class="k">Transparent pricing</div>
-                <div class="v">Defined cost basis, clear buyout paths, no shifting definitions</div>
-              </div>
-              <div class="kpi">
-                <div class="k">Structured outcomes</div>
-                <div class="v">Policy-driven eligibility and term governance</div>
-              </div>
-              <div class="kpi">
-                <div class="k">Partner-grade controls</div>
-                <div class="v">Pricing discipline, auditability, exportable artifacts</div>
-              </div>
+            <div class="note" style="margin-top:14px">
+              <strong>Important:</strong> This site runs in a synthetic environment. Figures are illustrative and must be counsel-reviewed prior to production use.
             </div>
           </div>
-        </div>
 
-        <div class="card">
-          <div class="card-inner">
-            <div class="note">
-              <strong>Quick note:</strong> This site illustrates workflow, documentation, and program controls using synthetic data. It does not create a credit offer.
-            </div>
-            <div class="hr"></div>
-            <div class="note" style="border-color: rgba(201,138,42,.22)">
-              <strong>Jump in:</strong><br/>
-              Use the application demo to explore term / payment logic, buyout schedule transparency, and contract preview (with exhibits).
-              <div style="margin-top:10px">
-                <a class="btn primary" href="/app/" style="width:100%">Open application demo</a>
+          <div class="mini" style="display:flex; flex-direction:column; justify-content:space-between">
+            <div>
+              <div class="k">What you’ll see in the demo</div>
+              <div class="v">A complete, end-to-end flow — from application to offer to e-sign style documents.</div>
+              <div class="d">
+                Policy gates and pricing controls are applied consistently, with exportable artifacts for bank and investor diligence.
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- HOW IT WORKS -->
-    <section class="section card" id="how">
-      <div class="card-inner">
-        <h2>How it works</h2>
-        <p class="lead">
-          A guided financing experience designed to be clear, structured, and straightforward.
-        </p>
-
-        <div class="steps">
-          <div class="step">
-            <div class="n">1</div>
-            <h3>Choose your equipment</h3>
-            <p>Select the configuration that fits your needs. For example:</p>
-            <ul>
-              <li>A compact carry setup (compact + red dot + mounting)</li>
-              <li>Or a more advanced configuration (SBR + suppressor + red dot)</li>
-            </ul>
-            <p style="margin-top:8px">Your merchant confirms eligibility within program guidelines.</p>
-          </div>
-
-          <div class="step">
-            <div class="n">2</div>
-            <h3>Complete required paperwork</h3>
-            <p>
-              Where required, complete the necessary forms and pass any applicable background checks (e.g., NICS).
-              Financing proceeds only after eligibility requirements are satisfied.
-            </p>
-          </div>
-
-          <div class="step">
-            <div class="n">3</div>
-            <h3>Apply</h3>
-            <p>
-              Enter your basic information and receive an instant, policy-driven outcome.
-            </p>
-          </div>
-
-          <div class="step">
-            <div class="n">4</div>
-            <h3>Review your offer</h3>
-            <p>Your offer clearly outlines:</p>
-            <ul>
-              <li>Financing term</li>
-              <li>Estimated monthly payment</li>
-              <li>Defined purchase option (residual)</li>
-              <li>Early buyout schedule (when eligible)</li>
-            </ul>
-            <p style="margin-top:8px">
-              Your <strong>cost basis</strong> is composed of: <span class="mono">Ticket + Acquisition Fee + Sales Tax + Merchant Processing</span>.
-            </p>
-          </div>
-
-          <div class="step">
-            <div class="n">5</div>
-            <h3>Sign & fulfill</h3>
-            <p>
-              Agreements are delivered through e-signature and tied to item fulfillment.
-              Sign your documents, complete your first payment, and take home your equipment.
-            </p>
-          </div>
-
-          <div class="step">
-            <div class="n">6</div>
-            <h3>Choose your path at end of term</h3>
-            <p>
-              At maturity, you may return, renew, or purchase at the defined residual amount.
-              Eligible accounts may access a transparent early buyout schedule so you’re never left guessing.
-            </p>
+            <div class="hr" style="margin:14px 0"></div>
+            <div class="split" style="gap:10px">
+              <div class="mini" style="margin:0; padding:12px">
+                <div class="k">Open /app</div>
+                <div class="v">Applicant flow</div>
+                <div class="d">Application → Offer → Disclosures → Contract &amp; Exhibits</div>
+              </div>
+              <div class="mini" style="margin:0; padding:12px">
+                <div class="k">Open /admin</div>
+                <div class="v">Policy controls</div>
+                <div class="d">Set thresholds, caps, residual rules, and pricing guardrails</div>
+              </div>
+            </div>
           </div>
         </div>
 
         <div class="hr"></div>
 
-        <div class="grid2">
-          <div class="note">
-            <strong>Core principles</strong><br/>
-            Transparent pricing inputs and definitions (no “mystery fees”). Predictable schedule with clear end-of-term options.
-          </div>
-          <div class="note">
-            <strong>About calculations</strong><br/>
-            Values displayed are illustrative and designed to show consistent methodology and governance, not a live credit offer.
-          </div>
-        </div>
-      </div>
-    </section>
+        <div id="how">
+          <h2>How it works</h2>
+          <p class="sub" style="margin-top:0">
+            A straightforward, transparent process — designed to be fast for customers, clean for merchants, and disciplined for capital partners.
+          </p>
 
-    <!-- WHY CUSTOMERS -->
-    <section class="section card" id="why">
-      <div class="card-inner">
-        <h2>Why customers choose Flintlock Financing</h2>
-        <p class="lead">
-          Financing should feel structured — not confusing. Flintlock is built around clarity and confidence.
-        </p>
+          <div class="steps">
+            <div class="step">
+              <div class="stepTop"><div class="num">1</div><h3>Choose your equipment</h3></div>
+              <p>
+                Select what you want to purchase — for example a compact carry option, a red dot, and mounting (if applicable),
+                or a more advanced setup such as an SBR with a suppressor and optic.
+              </p>
+            </div>
 
-        <div class="grid2">
-          <div class="kpi">
-            <div class="k">Clear pricing</div>
-            <div class="v">
-              See exactly how your cost basis is formed and how your payment is calculated.
+            <div class="step">
+              <div class="stepTop"><div class="num">2</div><h3>Complete required paperwork</h3></div>
+              <p>
+                If your item requires it, complete the necessary paperwork and checks (including a background check / NICS).
+                Eligibility checks happen before the financing flow begins.
+              </p>
             </div>
-          </div>
-          <div class="kpi">
-            <div class="k">Defined ownership path</div>
-            <div class="v">
-              A clearly stated residual purchase option — with transparent early buyout pricing where available.
-            </div>
-          </div>
-          <div class="kpi">
-            <div class="k">Predictable structure</div>
-            <div class="v">
-              Eligibility rules and term limits follow defined program guidelines, creating consistent outcomes.
-            </div>
-          </div>
-          <div class="kpi">
-            <div class="k">Confidence at every step</div>
-            <div class="v">
-              Structured summaries, standardized documentation, and a straightforward workflow designed to reduce uncertainty.
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
 
-    <!-- UNDERWRITING -->
-    <section class="section card" id="underwriting">
-      <div class="card-inner">
-        <h2>Built for disciplined underwriting</h2>
-        <p class="lead">
-          Behind the customer-friendly experience is a governance framework built for capital partners.
-        </p>
+            <div class="step">
+              <div class="stepTop"><div class="num">3</div><h3>Apply</h3></div>
+              <p>
+                Enter your basic information and receive an instant <em>(illustrative)</em> outcome based on a defined, no-exceptions credit policy
+                and verification gates.
+              </p>
+            </div>
 
-        <div class="grid2">
-          <div class="kpi">
-            <div class="k">Eligibility governance</div>
-            <div class="v">
-              Minimum score thresholds, maximum ticket parameters, and tiered term caps.
+            <div class="step">
+              <div class="stepTop"><div class="num">4</div><h3>Review your offer</h3></div>
+              <p>
+                See your term, payment estimate, and buyout options clearly — including what goes into your cost basis:
+                <span class="mono">ticket + acquisition fee + tax + merchant processing</span> (all capitalized).
+              </p>
+            </div>
+
+            <div class="step">
+              <div class="stepTop"><div class="num">5</div><h3>Sign &amp; fulfill</h3></div>
+              <p>
+                In production, agreements are delivered through e-signature and tied to item delivery/fulfillment.
+                Sign your documents, make your first payment, and take home your new item.
+              </p>
+            </div>
+
+            <div class="step">
+              <div class="stepTop"><div class="num">6</div><h3>Choose your path at end of term</h3></div>
+              <p>
+                Return, renew, or purchase at a defined option price (residual). Don’t feel trapped —
+                if eligible, you’ll have an early monthly buyout schedule for transparency.
+              </p>
             </div>
           </div>
-          <div class="kpi">
-            <div class="k">Pricing discipline</div>
-            <div class="v">
-              Standardized money factor, residual controls, and consistent cost basis methodology.
+
+          <div class="hr"></div>
+
+          <div class="split">
+            <div class="mini">
+              <div class="k">Key points</div>
+              <div class="v">Transparent, predictable, and defined.</div>
+              <ul class="list">
+                <li><strong>Transparent pricing inputs and definitions</strong> (no “mystery fees”).</li>
+                <li><strong>Predictable schedule</strong> with clear end-of-term options.</li>
+                <li><strong>Storyboard-only math in this environment</strong> (not a quote).</li>
+              </ul>
             </div>
-          </div>
-          <div class="kpi">
-            <div class="k">Auditability</div>
-            <div class="v">
-              Exportable schedules, structured summaries, standardized exhibits, and policy/pricing exports.
-            </div>
-          </div>
-          <div class="kpi">
-            <div class="k">Repeatability at scale</div>
-            <div class="v">
-              Program rules apply consistently — reducing variability and supporting capital alignment.
+
+            <div class="mini">
+              <div class="k">Why customers choose Flintlock Financing</div>
+              <div class="v">Structure that feels fair — and flexibility that feels human.</div>
+              <ul class="list">
+                <li><strong>Clarity up front:</strong> you can see how numbers are built and what options you have.</li>
+                <li><strong>Defined paths:</strong> return, renew, or purchase at a known option price.</li>
+                <li><strong>Confidence:</strong> disciplined verification and consistent policy application.</li>
+              </ul>
             </div>
           </div>
         </div>
 
         <div class="hr"></div>
-        <div class="note">
-          Customer clarity and underwriting discipline operate together — not in conflict.
-        </div>
-      </div>
-    </section>
 
-    <!-- MERCHANTS -->
-    <section class="section panel" id="merchants">
-      <div class="panel-inner">
-        <h2>For merchants & manufacturers</h2>
-        <p class="lead" style="max-width:980px">
-          Close more sales, expand purchasing power, and maintain program discipline — with a professional, brand-aligned financing experience at checkout.
-        </p>
+        <div>
+          <h2>Built for disciplined verification</h2>
+          <p class="sub" style="margin-top:0">
+            Faster than traditional underwriting — and less exposed to ad-hoc exceptions. Flintlock is designed around clear policy gates and
+            a verification workflow that stays consistent. Manual review is reserved for <strong>fraud/identity alerts</strong> (e.g., insufficient information),
+            not credit-policy exceptions.
+          </p>
 
-        <div class="grid2">
-          <div class="note" style="background:rgba(0,0,0,.16)">
-            <strong>Why offer Flintlock Financing?</strong>
-            <ul class="bullets">
-              <li>Increase close rates on higher-ticket configurations</li>
-              <li>Expand purchasing power at the point of sale</li>
-              <li>Offer a structured alternative to traditional installment products</li>
-              <li>Standardize approval logic within defined guidelines</li>
-              <li>Deliver a polished documentation experience customers trust</li>
-            </ul>
+          <!-- MOVED: the 3 cards from the circled section -->
+          <div class="grid3">
+            <div class="mini">
+              <div class="k">Transparent pricing</div>
+              <div class="v">Defined cost basis, clear buyout paths.</div>
+              <div class="d">No shifting definitions: cost basis includes <span class="mono">ticket + acquisition fee + tax + processing</span>.</div>
+            </div>
+
+            <div class="mini">
+              <div class="k">Structured outcomes</div>
+              <div class="v">Policy-driven eligibility and term governance.</div>
+              <div class="d">A clear credit policy applied consistently, designed to reduce friction and surprises.</div>
+            </div>
+
+            <div class="mini">
+              <div class="k">Partner-grade controls</div>
+              <div class="v">Pricing discipline, auditability, exportable artifacts.</div>
+              <div class="d">Export schedules and exhibits for diligence, integration demos, and controlled rollouts.</div>
+            </div>
           </div>
 
-          <div class="note" style="background:rgba(0,0,0,.16)">
-            <strong>Explore the workflow</strong><br/>
-            Use the application demo to experience:
-            <ul class="bullets">
-              <li>Policy-driven outcomes</li>
-              <li>Pricing governance</li>
-              <li>Buyout schedule transparency</li>
-              <li>Contract preview with exhibits</li>
-            </ul>
-            <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap">
-              <a class="btn primary" href="/app/">Explore the application flow</a>
-              <a class="btn" href="/admin/">View policy controls</a>
+          <div class="hr"></div>
+
+          <div class="split">
+            <div class="mini">
+              <div class="k">Verification workflow (high level)</div>
+              <div class="v">Fast path by default. Manual review only when signals require it.</div>
+              <ul class="list">
+                <li><strong>Policy gating:</strong> minimum score, ticket cap, term caps, and pricing guardrails.</li>
+                <li><strong>Verification checks:</strong> identity and fraud screening before fulfillment.</li>
+                <li><strong>Manual review queue:</strong> only for alert resolution (not credit exceptions).</li>
+              </ul>
+            </div>
+
+            <div class="mini">
+              <div class="k">Why it matters to banks &amp; investors</div>
+              <div class="v">Consistency is the product.</div>
+              <ul class="list">
+                <li><strong>Repeatable controls:</strong> fewer edge cases, cleaner portfolios.</li>
+                <li><strong>Traceable decisions:</strong> policy + pricing + artifacts for audit trails.</li>
+                <li><strong>Integration-ready:</strong> exports (CSV/JSON) and standardized exhibits.</li>
+              </ul>
             </div>
           </div>
         </div>
-      </div>
-    </section>
-
-    <!-- TRANSPARENCY -->
-    <section class="section card" id="transparency">
-      <div class="card-inner">
-        <h2>Transparency & structure</h2>
-        <p class="lead">
-          Clarity builds trust. Customers see key terms clearly, and partners can confirm policy and pricing are applied consistently.
-        </p>
 
         <div class="hr"></div>
 
-        <div class="grid2">
-          <div class="kpi">
-            <div class="k">What customers see</div>
-            <div class="v">
-              Structured summaries, cost basis breakdown, and clear end-of-term options.
+        <div id="partners">
+          <h2>For merchants &amp; manufacturers</h2>
+          <p class="sub" style="margin-top:0">
+            Offer structured financing at the point of sale — without turning your team into an underwriting department.
+            Flintlock is designed to increase conversion while keeping the program disciplined and easy to operate.
+          </p>
+
+          <div class="grid3">
+            <div class="mini">
+              <div class="k">Higher conversion</div>
+              <div class="v">More approvals, clearer next steps.</div>
+              <div class="d">Customers see terms and options up front, reducing abandoned purchases.</div>
+            </div>
+            <div class="mini">
+              <div class="k">Operationally clean</div>
+              <div class="v">Simple workflow, fewer exceptions.</div>
+              <div class="d">Verification-driven flow with a defined manual review lane for alerts.</div>
+            </div>
+            <div class="mini">
+              <div class="k">Better partner readiness</div>
+              <div class="v">Artifacts you can hand to capital.</div>
+              <div class="d">Exhibits, schedules, and disclosures that support diligence and integrations.</div>
             </div>
           </div>
-          <div class="kpi">
-            <div class="k">What partners can verify</div>
-            <div class="v">
-              Consistent policy gating, governed pricing inputs, and exportable evidence.
-            </div>
+
+          <div class="hr"></div>
+
+          <div class="ctaRow">
+            <a class="btn primary" href="/app/">Open app demo</a>
+            <a class="btn" href="/admin/">View policy controls</a>
           </div>
+        </div>
+
+        <div class="footer">
+          <strong>Important Notice:</strong> This site operates in a synthetic environment for demonstration and testing.
+          Any numbers shown are illustrative, not a quote or offer. Disclosures, agreements, and program language must be reviewed by qualified counsel for compliance before production use.
         </div>
       </div>
     </section>
-
-    <!-- WHAT THIS SHOWS -->
-    <section class="section card" id="what-this-shows">
-      <div class="card-inner">
-        <h2>What this site demonstrates</h2>
-        <p class="lead">
-          A consumer-friendly financing workflow with program discipline and exportable documentation artifacts.
-        </p>
-
-        <div class="hr"></div>
-
-        <ul class="bullets">
-          <li>A consumer-friendly financing workflow</li>
-          <li>Policy gating (score thresholds, ticket caps, term governance)</li>
-          <li>Pricing controls (money factor + residual structure)</li>
-          <li>Defined cost basis composition</li>
-          <li>Buyout schedule transparency</li>
-          <li>Structured documentation and export capability</li>
-          <li>Repeatable program logic suitable for partner review</li>
-        </ul>
-
-        <div class="notice">
-          <strong>Important notice:</strong><br/>
-          This site presents a synthetic environment for illustrating workflow and documentation. No credit decisions, funding, or contractual obligations are created through this interface.
-          Any program terms shown are illustrative and subject to formal documentation and review.
-        </div>
-      </div>
-    </section>
-
-    <div class="footer">
-      <div>© <span id="year"></span> Flintlock Financing</div>
-      <div style="display:flex; gap:12px; flex-wrap:wrap">
-        <a class="linkish" href="/app/">Application demo</a>
-        <a class="linkish" href="/admin/">Admin console</a>
-        <a class="linkish" href="#how">How it works</a>
-        <a class="linkish" href="#merchants">Merchants</a>
-      </div>
-    </div>
   </main>
-
-  <script>
-    // small nicety
-    document.getElementById("year").textContent = String(new Date().getFullYear());
-  </script>
 </body>
 </html>
